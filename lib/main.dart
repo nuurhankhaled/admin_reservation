@@ -1,0 +1,64 @@
+import 'package:reservationapp_admin/core/Api/my_http.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:reservationapp_admin/core/bloc_observer.dart';
+import 'package:bloc/bloc.dart';
+import 'core/routing/app_router.dart';
+import 'core/routing/routes.dart';
+import 'core/theming/themes.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+  Bloc.observer = MyBlocObserver();
+  MyDio.init();
+  await EasyLocalization.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ),
+  );
+  runApp(EasyLocalization(
+      path: "assets/languages",
+      supportedLocales: const [
+        Locale("en", "UK"),
+        Locale("ar", "EG"),
+      ],
+      fallbackLocale: Locale("ar", "EG"),
+      child: MyApp(
+        appRouter: AppRouter(),
+      )));
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key, required this.appRouter}) : super(key: key);
+  final AppRouter appRouter;
+
+  @override
+  Widget build(BuildContext context) {
+    return ScreenUtilInit(
+      designSize: const Size(1920, 1080),
+      minTextAdapt: true,
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.light,
+        ),
+        child: MaterialApp(
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          debugShowCheckedModeBanner: false,
+          onGenerateRoute: appRouter.generateRoute,
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: ThemeMode.light,
+          builder: EasyLoading.init(),
+          initialRoute: Routes.authScreen,
+        ),
+      ),
+    );
+  }
+}

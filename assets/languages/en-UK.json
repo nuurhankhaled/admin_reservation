@@ -1,0 +1,11 @@
+{
+  "login": "Login",
+  "reservationApp": "Reservation App",
+  "details": "Details",
+  "signOut": "Sign Out",
+  "addAFacility": "Add a facility",
+  "dashboard": "Dashboard",
+  "addUser": "Add user",
+  "addCashier": "Add cashier",
+  "addExtras": "Add Extras"
+}
