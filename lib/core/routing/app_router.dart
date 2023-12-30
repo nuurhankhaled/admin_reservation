@@ -3,6 +3,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/features/Add-Items/presentation/add-item.dart';
 import 'package:reservationapp_admin/features/Auth/business-logic/auth-cubit/login_cubit.dart';
+import 'package:reservationapp_admin/features/View-feature/presentation/view-screen.dart';
 import 'package:reservationapp_admin/features/home/business-logic/cubit/mainlayout_cubit.dart';
 import '../../features/Auth/presentation/login-screen.dart';
 import '../../features/home/presentation/home.dart';
@@ -84,6 +85,15 @@ class AppRouter {
               create: (context) => MainlayoutCubit(),
               child: Home(),
             ));
+
+      case Routes.viewScreen:
+        return PageTransition(
+          type: PageTransitionType.fade,
+          duration: const Duration(milliseconds: 200),
+          alignment: Alignment.center,
+          settings: settings,
+          child: ViewFeatureScreen(),
+        );
 
       default:
         return PageTransition(

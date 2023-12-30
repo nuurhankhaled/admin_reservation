@@ -1,6 +1,7 @@
 import 'package:reservationapp_admin/features/Add-Cashier/business-logic/add-chashier/cubit.dart';
 import 'package:reservationapp_admin/features/Add-Cashier/presentation/add-cashier-dialoge.dart';
 import 'package:reservationapp_admin/features/Add-Facility/presentation/add-facility-dialoge.dart';
+import 'package:reservationapp_admin/features/Add-admin/business-logic/add-chashier/cubit.dart';
 import 'package:reservationapp_admin/features/Add-admin/presentation/add-cashier-dialoge.dart';
 import 'package:reservationapp_admin/features/Dashboard/presentation/dashboard-screen.dart';
 import 'package:reservationapp_admin/features/home/business-logic/cubit/mainlayout_cubit.dart';
@@ -83,7 +84,10 @@ class _HomeState extends State<Home> {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return AddAdminDialoge();
+                          return BlocProvider(
+                            create: (context) => AddAdminCubit(),
+                            child: AddAdminDialoge(),
+                          );
                         });
                     break;
                   default:

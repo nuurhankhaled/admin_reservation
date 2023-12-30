@@ -7,6 +7,6 @@ class Routes {
   static const settingsScreen = '/settings_screen';
   static const mapScreen = '/map_screen';
   static const mainlayout = '/mainlayout';
-  static const tripsHistoryScreen = '/trips-history-screen';
+  static const viewScreen = '/view-screen';
   static const addItem = '/add-item';
 }
