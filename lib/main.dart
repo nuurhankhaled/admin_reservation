@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:reservationapp_admin/core/bloc_observer.dart';
 import 'package:bloc/bloc.dart';
+import 'package:window_manager/window_manager.dart';
 import 'core/routing/app_router.dart';
 import 'core/routing/routes.dart';
 import 'core/theming/themes.dart';
@@ -21,6 +22,25 @@ Future<void> main() async {
       statusBarColor: Colors.transparent,
     ),
   );
+  await windowManager.ensureInitialized();
+  WindowOptions windowOptions = const WindowOptions(
+    size: Size(1400, 800), // Use a default size
+    center: true,
+    backgroundColor: Colors.transparent,
+    skipTaskbar: false,
+    // fullScreen: true,
+    windowButtonVisibility: true,
+    maximumSize: Size(1400, 800),
+    minimumSize: Size(1400, 800),
+  );
+
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.show();
+    await windowManager.focus();
+    await windowManager.isResizable();
+    // await windowManager.isMovable();
+    await windowManager.center();
+  });
   runApp(EasyLocalization(
       path: "assets/languages",
       supportedLocales: const [

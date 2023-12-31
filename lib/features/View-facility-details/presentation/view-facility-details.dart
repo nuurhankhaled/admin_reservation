@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-class ViewFeatureScreen extends StatelessWidget {
-  const ViewFeatureScreen({super.key});
+class ViewFacilityDetails extends StatelessWidget {
+  const ViewFacilityDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("reservationApp".tr()),
+          title: Text("قاعه اللؤلؤة"),
           leading: Padding(
             padding: EdgeInsets.only(right: 50.w),
             child: IconButton(
@@ -33,7 +33,7 @@ class ViewFeatureScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
-                context.pushNamed(Routes.viewFacilityDetailsScreen);
+                // context.pushNamed(Routes.viewFacilityDetailsScreen);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -58,19 +58,20 @@ class ViewFeatureScreen extends StatelessWidget {
                           ),
                         ),
                         placeholder: (context, url) =>
-                            CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
+                            const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       ),
                       SizedBox(height: 5.h),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10.w),
                         child: Text(
-                          "View ${index + 1}",
+                          "Facility Naryeyyyyyyyyyyyyyyyme",
                           style: TextStyle(
                             overflow: TextOverflow.ellipsis,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
                             fontSize: 19.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
                           ),
                         ),
                       ),
