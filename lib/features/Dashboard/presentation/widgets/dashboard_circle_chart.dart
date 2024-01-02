@@ -19,11 +19,16 @@ class CircleChart extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(
-              height: 15.h,
+              height: 30.h,
             ),
             Text('اسم '),
+            SizedBox(
+              height: 25.h,
+            ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 25.h),
+              padding: EdgeInsets.symmetric(
+                horizontal: 40.w,
+              ),
               child: Container(
                 width: double.infinity,
                 height: 2.3.sp,
@@ -33,7 +38,7 @@ class CircleChart extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 5.h,
+              height: 25.h,
             ),
             InkWell(
               onTap: () => context.pushNamed(Routes.viewPersonScreen),

@@ -62,7 +62,7 @@ class DashBoardScreen extends StatelessWidget {
                   chartWidget: MainLayoutChart(),
                 ),
                 SizedBox(
-                  width: 20.w,
+                  width: 120.w,
                 ),
                 CircleChart(),
               ],

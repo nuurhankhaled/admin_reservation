@@ -20,7 +20,7 @@ class SummaryCard extends StatelessWidget {
         onTap: () => context.pushNamed(Routes.viewScreen),
         child: Container(
           alignment: AlignmentDirectional.centerStart,
-          width: 319.w,
+          width: 345.w,
           height: 270.h,
           decoration: BoxDecoration(
               color: Colors.white,

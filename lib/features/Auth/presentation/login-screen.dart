@@ -17,7 +17,9 @@ class AuthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        // TODO: implement listener
+        if (state is LoginSuccessState) {
+          context.pushReplacementNamed(Routes.mainlayout);
+        }
       },
       builder: (context, state) {
         var authCubit = AuthCubit.get(context);
@@ -117,7 +119,11 @@ class AuthScreen extends StatelessWidget {
                       text: "login".tr(),
                       height: 60.h,
                       onPressed: () {
-                        context.pushNamed(Routes.mainlayout);
+                        authCubit.userLogin(
+                          email: "zeiadahmed2@gmail.com",
+                          password: "zeiadahmed1",
+                        );
+                        //   context.pushReplacementNamed(Routes.mainlayout);
                       },
                     ),
                   )

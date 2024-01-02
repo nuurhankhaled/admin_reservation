@@ -87,7 +87,6 @@ dev_dependencies:
   persian_datetime_picker: ^2.1.0
   rename: ^3.0.0
   shared_preferences: ^2.2.1
-  sizer: ^2.0.15
   syncfusion_flutter_calendar: ^23.1.41
   syncfusion_flutter_charts: ^23.2.6
   syncfusion_flutter_datepicker: ^23.1.40

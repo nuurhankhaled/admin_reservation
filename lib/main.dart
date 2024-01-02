@@ -24,21 +24,21 @@ Future<void> main() async {
   );
   await windowManager.ensureInitialized();
   WindowOptions windowOptions = const WindowOptions(
-    size: Size(1400, 800), // Use a default size
+    size: Size(1400, 790), // Use a default size
     center: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
     // fullScreen: true,
     windowButtonVisibility: true,
-    maximumSize: Size(1400, 800),
-    minimumSize: Size(1400, 800),
+    maximumSize: Size(1400, 790),
+    minimumSize: Size(1400, 790),
   );
 
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.show();
     await windowManager.focus();
     await windowManager.isResizable();
-    // await windowManager.isMovable();
+    await windowManager.isMovable();
     await windowManager.center();
   });
   runApp(EasyLocalization(

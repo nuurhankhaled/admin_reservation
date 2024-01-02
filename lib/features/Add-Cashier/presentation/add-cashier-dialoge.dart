@@ -44,7 +44,7 @@ class AddCashierDialoge extends StatelessWidget {
                     (MediaQuery.of(context).size.width > 741) ? 450.w : 165.w),
             child: Container(
               width: double.infinity,
-              height: 542,
+              height: 550,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15), color: Colors.white),
               padding: EdgeInsets.all(30),
