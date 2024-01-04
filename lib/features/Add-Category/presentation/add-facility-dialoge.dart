@@ -1,21 +1,31 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
-import 'package:reservationapp_admin/features/Add-Facility/business-logic/add_facility_cubit/add_facility_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
 
-class AddFacilityDialog extends StatelessWidget {
-  const AddFacilityDialog({super.key});
+class AddCategoryDialog extends StatelessWidget {
+  AddCategoryDialog({super.key});
+
+  File? pickedImage; // Variable to store the selected image
+  late TextEditingController nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AddFacilityCubit, AddFacilityState>(
-      listener: (context, state) {},
+    return BlocConsumer<CategoryCubit, CategoryState>(
+      listener: (context, state) {
+        if (state is AddCategorySuccess) {
+          context.pop();
+        }
+      },
       builder: (context, state) {
-        var addFacilityCubit = AddFacilityCubit.get(context);
+        var addFacilityCubit = CategoryCubit.get(context);
         return Dialog(
             backgroundColor: Colors.transparent,
             insetPadding: EdgeInsets.symmetric(
@@ -23,7 +33,7 @@ class AddFacilityDialog extends StatelessWidget {
                     (MediaQuery.of(context).size.width != 766) ? 650.w : 500.w),
             child: Container(
               width: double.infinity,
-              height: 600,
+              height: 540,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15), color: Colors.white),
               padding: EdgeInsets.all(30),
@@ -62,10 +72,17 @@ class AddFacilityDialog extends StatelessWidget {
                             ],
                             shape: BoxShape.circle,
                             color: Colors.deepPurple.shade50,
-                            image: const DecorationImage(
-                              image: AssetImage("assets/images/loggo.png"),
-                              fit: BoxFit.contain,
-                            ),
+                            image: addFacilityCubit.pickedImage != null
+                                ? DecorationImage(
+                                    image: FileImage(
+                                        addFacilityCubit.pickedImage!),
+                                    fit: BoxFit.contain,
+                                  )
+                                : const DecorationImage(
+                                    image:
+                                        AssetImage("assets/images/loggo.png"),
+                                    fit: BoxFit.contain,
+                                  ),
                           ),
                         ),
                         Padding(
@@ -85,52 +102,11 @@ class AddFacilityDialog extends StatelessWidget {
                                     size: 30.w,
                                     color: Colors.grey,
                                   ),
-                                  onPressed:
-                                      // (editable)
-                                      //     ? () {
-                                      //         showDialog(
-                                      //             context: context,
-                                      //             builder:
-                                      //                 (context) {
-                                      //               return AlertDialog(
-                                      //                 title: Text(
-                                      //                     LocaleKeys
-                                      //                         .changeImage
-                                      //                         .tr()),
-                                      //                 content:
-                                      //                     Column(
-                                      //                   mainAxisSize:
-                                      //                       MainAxisSize
-                                      //                           .min,
-                                      //                   children: [
-                                      //                     TextButton(
-                                      // onPressed:
-                                      //     () {
-                                      //   updateUserCubit.pickImage(ImageSource.gallery,
-                                      //       context);
-                                      //   Navigator.pop(context);
-                                      //   ProfileCubit.get(context).getProfile(context);
-                                      // },
-                                      // child: Text(LocaleKeys
-                                      //     .pickFromDevice
-                                      //     .tr())),
-                                      //                 TextButton(
-                                      //                     onPressed:
-                                      //                         () {
-                                      //                       updateUserCubit.pickImage(ImageSource.camera,
-                                      //                           context);
-                                      //                       Navigator.pop(context);
-                                      //                     },
-                                      //                     child: Text(LocaleKeys
-                                      //                         .pickFromCamera
-                                      //                         .tr())),
-                                      //               ],
-                                      //             ),
-                                      //           );
-                                      //         });
-                                      //   }
-                                      // :
-                                      () {},
+                                  onPressed: () {
+                                    addFacilityCubit.pickImage(
+                                        ImageSource.gallery, context);
+                                    pickedImage = addFacilityCubit.pickedImage;
+                                  },
                                 ))),
                       ],
                     ),
@@ -147,6 +123,7 @@ class AddFacilityDialog extends StatelessWidget {
                       child: Container(
                         width: 220,
                         child: CustomTextFormField(
+                          controller: nameController,
                           padding: EdgeInsets.only(
                               bottom: 22.h, left: 10.w, right: 10.w),
                           height: 80.h,
@@ -162,7 +139,12 @@ class AddFacilityDialog extends StatelessWidget {
                       children: [
                         ElevatedButton(
                             onPressed: () {
-                              context.pushNamed(Routes.addItem);
+                              addFacilityCubit.AddCategory(
+                                  image: addFacilityCubit.pickedImage,
+                                  name: nameController.text,
+                                  context: context);
+                              // pickedImage = addFacilityCubit.pickedImage;
+                              nameController.clear();
                             },
                             child: Text("اضافه")),
                         SizedBox(

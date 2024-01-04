@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:reservationapp_admin/core/routing/routes.dart';
+import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
 import 'package:reservationapp_admin/features/Add-Items/presentation/add-item.dart';
 import 'package:reservationapp_admin/features/Auth/business-logic/auth-cubit/login_cubit.dart';
-import 'package:reservationapp_admin/features/View-facility-details/presentation/view-facility-details.dart';
-import 'package:reservationapp_admin/features/View-facility/presentation/view-screen.dart';
-import 'package:reservationapp_admin/features/View-person/presentation/view-person.dart';
+import 'package:reservationapp_admin/features/View-category-details/presentation/view-category-details.dart';
+import 'package:reservationapp_admin/features/View-categories/presentation/view-categories-screen.dart';
+import 'package:reservationapp_admin/features/View-receptionist/business-logic/receptionist_cubit/receptionist_cubit.dart';
+import 'package:reservationapp_admin/features/View-receptionist/presentation/view-receptionist.dart';
 import 'package:reservationapp_admin/features/home/business-logic/cubit/mainlayout_cubit.dart';
 import '../../features/Auth/presentation/login-screen.dart';
 import '../../features/home/presentation/home.dart';
@@ -37,22 +39,25 @@ class AppRouter {
           child: AddItem(),
         );
 
-      case Routes.viewPersonScreen:
+      case Routes.viewReceptionistScreen:
         return PageTransition(
           type: PageTransitionType.fade,
           duration: const Duration(milliseconds: 200),
           alignment: Alignment.center,
           settings: settings,
-          child: ViewPersonScreen(),
+          child: BlocProvider(
+            create: (context) => ReceptionistCubit()..getReceptionists(),
+            child: ViewReceptionistScreen(),
+          ),
         );
 
-      case Routes.viewFacilityDetailsScreen:
+      case Routes.viewCategoryDetailsScreen:
         return PageTransition(
           type: PageTransitionType.fade,
           duration: const Duration(milliseconds: 200),
           alignment: Alignment.center,
           settings: settings,
-          child: ViewFacilityDetails(),
+          child: ViewCategoryDetails(),
         );
       //       settings: settings,
       //       child: EditProfileScreen()
@@ -105,13 +110,16 @@ class AppRouter {
               child: Home(),
             ));
 
-      case Routes.viewScreen:
+      case Routes.viewCategoriesScreen:
         return PageTransition(
           type: PageTransitionType.fade,
           duration: const Duration(milliseconds: 200),
           alignment: Alignment.center,
           settings: settings,
-          child: ViewFeatureScreen(),
+          child: BlocProvider(
+            create: (context) => CategoryCubit()..getCategories(),
+            child: ViewCategoriesScreen(),
+          ),
         );
 
       default:

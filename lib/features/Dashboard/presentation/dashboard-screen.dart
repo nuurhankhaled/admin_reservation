@@ -1,9 +1,12 @@
+import 'package:reservationapp_admin/core/helpers/extensions.dart';
+import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/features/Dashboard/presentation/widgets/charts_widget.dart';
 import 'package:reservationapp_admin/features/Dashboard/presentation/widgets/dashboard_chart.dart';
 import 'package:reservationapp_admin/features/Dashboard/presentation/widgets/dashboard_circle_chart.dart';
 import 'package:reservationapp_admin/features/Dashboard/presentation/widgets/dashboard_summary_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reservationapp_admin/features/View-receptionist/business-logic/receptionist_cubit/receptionist_cubit.dart';
 import '../../../core/theming/colors.dart';
 
 class DashBoardScreen extends StatelessWidget {
@@ -11,45 +14,46 @@ class DashBoardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ReceptionistCubit().getReceptionists();
     print(MediaQuery.of(context).size.width);
     return Padding(
-      padding: EdgeInsets.all(20.sp),
+      padding: EdgeInsets.all(5.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             height: 20.h,
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Row(
-              children: [
-                SummaryCard(
-                  containerColor: Colors.blueGrey,
-                  textName: 'المحاسبين',
-                  icon: Icons.account_balance_outlined,
-                  textTotalNumber: '200',
-                ),
-                SummaryCard(
-                  containerColor: AppColors.primaryColor,
-                  textName: 'المستخدمين',
-                  icon: Icons.people_outline,
-                  textTotalNumber: '500',
-                ),
-                SummaryCard(
-                  containerColor: AppColors.buttonBackGroundColor,
-                  textName: 'التقارير',
-                  icon: Icons.analytics_outlined,
-                  textTotalNumber: '12',
-                ),
-                SummaryCard(
-                  containerColor: AppColors.greyColor,
-                  textName: 'الأجمالي',
-                  icon: Icons.money,
-                  textTotalNumber: '150',
-                ),
-              ],
-            ),
+          Row(
+            children: [
+              SizedBox(
+                width: 20.w,
+              ),
+              SummaryCard(
+                containerColor: Colors.blueGrey,
+                textName: 'موظفين الاستقبال',
+                icon: Icons.account_balance_outlined,
+                onTap: () => context.pushNamed(Routes.viewReceptionistScreen),
+              ),
+              SummaryCard(
+                containerColor: AppColors.primaryColor,
+                textName: 'المستخدمين',
+                icon: Icons.people_outline,
+                onTap: () {},
+              ),
+              SummaryCard(
+                containerColor: AppColors.buttonBackGroundColor,
+                textName: 'التقارير',
+                icon: Icons.analytics_outlined,
+                onTap: () {},
+              ),
+              SummaryCard(
+                containerColor: AppColors.greyColor,
+                textName: 'المستخدمين المعلقين',
+                icon: Icons.person_2_outlined,
+                onTap: () {},
+              ),
+            ],
           ),
           SizedBox(
             height: 80.h,

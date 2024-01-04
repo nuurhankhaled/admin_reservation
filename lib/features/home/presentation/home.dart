@@ -1,7 +1,7 @@
 import 'package:reservationapp_admin/features/Add-Cashier/business-logic/add-chashier/cubit.dart';
 import 'package:reservationapp_admin/features/Add-Cashier/presentation/add-cashier-dialoge.dart';
-import 'package:reservationapp_admin/features/Add-Facility/business-logic/add_facility_cubit/add_facility_cubit.dart';
-import 'package:reservationapp_admin/features/Add-Facility/presentation/add-facility-dialoge.dart';
+import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
+import 'package:reservationapp_admin/features/Add-Category/presentation/add-facility-dialoge.dart';
 import 'package:reservationapp_admin/features/Add-admin/business-logic/add-chashier/cubit.dart';
 import 'package:reservationapp_admin/features/Add-admin/presentation/add-cashier-dialoge.dart';
 import 'package:reservationapp_admin/features/Dashboard/presentation/dashboard-screen.dart';
@@ -79,8 +79,8 @@ class _HomeState extends State<Home> {
                         context: context,
                         builder: (BuildContext context) {
                           return BlocProvider(
-                            create: (context) => AddFacilityCubit(),
-                            child: AddFacilityDialog(),
+                            create: (context) => CategoryCubit(),
+                            child: AddCategoryDialog(),
                           );
                         });
                     break;

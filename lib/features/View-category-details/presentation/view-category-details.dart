@@ -5,8 +5,8 @@ import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class ViewFacilityDetails extends StatelessWidget {
-  const ViewFacilityDetails({super.key});
+class ViewCategoryDetails extends StatelessWidget {
+  const ViewCategoryDetails({super.key});
 
   @override
   Widget build(BuildContext context) {

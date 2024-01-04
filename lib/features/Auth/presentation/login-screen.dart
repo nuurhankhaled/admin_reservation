@@ -120,8 +120,8 @@ class AuthScreen extends StatelessWidget {
                       height: 60.h,
                       onPressed: () {
                         authCubit.userLogin(
-                          email: "zeiadahmed2@gmail.com",
-                          password: "zeiadahmed1",
+                          email: "salma@gmail.com",
+                          password: "000000",
                         );
                         //   context.pushReplacementNamed(Routes.mainlayout);
                       },

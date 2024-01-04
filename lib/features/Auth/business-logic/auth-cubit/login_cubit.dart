@@ -39,12 +39,14 @@ class AuthCubit extends Cubit<AuthState> {
         endPoint: EndPoints.login,
         data: data,
       );
-
+      print(response!.statusCode);
       if (response!.statusCode == 200) {
         var decodedData = json.decode(response.data);
         var jsonResponse = UserModel.fromJson(decodedData);
+        print(response.data);
+
         if (jsonResponse.success!) {
-          if (jsonResponse.userData!.type == "B1") {
+          if (jsonResponse.userData!.type == "B3") {
             userModel = jsonResponse;
             hideLoading();
             emit(LoginSuccessState());

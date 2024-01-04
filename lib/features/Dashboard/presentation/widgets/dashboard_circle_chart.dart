@@ -40,19 +40,16 @@ class CircleChart extends StatelessWidget {
             SizedBox(
               height: 25.h,
             ),
-            InkWell(
-              onTap: () => context.pushNamed(Routes.viewPersonScreen),
-              child: CircularPercentIndicator(
-                radius: 130.0.sp,
-                lineWidth: 25.0.w,
-                percent: 0.5,
-                center: new Text("50%"),
-                progressColor: AppColors.primaryColor,
-                animateFromLastPercent: true,
-                animation: true,
-                animationDuration: 1200,
-                circularStrokeCap: CircularStrokeCap.round,
-              ),
+            CircularPercentIndicator(
+              radius: 130.0.sp,
+              lineWidth: 25.0.w,
+              percent: 0.5,
+              center: new Text("50%"),
+              progressColor: AppColors.primaryColor,
+              animateFromLastPercent: true,
+              animation: true,
+              animationDuration: 1200,
+              circularStrokeCap: CircularStrokeCap.round,
             ),
             SizedBox(
               height: 5.h,

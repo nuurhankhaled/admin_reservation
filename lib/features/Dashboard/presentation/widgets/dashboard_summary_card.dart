@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
@@ -5,19 +7,23 @@ import 'package:reservationapp_admin/core/routing/routes.dart';
 
 class SummaryCard extends StatelessWidget {
   String? textName;
-  String? textTotalNumber;
+  // String? textTotalNumber;
   dynamic icon;
   dynamic containerColor;
-
+  VoidCallback onTap;
   SummaryCard(
-      {this.icon, this.containerColor, this.textName, this.textTotalNumber});
+      {this.icon,
+      this.containerColor,
+      this.textName,
+      //  this.textTotalNumber,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
-      child: InkWell(
-        onTap: () => context.pushNamed(Routes.viewScreen),
+      child: GestureDetector(
+        onTap: onTap,
         child: Container(
           alignment: AlignmentDirectional.centerStart,
           width: 345.w,
@@ -57,7 +63,13 @@ class SummaryCard extends StatelessWidget {
                 SizedBox(
                   height: 20.h,
                 ),
-                Text('$textTotalNumber'),
+                Text(
+                  "عرض الكل",
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colors.blue,
+                      decorationColor: Colors.blue),
+                ),
                 SizedBox(
                   height: 20.h,
                 ),
