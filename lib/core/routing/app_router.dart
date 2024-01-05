@@ -4,6 +4,7 @@ import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
 import 'package:reservationapp_admin/features/Add-Items/presentation/add-item.dart';
 import 'package:reservationapp_admin/features/Auth/business-logic/auth-cubit/login_cubit.dart';
+import 'package:reservationapp_admin/features/View-category-details/business-logic/category_cubit/category_items_cubit.dart';
 import 'package:reservationapp_admin/features/View-category-details/presentation/view-category-details.dart';
 import 'package:reservationapp_admin/features/View-categories/presentation/view-categories-screen.dart';
 import 'package:reservationapp_admin/features/View-receptionist/business-logic/receptionist_cubit/receptionist_cubit.dart';
@@ -78,12 +79,18 @@ class AppRouter {
         );
 
       case Routes.viewCategoryDetailsScreen:
+        final categoryName = settings.arguments as String;
         return PageTransition(
           type: PageTransitionType.fade,
           duration: const Duration(milliseconds: 200),
           alignment: Alignment.center,
           settings: settings,
-          child: ViewCategoryDetails(),
+          child: BlocProvider(
+            create: (context) => CategoryItemsCubit(),
+            child: ViewCategoryDetails(
+              title: categoryName,
+            ),
+          ),
         );
       //       settings: settings,
       //       child: EditProfileScreen()

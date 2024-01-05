@@ -1,3 +1,4 @@
+import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/widgets/custom_button.dart';
 import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
 import 'package:reservationapp_admin/features/Add-Items/presentation/add-fields-screen.dart';
@@ -12,8 +13,19 @@ class AddItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          AppBar(title: Text("اضافه عنصر"), automaticallyImplyLeading: false),
+      appBar: AppBar(
+        title: const Text("اضافه عنصر"),
+        centerTitle: true,
+        elevation: 0,
+        leading: Padding(
+          padding: EdgeInsets.only(right: 50.w),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () => context.pop(),
+          ),
+        ),
+        actions: [],
+      ),
       body: SingleChildScrollView(
           child: Column(
         children: [
@@ -28,7 +40,7 @@ class AddItem extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Text(
+                  const Text(
                     "الصورة الخارجيه",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
@@ -72,52 +84,7 @@ class AddItem extends StatelessWidget {
                                   size: 30.w,
                                   color: Colors.grey,
                                 ),
-                                onPressed:
-                                    // (editable)
-                                    //     ? () {
-                                    //         showDialog(
-                                    //             context: context,
-                                    //             builder:
-                                    //                 (context) {
-                                    //               return AlertDialog(
-                                    //                 title: Text(
-                                    //                     LocaleKeys
-                                    //                         .changeImage
-                                    //                         .tr()),
-                                    //                 content:
-                                    //                     Column(
-                                    //                   mainAxisSize:
-                                    //                       MainAxisSize
-                                    //                           .min,
-                                    //                   children: [
-                                    //                     TextButton(
-                                    // onPressed:
-                                    //     () {
-                                    //   updateUserCubit.pickImage(ImageSource.gallery,
-                                    //       context);
-                                    //   Navigator.pop(context);
-                                    //   ProfileCubit.get(context).getProfile(context);
-                                    // },
-                                    // child: Text(LocaleKeys
-                                    //     .pickFromDevice
-                                    //     .tr())),
-                                    //                 TextButton(
-                                    //                     onPressed:
-                                    //                         () {
-                                    //                       updateUserCubit.pickImage(ImageSource.camera,
-                                    //                           context);
-                                    //                       Navigator.pop(context);
-                                    //                     },
-                                    //                     child: Text(LocaleKeys
-                                    //                         .pickFromCamera
-                                    //                         .tr())),
-                                    //               ],
-                                    //             ),
-                                    //           );
-                                    //         });
-                                    //   }
-                                    // :
-                                    () {},
+                                onPressed: () {},
                               ))),
                     ],
                   ),
@@ -128,7 +95,7 @@ class AddItem extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Text(
+                  const Text(
                     "الصورة الداخليه الاولي",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
@@ -172,52 +139,7 @@ class AddItem extends StatelessWidget {
                                   size: 30.w,
                                   color: Colors.grey,
                                 ),
-                                onPressed:
-                                    // (editable)
-                                    //     ? () {
-                                    //         showDialog(
-                                    //             context: context,
-                                    //             builder:
-                                    //                 (context) {
-                                    //               return AlertDialog(
-                                    //                 title: Text(
-                                    //                     LocaleKeys
-                                    //                         .changeImage
-                                    //                         .tr()),
-                                    //                 content:
-                                    //                     Column(
-                                    //                   mainAxisSize:
-                                    //                       MainAxisSize
-                                    //                           .min,
-                                    //                   children: [
-                                    //                     TextButton(
-                                    // onPressed:
-                                    //     () {
-                                    //   updateUserCubit.pickImage(ImageSource.gallery,
-                                    //       context);
-                                    //   Navigator.pop(context);
-                                    //   ProfileCubit.get(context).getProfile(context);
-                                    // },
-                                    // child: Text(LocaleKeys
-                                    //     .pickFromDevice
-                                    //     .tr())),
-                                    //                 TextButton(
-                                    //                     onPressed:
-                                    //                         () {
-                                    //                       updateUserCubit.pickImage(ImageSource.camera,
-                                    //                           context);
-                                    //                       Navigator.pop(context);
-                                    //                     },
-                                    //                     child: Text(LocaleKeys
-                                    //                         .pickFromCamera
-                                    //                         .tr())),
-                                    //               ],
-                                    //             ),
-                                    //           );
-                                    //         });
-                                    //   }
-                                    // :
-                                    () {},
+                                onPressed: () {},
                               ))),
                     ],
                   ),
@@ -228,7 +150,7 @@ class AddItem extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Text(
+                  const Text(
                     "الصورة الداخليه الثانيه",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
@@ -272,52 +194,7 @@ class AddItem extends StatelessWidget {
                                   size: 30.w,
                                   color: Colors.grey,
                                 ),
-                                onPressed:
-                                    // (editable)
-                                    //     ? () {
-                                    //         showDialog(
-                                    //             context: context,
-                                    //             builder:
-                                    //                 (context) {
-                                    //               return AlertDialog(
-                                    //                 title: Text(
-                                    //                     LocaleKeys
-                                    //                         .changeImage
-                                    //                         .tr()),
-                                    //                 content:
-                                    //                     Column(
-                                    //                   mainAxisSize:
-                                    //                       MainAxisSize
-                                    //                           .min,
-                                    //                   children: [
-                                    //                     TextButton(
-                                    // onPressed:
-                                    //     () {
-                                    //   updateUserCubit.pickImage(ImageSource.gallery,
-                                    //       context);
-                                    //   Navigator.pop(context);
-                                    //   ProfileCubit.get(context).getProfile(context);
-                                    // },
-                                    // child: Text(LocaleKeys
-                                    //     .pickFromDevice
-                                    //     .tr())),
-                                    //                 TextButton(
-                                    //                     onPressed:
-                                    //                         () {
-                                    //                       updateUserCubit.pickImage(ImageSource.camera,
-                                    //                           context);
-                                    //                       Navigator.pop(context);
-                                    //                     },
-                                    //                     child: Text(LocaleKeys
-                                    //                         .pickFromCamera
-                                    //                         .tr())),
-                                    //               ],
-                                    //             ),
-                                    //           );
-                                    //         });
-                                    //   }
-                                    // :
-                                    () {},
+                                onPressed: () {},
                               ))),
                     ],
                   ),
@@ -328,7 +205,7 @@ class AddItem extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Text(
+                  const Text(
                     "الصورة الداخليه الثالثه",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
@@ -372,52 +249,7 @@ class AddItem extends StatelessWidget {
                                   size: 30.w,
                                   color: Colors.grey,
                                 ),
-                                onPressed:
-                                    // (editable)
-                                    //     ? () {
-                                    //         showDialog(
-                                    //             context: context,
-                                    //             builder:
-                                    //                 (context) {
-                                    //               return AlertDialog(
-                                    //                 title: Text(
-                                    //                     LocaleKeys
-                                    //                         .changeImage
-                                    //                         .tr()),
-                                    //                 content:
-                                    //                     Column(
-                                    //                   mainAxisSize:
-                                    //                       MainAxisSize
-                                    //                           .min,
-                                    //                   children: [
-                                    //                     TextButton(
-                                    // onPressed:
-                                    //     () {
-                                    //   updateUserCubit.pickImage(ImageSource.gallery,
-                                    //       context);
-                                    //   Navigator.pop(context);
-                                    //   ProfileCubit.get(context).getProfile(context);
-                                    // },
-                                    // child: Text(LocaleKeys
-                                    //     .pickFromDevice
-                                    //     .tr())),
-                                    //                 TextButton(
-                                    //                     onPressed:
-                                    //                         () {
-                                    //                       updateUserCubit.pickImage(ImageSource.camera,
-                                    //                           context);
-                                    //                       Navigator.pop(context);
-                                    //                     },
-                                    //                     child: Text(LocaleKeys
-                                    //                         .pickFromCamera
-                                    //                         .tr())),
-                                    //               ],
-                                    //             ),
-                                    //           );
-                                    //         });
-                                    //   }
-                                    // :
-                                    () {},
+                                onPressed: () {},
                               ))),
                     ],
                   ),
@@ -447,7 +279,7 @@ class AddItem extends StatelessWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 70.w),
-                      child: Text(
+                      child: const Text(
                         "الاسم",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
@@ -472,7 +304,7 @@ class AddItem extends StatelessWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 70.w),
-                      child: Text(
+                      child: const Text(
                         "الوصف",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
@@ -497,7 +329,7 @@ class AddItem extends StatelessWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 70.w),
-                      child: Text(
+                      child: const Text(
                         "الحاله",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
@@ -519,9 +351,9 @@ class AddItem extends StatelessWidget {
                             menuMaxHeight: 700.h,
                             decoration:
                                 const InputDecoration(border: InputBorder.none),
-                            hint: Text(
+                            hint: const Text(
                               "اختر الحاله",
-                              style: const TextStyle(color: Colors.black),
+                              style: TextStyle(color: Colors.black),
                             ),
                             items: List.generate(
                               _statues.length,
@@ -571,7 +403,7 @@ class AddItem extends StatelessWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 70.w),
-                      child: Text(
+                      child: const Text(
                         "المقتنيات",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
@@ -586,7 +418,8 @@ class AddItem extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AddFieldsScreen()));
+                                    builder: (context) =>
+                                        const AddFieldsScreen()));
                           },
                           text: "اضافه",
                           color: Colors.grey[300],
@@ -604,7 +437,7 @@ class AddItem extends StatelessWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 70.w),
-                      child: Text(
+                      child: const Text(
                         "السعر",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
@@ -629,7 +462,7 @@ class AddItem extends StatelessWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 70.w),
-                      child: Text(
+                      child: const Text(
                         "السعر / الفتره",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
@@ -651,9 +484,9 @@ class AddItem extends StatelessWidget {
                             menuMaxHeight: 700.h,
                             decoration:
                                 const InputDecoration(border: InputBorder.none),
-                            hint: Text(
+                            hint: const Text(
                               "اختر الفترة",
-                              style: const TextStyle(color: Colors.black),
+                              style: TextStyle(color: Colors.black),
                             ),
                             items: List.generate(
                               _priceState.length,
@@ -692,7 +525,7 @@ class AddItem extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 800.w),
-            child: CustomButton(
+            child: const CustomButton(
               text: "اضافه عنصر",
               fontWeight: FontWeight.bold,
             ),

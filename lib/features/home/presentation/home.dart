@@ -1,3 +1,5 @@
+import 'package:reservationapp_admin/core/helpers/extensions.dart';
+import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/features/Add-Cashier/business-logic/add-chashier/cubit.dart';
 import 'package:reservationapp_admin/features/Add-Cashier/presentation/add-cashier-dialoge.dart';
 import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
@@ -14,7 +16,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
-
   @override
   State<Home> createState() => _HomeState();
 }
@@ -41,6 +42,11 @@ class _HomeState extends State<Home> {
                 title: 'addAFacility'.tr(),
                 route: '/addFacility',
                 icon: Icons.home_work_sharp,
+              ),
+              AdminMenuItem(
+                icon: Icons.add_business_rounded,
+                title: "اضافه عنصر للمنشأه",
+                route: '/addItem',
               ),
               AdminMenuItem(
                 icon: Icons.add_business_rounded,
@@ -73,6 +79,9 @@ class _HomeState extends State<Home> {
                             child: AddCashierDialoge(),
                           );
                         });
+                    break;
+                  case "/addItem":
+                    context.pushNamed(Routes.addItemScren);
                     break;
                   case "/addFacility":
                     showDialog(

@@ -42,9 +42,9 @@ class DashBoardScreen extends StatelessWidget {
               ),
               SummaryCard(
                 containerColor: AppColors.buttonBackGroundColor,
-                textName: 'التقارير',
+                textName: 'المنشآت',
                 icon: Icons.analytics_outlined,
-                onTap: () {},
+                onTap: () => context.pushNamed(Routes.viewCategoriesScreen),
               ),
               SummaryCard(
                 containerColor: AppColors.greyColor,

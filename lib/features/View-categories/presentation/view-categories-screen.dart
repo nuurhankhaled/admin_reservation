@@ -21,7 +21,8 @@ class ViewCategoriesScreen extends StatelessWidget {
         var categoryCubit = CategoryCubit.get(context);
         return Scaffold(
           appBar: AppBar(
-              title: Text("reservationApp".tr()),
+              title: const Text("المنشآت",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               leading: Padding(
                 padding: EdgeInsets.only(right: 50.w),
                 child: IconButton(
@@ -30,9 +31,9 @@ class ViewCategoriesScreen extends StatelessWidget {
                 ),
               )),
           body: (state is GetCategoriesLoading)
-              ? CustomLoadingIndicator()
+              ? const CustomLoadingIndicator()
               : Padding(
-                  padding: EdgeInsets.all(18.0),
+                  padding: const EdgeInsets.all(18.0),
                   child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 6,
@@ -44,7 +45,8 @@ class ViewCategoriesScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
-                          context.pushNamed(Routes.viewCategoryDetailsScreen);
+                          context.pushNamed(Routes.viewCategoryDetailsScreen,
+                              arguments: categoryCubit.categories[index].name!);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -66,14 +68,14 @@ class ViewCategoriesScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(20.r),
                                       image: DecorationImage(
                                         image: imageProvider,
-                                        fit: BoxFit.cover,
+                                        fit: BoxFit.contain,
                                       ),
                                     ),
                                   ),
                                   placeholder: (context, url) =>
-                                      CircularProgressIndicator(),
+                                      const CircularProgressIndicator(),
                                   errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
+                                      const Icon(Icons.error),
                                 ),
                                 SizedBox(height: 2.h),
                                 Padding(

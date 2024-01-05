@@ -14,9 +14,7 @@ class ViewUsersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UsersCubit, UsersState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         var cubit = UsersCubit.get(context);
         return Scaffold(
@@ -149,6 +147,10 @@ class ViewUsersScreen extends StatelessWidget {
                                                       AcceptUserState>(
                                                     listener: (context, state) {
                                                       // TODO: implement listener
+                                                      if (state
+                                                          is AcceptUserSuccess) {
+                                                        cubit.getPendingUsers();
+                                                      }
                                                     },
                                                     builder: (context, state) {
                                                       var acceptUserCubit =
@@ -156,7 +158,9 @@ class ViewUsersScreen extends StatelessWidget {
                                                               context);
                                                       return IconButton(
                                                         icon: const Icon(
-                                                            Icons.check),
+                                                          Icons.check,
+                                                          color: Colors.green,
+                                                        ),
                                                         onPressed: () {
                                                           acceptUserCubit
                                                               .AcceptUser(

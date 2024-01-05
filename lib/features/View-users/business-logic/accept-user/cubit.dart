@@ -31,7 +31,6 @@ class AcceptUserCubit extends Cubit<AcceptUserState> {
       var jsonResponse = AcceptanceModel.fromJson(decodedData);
       if (jsonResponse.success == true) {
         showSuccess("تم قبول المستخدم بنجاح");
-        context.pop();
         emit(AcceptUserSuccess());
       } else {
         showError("حدث خطأ ما");
