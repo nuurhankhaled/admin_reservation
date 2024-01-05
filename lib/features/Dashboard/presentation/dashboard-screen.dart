@@ -6,7 +6,6 @@ import 'package:reservationapp_admin/features/Dashboard/presentation/widgets/das
 import 'package:reservationapp_admin/features/Dashboard/presentation/widgets/dashboard_summary_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reservationapp_admin/features/View-receptionist/business-logic/receptionist_cubit/receptionist_cubit.dart';
 import '../../../core/theming/colors.dart';
 
 class DashBoardScreen extends StatelessWidget {
@@ -14,7 +13,6 @@ class DashBoardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ReceptionistCubit().getReceptionists();
     print(MediaQuery.of(context).size.width);
     return Padding(
       padding: EdgeInsets.all(5.sp),
@@ -39,7 +37,8 @@ class DashBoardScreen extends StatelessWidget {
                 containerColor: AppColors.primaryColor,
                 textName: 'المستخدمين',
                 icon: Icons.people_outline,
-                onTap: () {},
+                onTap: () =>
+                    context.pushNamed(Routes.viewUsersScreen, arguments: 1),
               ),
               SummaryCard(
                 containerColor: AppColors.buttonBackGroundColor,
@@ -51,7 +50,8 @@ class DashBoardScreen extends StatelessWidget {
                 containerColor: AppColors.greyColor,
                 textName: 'المستخدمين المعلقين',
                 icon: Icons.person_2_outlined,
-                onTap: () {},
+                onTap: () =>
+                    context.pushNamed(Routes.viewUsersScreen, arguments: 0),
               ),
             ],
           ),

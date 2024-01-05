@@ -8,6 +8,9 @@ import 'package:reservationapp_admin/features/View-category-details/presentation
 import 'package:reservationapp_admin/features/View-categories/presentation/view-categories-screen.dart';
 import 'package:reservationapp_admin/features/View-receptionist/business-logic/receptionist_cubit/receptionist_cubit.dart';
 import 'package:reservationapp_admin/features/View-receptionist/presentation/view-receptionist.dart';
+import 'package:reservationapp_admin/features/View-users/business-logic/accept-user/cubit.dart';
+import 'package:reservationapp_admin/features/View-users/business-logic/users_cubit/users_cubit.dart';
+import 'package:reservationapp_admin/features/View-users/presentation/view-user.dart';
 import 'package:reservationapp_admin/features/home/business-logic/cubit/mainlayout_cubit.dart';
 import '../../features/Auth/presentation/login-screen.dart';
 import '../../features/home/presentation/home.dart';
@@ -30,7 +33,7 @@ class AppRouter {
           ),
         );
 
-      case Routes.addItem:
+      case Routes.addItemScren:
         return PageTransition(
           type: PageTransitionType.fade,
           duration: const Duration(milliseconds: 200),
@@ -49,6 +52,29 @@ class AppRouter {
             create: (context) => ReceptionistCubit()..getReceptionists(),
             child: ViewReceptionistScreen(),
           ),
+        );
+
+      case Routes.viewUsersScreen:
+        final isAccepted = settings.arguments as int;
+        return PageTransition(
+          type: PageTransitionType.fade,
+          duration: const Duration(milliseconds: 200),
+          alignment: Alignment.center,
+          settings: settings,
+          child: MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => UsersCubit()
+                    ..getAcceptedUsers()
+                    ..getPendingUsers(),
+                ),
+                BlocProvider(
+                  create: (context) => AcceptUserCubit(),
+                ),
+              ],
+              child: ViewUsersScreen(
+                isAccepted: isAccepted,
+              )),
         );
 
       case Routes.viewCategoryDetailsScreen:

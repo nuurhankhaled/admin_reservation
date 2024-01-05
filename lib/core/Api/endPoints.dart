@@ -6,4 +6,7 @@ class EndPoints {
   static const String addCategory = '/category/add_category.php';
   static const String getCategories = '/category/get_category.php';
   static const String getReceptionists = '/user/get_receptionist.php';
+  static const String getAcceptedUsers = '/user/get_accepted_users.php';
+  static const String getPendingUsers = '/user/get_waiting_users.php';
+  static const String acceptUser = '/user/accept_user.php';
 }

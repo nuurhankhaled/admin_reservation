@@ -80,7 +80,9 @@ class ViewReceptionistScreen extends StatelessWidget {
                                   DataCell(Text(user.password!)),
                                   DataCell(Text(user.nid!)),
                                   DataCell(Text(user.phone.toString())),
-                                  DataCell(Text(user.status.toString())),
+                                  DataCell(Text((user.status == "1")
+                                      ? "تمت قبوله"
+                                      : "لم يتم قبولة بعد")),
                                   //  DataCell(
                                   // Checkbox(
                                   //   value: user.status!.toString()!,

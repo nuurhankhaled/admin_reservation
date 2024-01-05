@@ -8,5 +8,6 @@ class Routes {
   static const viewCategoryDetailsScreen = '/view-facility-screen';
   static const mainlayout = '/mainlayout';
   static const viewCategoriesScreen = '/view-screen';
-  static const addItem = '/add-item';
+  static const addItemScren = '/add-item';
+  static const viewUsersScreen = '/view-item';
 }
