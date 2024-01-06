@@ -32,8 +32,8 @@ Future<void> main() async {
     skipTaskbar: false,
     // fullScreen: true,
     windowButtonVisibility: true,
-    maximumSize: Size(1400, 790),
-    minimumSize: Size(1400, 790),
+    maximumSize: Size(1400, 780),
+    minimumSize: Size(1400, 780),
   );
 
   windowManager.waitUntilReadyToShow(windowOptions, () async {

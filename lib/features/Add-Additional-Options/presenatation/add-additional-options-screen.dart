@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -21,12 +20,11 @@ class AddAdditionalOptionsDialog extends StatefulWidget {
 
 class _AddAdditionalOptionsDialogState
     extends State<AddAdditionalOptionsDialog> {
-
   late TextEditingController nameController = TextEditingController();
 
   late TextEditingController priceController = TextEditingController();
-final _formKey = GlobalKey<FormState>();
-  String categoryId = "0";
+  final _formKey = GlobalKey<FormState>();
+  String? categoryId;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +36,7 @@ final _formKey = GlobalKey<FormState>();
         var categoryCubit = CategoryCubit.get(context);
         return BlocConsumer<AdditionalOptionsCubit, AdditionalOptionsState>(
           listener: (context, state) {
-            if (state is AdditionalOptionsSuccess) {
+            if (state is AddAdditionalOptionsSuccess) {
               context.pop();
             }
           },
@@ -141,6 +139,11 @@ final _formKey = GlobalKey<FormState>();
                             child: Container(
                               width: 220,
                               child: CustomTextFormField(
+                                validator: (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "هذا الحقل مطلوب";
+                                  }
+                                },
                                 controller: nameController,
                                 padding: EdgeInsets.only(
                                     bottom: 22.h, left: 10.w, right: 10.w),
@@ -161,6 +164,19 @@ final _formKey = GlobalKey<FormState>();
                             child: Container(
                               width: 220,
                               child: CustomTextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'هذا الحقل مطلوب';
+                                  }
+                                  try {
+                                    value = value.replaceAll(',',
+                                        '.'); // Remove commas to properly parse the double
+                                    double.parse(value);
+                                    return null; // Return null if the input is a valid double
+                                  } catch (e) {
+                                    return 'من فضلك ادخل رقم صحيح'; // Error message for invalid input
+                                  }
+                                },
                                 controller: priceController,
                                 padding: EdgeInsets.only(
                                     bottom: 22.h, left: 10.w, right: 10.w),
@@ -177,7 +193,19 @@ final _formKey = GlobalKey<FormState>();
                             children: [
                               ElevatedButton(
                                   onPressed: () {
-                                   if()
+                                    if (_formKey.currentState!.validate()) {
+                                      if (priceController.text.isNotEmpty &&
+                                          nameController.text.isNotEmpty &&
+                                          categoryId != null) {
+                                        additionalOptionsCubit
+                                            .AddAdditionalOptions(
+                                                categoryId: categoryId,
+                                                name: nameController.text,
+                                                price: priceController.text,
+                                                context: context);
+                                        nameController.clear();
+                                      }
+                                    }
                                   },
                                   child: Text("اضافه")),
                               SizedBox(

@@ -75,6 +75,11 @@ class _HomeState extends State<Home> {
                 title: 'عرض الحجوزات',
                 route: "/viewReservations",
               ),
+              AdminMenuItem(
+                icon: Icons.receipt,
+                title: 'عرض الاضافات',
+                route: "/viewExtras",
+              ),
             ],
             selectedRoute: "/dashboard",
             onSelected: (item) {
@@ -94,6 +99,9 @@ class _HomeState extends State<Home> {
                     break;
                   case "/addItem":
                     context.pushNamed(Routes.addItemScren);
+                    break;
+                  case "/viewExtras":
+                    context.pushNamed(Routes.viewAdditionalOptionsScreen);
                     break;
                   case "/viewReservations":
                     context.pushNamed(Routes.viewReservationsScreen);

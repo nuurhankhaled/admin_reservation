@@ -13,4 +13,8 @@ class EndPoints {
   static const String getReservations = '/reservations/get_reservation.php';
   static const String addAdditionalOptions =
       '/additional_options/add_option.php';
+  static const String getAllAdditionalOptions =
+      '/additional_options/get_options.php';
+  static const String deleteOptiopn = '/additional_options/delete_option.php';
+  static const String editOptiopn = '/additional_options/edit_option.php';
 }

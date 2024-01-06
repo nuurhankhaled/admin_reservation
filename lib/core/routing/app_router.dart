@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:reservationapp_admin/core/routing/routes.dart';
+import 'package:reservationapp_admin/features/Add-Additional-Options/business-logic/additional_options_cubit/additional_options_cubit.dart';
 import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
 import 'package:reservationapp_admin/features/Add-Items/presentation/add-item.dart';
 import 'package:reservationapp_admin/features/Auth/business-logic/auth-cubit/login_cubit.dart';
+import 'package:reservationapp_admin/features/View-Additional-Options/presentation/view-additional-options-screen.dart';
+import 'package:reservationapp_admin/features/View-Additional-Options/presentation/widgets/edit-option-dialpog.dart';
 import 'package:reservationapp_admin/features/View-Reservations/business-logic/reservations_cubit/reservations_cubit.dart';
 import 'package:reservationapp_admin/features/View-Reservations/presentation/view-reservations.dart';
 import 'package:reservationapp_admin/features/View-category-details/business-logic/category_cubit/category_items_cubit.dart';
@@ -106,46 +109,16 @@ class AppRouter {
             ),
           ),
         );
-      //       settings: settings,
-      //       child: EditProfileScreen()
-      //   );
-      //
-      // case Routes.walletScreen:
-      //   return PageTransition(
-      //     type: PageTransitionType.fade,
-      //     duration: const Duration(milliseconds: 200),
-      //     alignment: Alignment.center,
-      //     settings: settings,
-      //     child: WalletScreen()
-      //   );
-      //
-      // case Routes.tripsHistoryScreen:
-      //   return PageTransition(
-      //       type: PageTransitionType.fade,
-      //       duration: const Duration(milliseconds: 200),
-      //       alignment: Alignment.center,
-      //       settings: settings,
-      //       child: TripsHistory(),
-      //   );
-      //
-      // case Routes.settingsScreen:
-      //   return PageTransition(
-      //     type: PageTransitionType.fade,
-      //     duration: const Duration(milliseconds: 200),
-      //     alignment: Alignment.center,
-      //     settings: settings,
-      //     child: SettingsScreen()
-      //   );
-      //
-      // case Routes.mapScreen:
-      //   return PageTransition(
-      //       type: PageTransitionType.fade,
-      //       duration: const Duration(milliseconds: 200),
-      //       alignment: Alignment.center,
-      //       settings: settings,
-      //       child: MapScreen()
-      //   );
-      //
+
+      case Routes.editAdditionalOptionsScreen:
+        final id = settings.arguments as String;
+        return PageTransition(
+            type: PageTransitionType.fade,
+            duration: const Duration(milliseconds: 200),
+            alignment: Alignment.center,
+            settings: settings,
+            child: EditAdditionalOptionsDialog(id: id));
+
       case Routes.mainlayout:
         return PageTransition(
             type: PageTransitionType.fade,
@@ -164,6 +137,19 @@ class AppRouter {
           alignment: Alignment.center,
           settings: settings,
           child: ViewCategoriesScreen(),
+        );
+
+      case Routes.viewAdditionalOptionsScreen:
+        return PageTransition(
+          type: PageTransitionType.fade,
+          duration: const Duration(milliseconds: 200),
+          alignment: Alignment.center,
+          settings: settings,
+          child: BlocProvider(
+            create: (context) =>
+                AdditionalOptionsCubit()..getAllAdditionalOptions(),
+            child: ViewAdditionalOptionsScreen(),
+          ),
         );
 
       default:

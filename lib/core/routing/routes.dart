@@ -11,4 +11,6 @@ class Routes {
   static const addItemScren = '/add-item';
   static const viewUsersScreen = '/view-user';
   static const viewReservationsScreen = '/view-reservation';
+  static const viewAdditionalOptionsScreen = '/view-additional-options-screen';
+  static const editAdditionalOptionsScreen = '/edit-additional-options-screen';
 }
