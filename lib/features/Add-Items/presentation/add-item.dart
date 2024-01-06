@@ -5,10 +5,21 @@ import 'package:reservationapp_admin/features/Add-Items/presentation/add-fields-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AddItem extends StatelessWidget {
+class AddItem extends StatefulWidget {
   AddItem({super.key});
+
+  @override
+  State<AddItem> createState() => _AddItemState();
+}
+
+class _AddItemState extends State<AddItem> {
   List<String> _statues = ["في الصيانه", "محجوز", "متاح"];
+
   List<String> _priceState = ["خلال اليوم", "خلال الساعه"];
+
+  String startTime = 'from';
+
+  String endTime = 'to';
 
   @override
   Widget build(BuildContext context) {
@@ -266,259 +277,253 @@ class AddItem extends StatelessWidget {
           SizedBox(
             height: 50.h,
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: 20.w,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 70.w),
-                      child: const Text(
-                        "الاسم",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 20.w,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 70.w),
+                    child: const Text(
+                      "الاسم",
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 70.w, vertical: 40.h),
-                      child: Container(
-                        width: 420.w,
-                        child: CustomTextFormField(
-                          backgroundColor: Colors.grey[300],
-                          padding: EdgeInsets.only(
-                              bottom: 22.h, left: 10.w, right: 10.w),
-                          height: 80.h,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 70.w),
-                      child: const Text(
-                        "الوصف",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 70.w, vertical: 40.h),
-                      child: Container(
-                        width: 420.w,
-                        child: CustomTextFormField(
-                          backgroundColor: Colors.grey[300],
-                          padding: EdgeInsets.only(
-                              bottom: 22.h, left: 10.w, right: 10.w),
-                          height: 80.h,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 70.w),
-                      child: const Text(
-                        "الحاله",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 70.w, vertical: 20.h),
-                      child: Container(
-                        margin: EdgeInsetsDirectional.only(end: 2.w),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 15.w, vertical: 1.h),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 70.w, vertical: 40.h),
+                    child: Container(
+                      width: 420.w,
+                      child: CustomTextFormField(
+                        backgroundColor: Colors.grey[300],
+                        padding: EdgeInsets.only(
+                            bottom: 22.h, left: 10.w, right: 10.w),
                         height: 80.h,
-                        width: 200,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(10.sp)),
-                        child: Center(
-                          child: DropdownButtonFormField(
-                            menuMaxHeight: 700.h,
-                            decoration:
-                                const InputDecoration(border: InputBorder.none),
-                            hint: const Text(
-                              "اختر الحاله",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            items: List.generate(
-                              _statues.length,
-                              (index) {
-                                return DropdownMenuItem<int>(
-                                    value: index,
-                                    child: Container(
-                                      width: 100.w,
-                                      child: Text(_statues[index]),
-                                    ));
-                              },
-                            ),
-                            onChanged: (int? value) {
-                              // areaId =
-                              // cubit.cityAreas[value!].id!;
-                              // setState(() {
-                              //   areaId =
-                              //   cubit.cityAreas[value!].id!;
-                              // });
-                              // print(" area id : $areaId");
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 70.w),
+                    child: const Text(
+                      "الوصف",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 70.w, vertical: 40.h),
+                    child: Container(
+                      width: 420.w,
+                      child: CustomTextFormField(
+                        backgroundColor: Colors.grey[300],
+                        padding: EdgeInsets.only(
+                            bottom: 22.h, left: 10.w, right: 10.w),
+                        height: 80.h,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 70.w),
+                    child: const Text(
+                      "الحاله",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 70.w, vertical: 20.h),
+                    child: Container(
+                      margin: EdgeInsetsDirectional.only(end: 2.w),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15.w, vertical: 1.h),
+                      height: 80.h,
+                      width: 200,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(10.sp)),
+                      child: Center(
+                        child: DropdownButtonFormField(
+                          menuMaxHeight: 700.h,
+                          decoration:
+                              const InputDecoration(border: InputBorder.none),
+                          hint: const Text(
+                            "اختر الحاله",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          items: List.generate(
+                            _statues.length,
+                            (index) {
+                              return DropdownMenuItem<int>(
+                                  value: index,
+                                  child: Container(
+                                    width: 100.w,
+                                    child: Text(_statues[index]),
+                                  ));
                             },
                           ),
+                          onChanged: (int? value) {
+                            // areaId =
+                            // cubit.cityAreas[value!].id!;
+                            // setState(() {
+                            //   areaId =
+                            //   cubit.cityAreas[value!].id!;
+                            // });
+                            // print(" area id : $areaId");
+                          },
                         ),
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(
-                  width: 20.w,
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 20.w,
+              ),
+            ],
           ),
           SizedBox(
             height: 30.h,
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: 20.w,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 70.w),
-                      child: const Text(
-                        "المقتنيات",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 20.w,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 70.w),
+                    child: const Text(
+                      "المقتنيات",
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 70.w, vertical: 40.h),
-                      child: Container(
-                        width: 420.w,
-                        child: CustomButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const AddFieldsScreen()));
-                          },
-                          text: "اضافه",
-                          color: Colors.grey[300],
-                          textColor: Colors.black,
-                          padding: EdgeInsets.only(
-                              bottom: 22.h, left: 10.w, right: 10.w),
-                          height: 80.h,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 70.w),
-                      child: const Text(
-                        "السعر",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 70.w, vertical: 40.h),
-                      child: Container(
-                        width: 420.w,
-                        child: CustomTextFormField(
-                          backgroundColor: Colors.grey[300],
-                          padding: EdgeInsets.only(
-                              bottom: 22.h, left: 10.w, right: 10.w),
-                          height: 80.h,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 70.w),
-                      child: const Text(
-                        "السعر / الفتره",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 70.w, vertical: 20.h),
-                      child: Container(
-                        margin: EdgeInsetsDirectional.only(end: 2.w),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 15.w, vertical: 1.h),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 70.w, vertical: 40.h),
+                    child: Container(
+                      width: 420.w,
+                      child: CustomButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const AddFieldsScreen()));
+                        },
+                        text: "اضافه",
+                        color: Colors.grey[300],
+                        textColor: Colors.black,
+                        padding: EdgeInsets.only(
+                            bottom: 22.h, left: 10.w, right: 10.w),
                         height: 80.h,
-                        width: 200,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(10.sp)),
-                        child: Center(
-                          child: DropdownButtonFormField(
-                            menuMaxHeight: 700.h,
-                            decoration:
-                                const InputDecoration(border: InputBorder.none),
-                            hint: const Text(
-                              "اختر الفترة",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            items: List.generate(
-                              _priceState.length,
-                              (index) {
-                                return DropdownMenuItem<int>(
-                                    value: index,
-                                    child: Container(
-                                      width: 100.w,
-                                      child: Text(_priceState[index]),
-                                    ));
-                              },
-                            ),
-                            onChanged: (int? value) {
-                              // areaId =
-                              // cubit.cityAreas[value!].id!;
-                              // setState(() {
-                              //   areaId =
-                              //   cubit.cityAreas[value!].id!;
-                              // });
-                              // print(" area id : $areaId");
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 70.w),
+                    child: const Text(
+                      "السعر",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 70.w, vertical: 40.h),
+                    child: Container(
+                      width: 420.w,
+                      child: CustomTextFormField(
+                        backgroundColor: Colors.grey[300],
+                        padding: EdgeInsets.only(
+                            bottom: 22.h, left: 10.w, right: 10.w),
+                        height: 80.h,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 70.w),
+                    child: const Text(
+                      "السعر / الفتره",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 70.w, vertical: 20.h),
+                    child: Container(
+                      margin: EdgeInsetsDirectional.only(end: 2.w),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15.w, vertical: 1.h),
+                      height: 80.h,
+                      width: 200,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(10.sp)),
+                      child: Center(
+                        child: DropdownButtonFormField(
+                          menuMaxHeight: 700.h,
+                          decoration:
+                              const InputDecoration(border: InputBorder.none),
+                          hint: const Text(
+                            "اختر الفترة",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          items: List.generate(
+                            _priceState.length,
+                            (index) {
+                              return DropdownMenuItem<int>(
+                                  value: index,
+                                  child: Container(
+                                    width: 100.w,
+                                    child: Text(_priceState[index]),
+                                  ));
                             },
                           ),
+                          onChanged: (int? value) {
+                            // areaId =
+                            // cubit.cityAreas[value!].id!;
+                            // setState(() {
+                            //   areaId =
+                            //   cubit.cityAreas[value!].id!;
+                            // });
+                            // print(" area id : $areaId");
+                          },
                         ),
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(
-                  width: 20.w,
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 20.w,
+              ),
+            ],
           ),
           SizedBox(
             height: 40.h,

@@ -63,6 +63,11 @@ class _HomeState extends State<Home> {
                 title: 'اضافه ادمن',
                 route: "/addAdmin",
               ),
+              AdminMenuItem(
+                icon: Icons.person,
+                title: 'اضافه ادمن',
+                route: "/addAdmin",
+              ),
             ],
             selectedRoute: "/dashboard",
             onSelected: (item) {
