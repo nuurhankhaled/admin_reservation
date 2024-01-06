@@ -5,6 +5,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:reservationapp_admin/core/bloc_observer.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
 import 'package:window_manager/window_manager.dart';
 import 'core/routing/app_router.dart';
 import 'core/routing/routes.dart';
@@ -47,9 +49,16 @@ Future<void> main() async {
         Locale("en", "UK"),
         Locale("ar", "EG"),
       ],
-      fallbackLocale: Locale("ar", "EG"),
-      child: MyApp(
-        appRouter: AppRouter(),
+      fallbackLocale: const Locale("ar", "EG"),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => CategoryCubit()..getCategories(),
+          ),
+        ],
+        child: MyApp(
+          appRouter: AppRouter(),
+        ),
       )));
 }
 

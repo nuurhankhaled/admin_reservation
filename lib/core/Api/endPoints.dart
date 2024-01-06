@@ -10,4 +10,7 @@ class EndPoints {
   static const String getAcceptedUsers = '/user/get_accepted_users.php';
   static const String getPendingUsers = '/user/get_waiting_users.php';
   static const String acceptUser = '/user/accept_user.php';
+  static const String getReservations = '/reservations/get_reservation.php';
+  static const String addAdditionalOptions =
+      '/additional_options/add_option.php';
 }

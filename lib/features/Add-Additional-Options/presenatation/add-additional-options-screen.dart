@@ -1,0 +1,203 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:reservationapp_admin/core/helpers/extensions.dart';
+import 'package:reservationapp_admin/core/routing/routes.dart';
+import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:reservationapp_admin/features/Add-Additional-Options/business-logic/additional_options_cubit/additional_options_cubit.dart';
+import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
+
+class AddAdditionalOptionsDialog extends StatefulWidget {
+  AddAdditionalOptionsDialog({super.key});
+
+  @override
+  State<AddAdditionalOptionsDialog> createState() =>
+      _AddAdditionalOptionsDialogState();
+}
+
+class _AddAdditionalOptionsDialogState
+    extends State<AddAdditionalOptionsDialog> {
+
+  late TextEditingController nameController = TextEditingController();
+
+  late TextEditingController priceController = TextEditingController();
+final _formKey = GlobalKey<FormState>();
+  String categoryId = "0";
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<CategoryCubit, CategoryState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        var categoryCubit = CategoryCubit.get(context);
+        return BlocConsumer<AdditionalOptionsCubit, AdditionalOptionsState>(
+          listener: (context, state) {
+            if (state is AdditionalOptionsSuccess) {
+              context.pop();
+            }
+          },
+          builder: (context, state) {
+            var additionalOptionsCubit = AdditionalOptionsCubit.get(context);
+            return Form(
+              key: _formKey,
+              child: Dialog(
+                  backgroundColor: Colors.transparent,
+                  insetPadding: EdgeInsets.symmetric(
+                      horizontal: (MediaQuery.of(context).size.width != 766)
+                          ? 650.w
+                          : 500.w),
+                  child: Container(
+                    width: double.infinity,
+                    height: 540,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white),
+                    padding: EdgeInsets.all(30),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment
+                            .spaceBetween, // Adjust vertical alignment
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.home_work_sharp),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              Text("اضافه اضافات للمنشأه",
+                                  style: TextStyle(fontSize: 24),
+                                  textAlign: TextAlign.center),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 50.h,
+                          ),
+                          Container(
+                            width: 220,
+                            child: Container(
+                              margin: EdgeInsetsDirectional.only(start: 2.w),
+                              padding: EdgeInsets.symmetric(horizontal: 13.w),
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(10.sp)),
+                              child: Center(
+                                child: DropdownButtonFormField(
+                                  isExpanded: false,
+                                  menuMaxHeight: 250,
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
+                                  hint: Text("المنشأه",
+                                      style: TextStyle(color: Colors.black)),
+                                  items: List.generate(
+                                    categoryCubit.categories.length,
+                                    (index) => DropdownMenuItem<int>(
+                                      value: index,
+                                      child: Container(
+                                        width: 160,
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 10.w,
+                                          // vertical: 10.h,
+                                        ),
+                                        child: Text(
+                                          categoryCubit.categories[index].name!,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  onChanged: (int? value) {
+                                    categoryId =
+                                        categoryCubit.categories[value!].id!;
+                                    setState(() {
+                                      categoryId =
+                                          categoryCubit.categories[value].id!;
+                                      print(" city id : $categoryId");
+                                    });
+                                    ;
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 50.h,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 70.w),
+                            child: Text("الاسم"),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 70.w, vertical: 20.h),
+                            child: Container(
+                              width: 220,
+                              child: CustomTextFormField(
+                                controller: nameController,
+                                padding: EdgeInsets.only(
+                                    bottom: 22.h, left: 10.w, right: 10.w),
+                                height: 80.h,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 50.h,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 70.w),
+                            child: Text("السعر"),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 70.w, vertical: 20.h),
+                            child: Container(
+                              width: 220,
+                              child: CustomTextFormField(
+                                controller: priceController,
+                                padding: EdgeInsets.only(
+                                    bottom: 22.h, left: 10.w, right: 10.w),
+                                height: 80.h,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 50.h,
+                          ),
+                          Row(
+                            mainAxisAlignment:
+                                MainAxisAlignment.center, // Align Row to start
+                            children: [
+                              ElevatedButton(
+                                  onPressed: () {
+                                   if()
+                                  },
+                                  child: Text("اضافه")),
+                              SizedBox(
+                                width: 50.w,
+                              ),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    context.pop();
+                                  },
+                                  child: Text("الغاء")),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  )),
+            );
+          },
+        );
+      },
+    );
+  }
+}

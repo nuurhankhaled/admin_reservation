@@ -4,6 +4,8 @@ import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
 import 'package:reservationapp_admin/features/Add-Items/presentation/add-item.dart';
 import 'package:reservationapp_admin/features/Auth/business-logic/auth-cubit/login_cubit.dart';
+import 'package:reservationapp_admin/features/View-Reservations/business-logic/reservations_cubit/reservations_cubit.dart';
+import 'package:reservationapp_admin/features/View-Reservations/presentation/view-reservations.dart';
 import 'package:reservationapp_admin/features/View-category-details/business-logic/category_cubit/category_items_cubit.dart';
 import 'package:reservationapp_admin/features/View-category-details/presentation/view-category-details.dart';
 import 'package:reservationapp_admin/features/View-categories/presentation/view-categories-screen.dart';
@@ -52,6 +54,18 @@ class AppRouter {
           child: BlocProvider(
             create: (context) => ReceptionistCubit()..getReceptionists(),
             child: ViewReceptionistScreen(),
+          ),
+        );
+
+      case Routes.viewReservationsScreen:
+        return PageTransition(
+          type: PageTransitionType.fade,
+          duration: const Duration(milliseconds: 200),
+          alignment: Alignment.center,
+          settings: settings,
+          child: BlocProvider(
+            create: (context) => ReservationsCubit()..getReservations(),
+            child: ViewReservationscreen(),
           ),
         );
 
@@ -149,10 +163,7 @@ class AppRouter {
           duration: const Duration(milliseconds: 200),
           alignment: Alignment.center,
           settings: settings,
-          child: BlocProvider(
-            create: (context) => CategoryCubit()..getCategories(),
-            child: ViewCategoriesScreen(),
-          ),
+          child: ViewCategoriesScreen(),
         );
 
       default:

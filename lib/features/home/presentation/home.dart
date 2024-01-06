@@ -1,5 +1,7 @@
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/routing/routes.dart';
+import 'package:reservationapp_admin/features/Add-Additional-Options/business-logic/additional_options_cubit/additional_options_cubit.dart';
+import 'package:reservationapp_admin/features/Add-Additional-Options/presenatation/add-additional-options-screen.dart';
 import 'package:reservationapp_admin/features/Add-Cashier/business-logic/add-chashier/cubit.dart';
 import 'package:reservationapp_admin/features/Add-Cashier/presentation/add-cashier-dialoge.dart';
 import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
@@ -54,6 +56,11 @@ class _HomeState extends State<Home> {
                 route: '/addExtras',
               ),
               AdminMenuItem(
+                icon: Icons.edit,
+                title: "تعديل الاضافات",
+                route: '/editExtras',
+              ),
+              AdminMenuItem(
                 icon: Icons.calculate_rounded,
                 title: 'addCashier'.tr(),
                 route: "/addCashier",
@@ -64,9 +71,9 @@ class _HomeState extends State<Home> {
                 route: "/addAdmin",
               ),
               AdminMenuItem(
-                icon: Icons.person,
-                title: 'اضافه ادمن',
-                route: "/addAdmin",
+                icon: Icons.receipt_long_rounded,
+                title: 'عرض الحجوزات',
+                route: "/viewReservations",
               ),
             ],
             selectedRoute: "/dashboard",
@@ -88,6 +95,9 @@ class _HomeState extends State<Home> {
                   case "/addItem":
                     context.pushNamed(Routes.addItemScren);
                     break;
+                  case "/viewReservations":
+                    context.pushNamed(Routes.viewReservationsScreen);
+                    break;
                   case "/addFacility":
                     showDialog(
                         context: context,
@@ -95,6 +105,16 @@ class _HomeState extends State<Home> {
                           return BlocProvider(
                             create: (context) => CategoryCubit(),
                             child: AddCategoryDialog(),
+                          );
+                        });
+                    break;
+                  case "/addExtras":
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return BlocProvider(
+                            create: (context) => AdditionalOptionsCubit(),
+                            child: AddAdditionalOptionsDialog(),
                           );
                         });
                     break;

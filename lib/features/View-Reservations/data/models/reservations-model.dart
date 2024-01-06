@@ -9,14 +9,14 @@ class ReservationsModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -68,20 +68,20 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['category_name'] = this.categoryName;
-    data['item_id'] = this.itemId;
-    data['time'] = this.time;
-    data['time_of_reservation'] = this.timeOfReservation;
-    data['additional_options'] = this.additionalOptions;
-    data['status'] = this.status;
-    data['document'] = this.document;
-    data['approve_of_payment'] = this.approveOfPayment;
-    data['paid'] = this.paid;
-    if (this.item != null) {
-      data['item'] = this.item!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['category_name'] = categoryName;
+    data['item_id'] = itemId;
+    data['time'] = time;
+    data['time_of_reservation'] = timeOfReservation;
+    data['additional_options'] = additionalOptions;
+    data['status'] = status;
+    data['document'] = document;
+    data['approve_of_payment'] = approveOfPayment;
+    data['paid'] = paid;
+    if (item != null) {
+      data['item'] = item!.toJson();
     }
     return data;
   }
@@ -140,22 +140,22 @@ class Item {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['category_name'] = this.categoryName;
-    data['name'] = this.name;
-    data['logo'] = this.logo;
-    data['image1'] = this.image1;
-    data['image2'] = this.image2;
-    data['image3'] = this.image3;
-    data['type'] = this.type;
-    data['description'] = this.description;
-    data['address'] = this.address;
-    data['available_time_from'] = this.availableTimeFrom;
-    data['available_time_to'] = this.availableTimeTo;
-    data['status'] = this.status;
-    data['offer'] = this.offer;
-    data['price'] = this.price;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['category_name'] = categoryName;
+    data['name'] = name;
+    data['logo'] = logo;
+    data['image1'] = image1;
+    data['image2'] = image2;
+    data['image3'] = image3;
+    data['type'] = type;
+    data['description'] = description;
+    data['address'] = address;
+    data['available_time_from'] = availableTimeFrom;
+    data['available_time_to'] = availableTimeTo;
+    data['status'] = status;
+    data['offer'] = offer;
+    data['price'] = price;
     return data;
   }
 }
