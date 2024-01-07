@@ -11,11 +11,15 @@ import 'package:reservationapp_admin/features/Add-Additional-Options/business-lo
 import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
 
 class EditAdditionalOptionsDialog extends StatelessWidget {
-  EditAdditionalOptionsDialog({super.key, required this.id});
+  EditAdditionalOptionsDialog(
+      {super.key, required this.id, required this.name, required this.price});
   String id;
-  late TextEditingController nameController = TextEditingController();
+  String name;
+  String price;
+  late TextEditingController nameController = TextEditingController(text: name);
 
-  late TextEditingController priceController = TextEditingController();
+  late TextEditingController priceController =
+      TextEditingController(text: price);
 
   final _formKey = GlobalKey<FormState>();
 

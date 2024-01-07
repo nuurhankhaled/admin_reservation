@@ -110,15 +110,6 @@ class AppRouter {
           ),
         );
 
-      case Routes.editAdditionalOptionsScreen:
-        final id = settings.arguments as String;
-        return PageTransition(
-            type: PageTransitionType.fade,
-            duration: const Duration(milliseconds: 200),
-            alignment: Alignment.center,
-            settings: settings,
-            child: EditAdditionalOptionsDialog(id: id));
-
       case Routes.mainlayout:
         return PageTransition(
             type: PageTransitionType.fade,

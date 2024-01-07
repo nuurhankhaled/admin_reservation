@@ -23,7 +23,9 @@ class _AddAdditionalOptionsDialogState
   late TextEditingController nameController = TextEditingController();
 
   late TextEditingController priceController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
   String? categoryId;
 
   @override

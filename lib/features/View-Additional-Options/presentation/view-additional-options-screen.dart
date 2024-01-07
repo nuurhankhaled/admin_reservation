@@ -106,7 +106,9 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
                                                     AdditionalOptionsCubit(),
                                                 child:
                                                     EditAdditionalOptionsDialog(
-                                                        id: user.id.toString()),
+                                                        id: user.id.toString(),
+                                                        name: user.name!,
+                                                        price: user.price!),
                                               );
                                             },
                                           );

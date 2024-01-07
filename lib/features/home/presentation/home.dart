@@ -56,11 +56,6 @@ class _HomeState extends State<Home> {
                 route: '/addExtras',
               ),
               AdminMenuItem(
-                icon: Icons.edit,
-                title: "تعديل الاضافات",
-                route: '/editExtras',
-              ),
-              AdminMenuItem(
                 icon: Icons.calculate_rounded,
                 title: 'addCashier'.tr(),
                 route: "/addCashier",

@@ -44,7 +44,6 @@ class AuthCubit extends Cubit<AuthState> {
         var decodedData = json.decode(response.data);
         var jsonResponse = UserModel.fromJson(decodedData);
         print(response.data);
-
         if (jsonResponse.success!) {
           if (jsonResponse.userData!.type == "B3") {
             userModel = jsonResponse;
