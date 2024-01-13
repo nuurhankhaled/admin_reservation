@@ -40,6 +40,7 @@ Future<void> main() async {
     await windowManager.show();
     await windowManager.focus();
     await windowManager.isResizable();
+
     await windowManager.isMovable();
     await windowManager.center();
   });
@@ -50,15 +51,8 @@ Future<void> main() async {
         Locale("ar", "EG"),
       ],
       fallbackLocale: const Locale("ar", "EG"),
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => CategoryCubit()..getCategories(),
-          ),
-        ],
-        child: MyApp(
-          appRouter: AppRouter(),
-        ),
+      child: MyApp(
+        appRouter: AppRouter(),
       )));
 }
 

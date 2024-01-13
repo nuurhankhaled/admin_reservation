@@ -79,4 +79,36 @@ class UsersCubit extends Cubit<UsersState> {
       emit(GetPendingUsersFailure());
     }
   }
+
+  List<Data> admins = [];
+
+  Future<void> getadmins() async {
+    emit(GetPendingUsersLoading());
+    try {
+      var response = await MyDio.get(endPoint: EndPoints.getPendingUsers);
+      print(response!.statusCode);
+      if (response.statusCode == 200) {
+        print(response.data);
+        var decodedData = json.decode(response.data);
+        var jsonResponse = ReceptionistModel.fromJson(decodedData);
+        if (jsonResponse.success!) {
+          print("categories");
+          pendingUsers = jsonResponse.data!;
+          print(pendingUsers);
+          emit(GetPendingUsersSuccess());
+        } else {
+          print(response.data);
+          print(response.statusCode);
+          emit(GetPendingUsersFailure());
+        }
+      } else {
+        print(response.data);
+        print(response.statusCode);
+        emit(GetPendingUsersFailure());
+      }
+    } catch (e) {
+      print(e);
+      emit(GetPendingUsersFailure());
+    }
+  }
 }

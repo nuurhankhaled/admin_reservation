@@ -5,7 +5,6 @@ import 'package:reservationapp_admin/core/theming/colors.dart';
 import 'package:reservationapp_admin/core/widgets/custom_loading_indecator.dart';
 import 'package:reservationapp_admin/features/Add-Additional-Options/business-logic/additional_options_cubit/additional_options_cubit.dart';
 import 'package:reservationapp_admin/features/View-Additional-Options/presentation/widgets/edit-option-dialpog.dart';
-import 'package:reservationapp_admin/features/View-Reservations/business-logic/reservations_cubit/reservations_cubit.dart';
 import 'package:reservationapp_admin/features/View-receptionist/business-logic/receptionist_cubit/receptionist_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -58,7 +57,8 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
                               child: DataTable(
                                 columns: const [
                                   DataColumn(label: Text("الكود")),
-                                  DataColumn(label: Text("كود المنشأه")),
+                                  DataColumn(label: Text("كود العنصر")),
+                                  DataColumn(label: Text("اسم العنصر")),
                                   DataColumn(label: Text('الاسم')),
                                   DataColumn(label: Text('السعر')),
                                   DataColumn(label: Text('تعديل')),
@@ -89,7 +89,8 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
                                     ),
                                     cells: [
                                       DataCell(Text(user.id.toString())),
-                                      DataCell(Text(user.categoryId!)),
+                                      DataCell(Text(user.itemId!)),
+                                      DataCell(Text(user.itemName!)),
                                       DataCell(Text(user.name!)),
                                       DataCell(Text(user.price!)),
                                       DataCell(IconButton(

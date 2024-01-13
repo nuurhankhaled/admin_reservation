@@ -6,8 +6,9 @@ import 'package:reservationapp_admin/features/Add-Cashier/business-logic/add-cha
 import 'package:reservationapp_admin/features/Add-Cashier/presentation/add-cashier-dialoge.dart';
 import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
 import 'package:reservationapp_admin/features/Add-Category/presentation/add-facility-dialoge.dart';
-import 'package:reservationapp_admin/features/Add-admin/business-logic/add-chashier/cubit.dart';
-import 'package:reservationapp_admin/features/Add-admin/presentation/add-cashier-dialoge.dart';
+import 'package:reservationapp_admin/features/Add-Items/business-logic/Item_cubit/item_cubit.dart';
+import 'package:reservationapp_admin/features/Add-admin/business-logic/add-admin/cubit.dart';
+import 'package:reservationapp_admin/features/Add-admin/presentation/add-admin-dialoge.dart';
 import 'package:reservationapp_admin/features/Dashboard/presentation/dashboard-screen.dart';
 import 'package:reservationapp_admin/features/home/business-logic/cubit/mainlayout_cubit.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +68,12 @@ class _HomeState extends State<Home> {
               ),
               AdminMenuItem(
                 icon: Icons.receipt_long_rounded,
-                title: 'عرض الحجوزات',
+                title: ' عرض الحجوزات المنتظرة',
+                route: "/viewWaitingReservations",
+              ),
+              AdminMenuItem(
+                icon: Icons.receipt_long_rounded,
+                title: ' عرض الحجوزات المقبولة و المنتهيه',
                 route: "/viewReservations",
               ),
               AdminMenuItem(
@@ -93,10 +99,13 @@ class _HomeState extends State<Home> {
                         });
                     break;
                   case "/addItem":
-                    context.pushNamed(Routes.addItemScren);
+                    context.pushNamed(Routes.addItemScreen);
                     break;
                   case "/viewExtras":
                     context.pushNamed(Routes.viewAdditionalOptionsScreen);
+                    break;
+                  case "/viewWaitingReservations":
+                    context.pushNamed(Routes.viewWatiningReservationsScreen);
                     break;
                   case "/viewReservations":
                     context.pushNamed(Routes.viewReservationsScreen);
@@ -115,8 +124,15 @@ class _HomeState extends State<Home> {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return BlocProvider(
-                            create: (context) => AdditionalOptionsCubit(),
+                          return MultiBlocProvider(
+                            providers: [
+                              BlocProvider(
+                                create: (context) => AdditionalOptionsCubit(),
+                              ),
+                              BlocProvider(
+                                create: (context) => ItemCubit()..getAllItems(),
+                              ),
+                            ],
                             child: AddAdditionalOptionsDialog(),
                           );
                         });
@@ -146,16 +162,22 @@ class _HomeState extends State<Home> {
                       style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold)),
                 )),
-            footer: Container(
-              height: 90.h,
-              width: double.infinity,
-              color: const Color(0xff444444),
-              child: Center(
-                  child: Text(
-                "signOut".tr(),
-                style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
-              )),
+            footer: InkWell(
+              child: Container(
+                height: 90.h,
+                width: double.infinity,
+                color: const Color(0xff444444),
+                child: const Padding(
+                  padding: EdgeInsets.only(right: 20.0),
+                  child: Center(
+                    child: Text(
+                      "عرض ادمن",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
           body: SingleChildScrollView(

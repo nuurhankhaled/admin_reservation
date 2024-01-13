@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reservationapp_admin/features/Add-Additional-Options/business-logic/additional_options_cubit/additional_options_cubit.dart';
 import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
+import 'package:reservationapp_admin/features/Add-Items/business-logic/Item_cubit/item_cubit.dart';
 
 class AddAdditionalOptionsDialog extends StatefulWidget {
   AddAdditionalOptionsDialog({super.key});
@@ -30,12 +31,12 @@ class _AddAdditionalOptionsDialogState
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CategoryCubit, CategoryState>(
+    return BlocConsumer<ItemCubit, ItemState>(
       listener: (context, state) {
         // TODO: implement listener
       },
       builder: (context, state) {
-        var categoryCubit = CategoryCubit.get(context);
+        var itemCubit = ItemCubit.get(context);
         return BlocConsumer<AdditionalOptionsCubit, AdditionalOptionsState>(
           listener: (context, state) {
             if (state is AddAdditionalOptionsSuccess) {
@@ -99,7 +100,7 @@ class _AddAdditionalOptionsDialogState
                                   hint: Text("المنشأه",
                                       style: TextStyle(color: Colors.black)),
                                   items: List.generate(
-                                    categoryCubit.categories.length,
+                                    itemCubit.items.length,
                                     (index) => DropdownMenuItem<int>(
                                       value: index,
                                       child: Container(
@@ -109,17 +110,15 @@ class _AddAdditionalOptionsDialogState
                                           // vertical: 10.h,
                                         ),
                                         child: Text(
-                                          categoryCubit.categories[index].name!,
+                                          itemCubit.items[index].name!,
                                         ),
                                       ),
                                     ),
                                   ),
                                   onChanged: (int? value) {
-                                    categoryId =
-                                        categoryCubit.categories[value!].id!;
+                                    categoryId = itemCubit.items[value!].id!;
                                     setState(() {
-                                      categoryId =
-                                          categoryCubit.categories[value].id!;
+                                      categoryId = itemCubit.items[value].id!;
                                       print(" city id : $categoryId");
                                     });
                                     ;
@@ -201,7 +200,7 @@ class _AddAdditionalOptionsDialogState
                                           categoryId != null) {
                                         additionalOptionsCubit
                                             .AddAdditionalOptions(
-                                                categoryId: categoryId,
+                                                itemId: categoryId,
                                                 name: nameController.text,
                                                 price: priceController.text,
                                                 context: context);

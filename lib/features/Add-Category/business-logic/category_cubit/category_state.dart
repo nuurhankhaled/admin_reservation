@@ -33,3 +33,15 @@ class GetCategoriesSuccess extends CategoryState {}
 class GetCategoriesFailure extends CategoryState {}
 
 class GetCategoriesTimeOut extends CategoryState {}
+
+class EditCategoryLoading extends CategoryState {}
+
+class EditCategorySuccess extends CategoryState {}
+
+class EditCategoryFailure extends CategoryState {}
+
+class DeleteCategoryLoading extends CategoryState {}
+
+class DeleteCategorySuccess extends CategoryState {}
+
+class DeleteCategoryFailure extends CategoryState {}

@@ -7,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:reservationapp_admin/core/widgets/custom_loading_indecator.dart';
 import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reservationapp_admin/features/View-categories/presentation/widgets/edit-category-dialog.dart';
 
 class ViewCategoriesScreen extends StatelessWidget {
   const ViewCategoriesScreen({super.key});
@@ -15,7 +16,9 @@ class ViewCategoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<CategoryCubit, CategoryState>(
       listener: (context, state) {
-        // TODO: implement listener
+        if (state is DeleteCategorySuccess) {
+          CategoryCubit.get(context).getCategories();
+        }
       },
       builder: (context, state) {
         var categoryCubit = CategoryCubit.get(context);
@@ -37,8 +40,8 @@ class ViewCategoriesScreen extends StatelessWidget {
                   child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 6,
-                      childAspectRatio: 1.5,
-                      crossAxisSpacing: 25.w,
+                      childAspectRatio: 1.1,
+                      crossAxisSpacing: 10,
                       mainAxisSpacing: 8.h,
                     ),
                     itemCount: categoryCubit.categories.length,
@@ -56,14 +59,14 @@ class ViewCategoriesScreen extends StatelessWidget {
                           child: Center(
                             child: Column(
                               children: [
-                                SizedBox(height: 10.h),
+                                SizedBox(height: 10),
                                 CachedNetworkImage(
                                   imageUrl:
                                       categoryCubit.categories[index].image!,
                                   imageBuilder: (context, imageProvider) =>
                                       Container(
-                                    width: 140,
-                                    height: 108,
+                                    width: 200,
+                                    height: 128,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(20.r),
                                       image: DecorationImage(
@@ -77,18 +80,80 @@ class ViewCategoriesScreen extends StatelessWidget {
                                   errorWidget: (context, url, error) =>
                                       const Icon(Icons.error),
                                 ),
-                                SizedBox(height: 2.h),
+                                SizedBox(height: 5),
                                 Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 10.w),
-                                  child: Text(
-                                    categoryCubit.categories[index].name!,
-                                    style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 19.sp,
-                                    ),
+                                  padding: EdgeInsets.symmetric(horizontal: 12),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 100,
+                                        child: Text(
+                                          categoryCubit.categories[index].name!,
+                                          style: TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 19.sp,
+                                          ),
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Container(
+                                        width: 35,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                        ),
+                                        child: IconButton(
+                                            onPressed: () {
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return BlocProvider(
+                                                      create: (context) =>
+                                                          CategoryCubit(),
+                                                      child: EditCategoryDialog(
+                                                        id: categoryCubit
+                                                            .categories[index]
+                                                            .id
+                                                            .toString(),
+                                                        name: categoryCubit
+                                                            .categories[index]
+                                                            .name!,
+                                                        image: categoryCubit
+                                                            .categories[index]
+                                                            .image!,
+                                                      ));
+                                                },
+                                              );
+                                            },
+                                            icon: Icon(
+                                              Icons.edit,
+                                              color: Colors.green,
+                                              size: 20,
+                                            )),
+                                      ),
+                                      SizedBox(width: 10.w),
+                                      Container(
+                                        width: 35,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                        ),
+                                        child: IconButton(
+                                            onPressed: () {
+                                              categoryCubit.deleteCategory(
+                                                  id: categoryCubit
+                                                      .categories[index].id!);
+                                            },
+                                            icon: Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                              size: 20,
+                                            )),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],

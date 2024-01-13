@@ -1,10 +1,10 @@
-class AdditionalOptionsModel {
+class AdminModel {
   bool? success;
   List<Data>? data;
 
-  AdditionalOptionsModel({this.success, this.data});
+  AdminModel({this.success, this.data});
 
-  AdditionalOptionsModel.fromJson(Map<String, dynamic> json) {
+  AdminModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     if (json['data'] != null) {
       data = <Data>[];
@@ -26,28 +26,45 @@ class AdditionalOptionsModel {
 
 class Data {
   String? id;
-  String? itemId;
   String? name;
-  String? price;
-  String? itemName;
+  String? phone;
+  String? nid;
+  String? type;
+  String? email;
+  String? password;
+  String? status;
 
-  Data({this.id, this.itemId, this.name, this.price, this.itemName});
+  Data(
+      {this.id,
+      this.name,
+      this.phone,
+      this.nid,
+      this.type,
+      this.email,
+      this.password,
+      this.status});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    itemId = json['item_id'];
     name = json['name'];
-    price = json['price'];
-    itemName = json['item_name'];
+    phone = json['phone'];
+    nid = json['nid'];
+    type = json['type'];
+    email = json['email'];
+    password = json['password'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['item_id'] = itemId;
     data['name'] = name;
-    data['price'] = price;
-    data['item_name'] = itemName;
+    data['phone'] = phone;
+    data['nid'] = nid;
+    data['type'] = type;
+    data['email'] = email;
+    data['password'] = password;
+    data['status'] = status;
     return data;
   }
 }

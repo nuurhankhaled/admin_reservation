@@ -8,8 +8,10 @@ class Routes {
   static const viewCategoryDetailsScreen = '/view-facility-screen';
   static const mainlayout = '/mainlayout';
   static const viewCategoriesScreen = '/view-screen';
-  static const addItemScren = '/add-item';
+  static const addItemScreen = '/add-item';
+  static const editItemScreen = '/edit-item';
   static const viewUsersScreen = '/view-user';
+  static const viewWatiningReservationsScreen = '/view-waiting-reservation';
   static const viewReservationsScreen = '/view-reservation';
   static const viewAdditionalOptionsScreen = '/view-additional-options-screen';
   static const editAdditionalOptionsScreen = '/edit-additional-options-screen';

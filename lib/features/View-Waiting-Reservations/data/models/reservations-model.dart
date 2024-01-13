@@ -30,13 +30,16 @@ class Data {
   String? categoryName;
   String? itemId;
   String? time;
-  String? timeOfReservation;
+  String? timeOfReservationFrom;
+  String? timeOfReservationTo;
   String? additionalOptions;
   String? status;
   String? document;
   String? approveOfPayment;
+  String? price;
   String? paid;
   Item? item;
+  User? user;
 
   Data(
       {this.id,
@@ -44,13 +47,16 @@ class Data {
       this.categoryName,
       this.itemId,
       this.time,
-      this.timeOfReservation,
+      this.timeOfReservationFrom,
+      this.timeOfReservationTo,
       this.additionalOptions,
       this.status,
       this.document,
       this.approveOfPayment,
+      this.price,
       this.paid,
-      this.item});
+      this.item,
+      this.user});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -58,13 +64,16 @@ class Data {
     categoryName = json['category_name'];
     itemId = json['item_id'];
     time = json['time'];
-    timeOfReservation = json['time_of_reservation'];
+    timeOfReservationFrom = json['time_of_reservation_from'];
+    timeOfReservationTo = json['time_of_reservation_to'];
     additionalOptions = json['additional_options'];
     status = json['status'];
     document = json['document'];
     approveOfPayment = json['approve_of_payment'];
+    price = json['price'];
     paid = json['paid'];
-    item = json['item'] != null ? new Item.fromJson(json['item']) : null;
+    item = json['item'] != null ? Item.fromJson(json['item']) : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -74,14 +83,19 @@ class Data {
     data['category_name'] = categoryName;
     data['item_id'] = itemId;
     data['time'] = time;
-    data['time_of_reservation'] = timeOfReservation;
+    data['time_of_reservation_from'] = timeOfReservationFrom;
+    data['time_of_reservation_to'] = timeOfReservationTo;
     data['additional_options'] = additionalOptions;
     data['status'] = status;
     data['document'] = document;
     data['approve_of_payment'] = approveOfPayment;
+    data['price'] = price;
     data['paid'] = paid;
     if (item != null) {
       data['item'] = item!.toJson();
+    }
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
     return data;
   }
@@ -100,6 +114,7 @@ class Item {
   String? address;
   String? availableTimeFrom;
   String? availableTimeTo;
+  String? devices;
   String? status;
   String? offer;
   String? price;
@@ -117,6 +132,7 @@ class Item {
       this.address,
       this.availableTimeFrom,
       this.availableTimeTo,
+      this.devices,
       this.status,
       this.offer,
       this.price});
@@ -134,6 +150,7 @@ class Item {
     address = json['address'];
     availableTimeFrom = json['available_time_from'];
     availableTimeTo = json['available_time_to'];
+    devices = json['devices'];
     status = json['status'];
     offer = json['offer'];
     price = json['price'];
@@ -153,9 +170,55 @@ class Item {
     data['address'] = address;
     data['available_time_from'] = availableTimeFrom;
     data['available_time_to'] = availableTimeTo;
+    data['devices'] = devices;
     data['status'] = status;
     data['offer'] = offer;
     data['price'] = price;
+    return data;
+  }
+}
+
+class User {
+  String? id;
+  String? name;
+  String? phone;
+  String? nid;
+  String? type;
+  String? email;
+  String? password;
+  String? status;
+
+  User(
+      {this.id,
+      this.name,
+      this.phone,
+      this.nid,
+      this.type,
+      this.email,
+      this.password,
+      this.status});
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    phone = json['phone'];
+    nid = json['nid'];
+    type = json['type'];
+    email = json['email'];
+    password = json['password'];
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['phone'] = phone;
+    data['nid'] = nid;
+    data['type'] = type;
+    data['email'] = email;
+    data['password'] = password;
+    data['status'] = status;
     return data;
   }
 }

@@ -33,7 +33,7 @@ class AddCategoryDialog extends StatelessWidget {
                     (MediaQuery.of(context).size.width != 766) ? 650.w : 500.w),
             child: Container(
               width: double.infinity,
-              height: 540,
+              height: 550,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15), color: Colors.white),
               padding: EdgeInsets.all(30),
@@ -139,12 +139,13 @@ class AddCategoryDialog extends StatelessWidget {
                       children: [
                         ElevatedButton(
                             onPressed: () {
-                              addFacilityCubit.AddCategory(
+                              addFacilityCubit.addCategory(
                                   image: addFacilityCubit.pickedImage,
                                   name: nameController.text,
                                   context: context);
                               // pickedImage = addFacilityCubit.pickedImage;
                               nameController.clear();
+                              CategoryCubit().getCategories();
                             },
                             child: Text("اضافه")),
                         SizedBox(

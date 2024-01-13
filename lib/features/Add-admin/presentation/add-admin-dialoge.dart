@@ -6,7 +6,7 @@ import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/theming/colors.dart';
 import 'package:reservationapp_admin/core/utilies/easy_loading.dart';
 import 'package:reservationapp_admin/features/Add-Cashier/business-logic/add-chashier/cubit.dart';
-import 'package:reservationapp_admin/features/Add-admin/business-logic/add-chashier/cubit.dart';
+import 'package:reservationapp_admin/features/Add-admin/business-logic/add-admin/cubit.dart';
 import '../../../core/widgets/custom_text_form_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -45,7 +45,7 @@ class AddAdminDialoge extends StatelessWidget {
                     (MediaQuery.of(context).size.width > 741) ? 450.w : 165.w),
             child: Container(
               width: double.infinity,
-              height: 542,
+              height: 580,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15), color: Colors.white),
               padding: EdgeInsets.all(30),
@@ -64,7 +64,7 @@ class AddAdminDialoge extends StatelessWidget {
                           SizedBox(
                             width: 10.w,
                           ),
-                          Text("addCashier".tr(),
+                          Text("اضافه مشرف جديد",
                               style: TextStyle(fontSize: 24),
                               textAlign: TextAlign.center),
                         ],

@@ -16,7 +16,7 @@ class CategoryItemsCubit extends Cubit<CategoryItemsState> {
   static CategoryItemsCubit get(context) => BlocProvider.of(context);
   static const Duration timeoutDuration = Duration(seconds: 30);
 
-  List<Data> categorieItems = [];
+  List<Data> categoryItems = [];
 
   getCategoryItems({
     required String categoryName,
@@ -34,8 +34,8 @@ class CategoryItemsCubit extends Cubit<CategoryItemsState> {
         var jsonResponse = ItemModel.fromJson(decodedData);
         if (jsonResponse.success!) {
           print("categories");
-          categorieItems = jsonResponse.data!;
-          print(categorieItems);
+          categoryItems = jsonResponse.data!;
+          print(categoryItems);
           emit(GetCategoryItemsSuccess());
         } else {
           print(response.data);

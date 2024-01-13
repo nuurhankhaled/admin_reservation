@@ -17,13 +17,13 @@ class AdditionalOptionsCubit extends Cubit<AdditionalOptionsState> {
   static const Duration timeoutDuration = Duration(seconds: 30);
 
   Future<void> AddAdditionalOptions(
-      {required categoryId, required name, required price, context}) async {
+      {required itemId, required name, required price, context}) async {
     emit(AddAdditionalOptionsLoading());
     showLoading();
     try {
       var response =
           await MyDio.post(endPoint: EndPoints.addAdditionalOptions, data: {
-        "category_id": categoryId,
+        "item_id": itemId,
         "name": name,
         "price": price,
       });
