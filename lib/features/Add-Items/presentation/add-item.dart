@@ -1,27 +1,27 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/widgets/custom_button.dart';
 import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
 import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:reservationapp_admin/features/Add-Items/business-logic/Item_cubit/item_cubit.dart';
 
 class AddItemScreen extends StatefulWidget {
-  AddItemScreen({super.key});
+  const AddItemScreen({super.key});
 
   @override
   State<AddItemScreen> createState() => _AddItemScreenState();
 }
 
 class _AddItemScreenState extends State<AddItemScreen> {
-  List<String> _statues = ["في الصيانه", "متاح", "محجوز"];
-  List<String> _priceState = ["خلال اليوم", "خلال الساعه"];
+  final List<String> _statues = ["في الصيانه", "متاح", "محجوز"];
+  final List<String> _priceState = ["خلال اليوم", "خلال الساعه"];
 
   List<Map<String, String>> devicesList = [];
 
@@ -103,7 +103,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   ),
                 ),
                 actions: [
-                  Text("اختر ",
+                  const Text("اختر ",
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                   SizedBox(
@@ -127,7 +127,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                             decoration: const InputDecoration(
                               border: InputBorder.none,
                             ),
-                            hint: Text("المنشأه",
+                            hint: const Text("المنشأه",
                                 style: TextStyle(color: Colors.black)),
                             items: List.generate(
                               categoryCubit.categories.length,
@@ -153,7 +153,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                     categoryCubit.categories[value].name!;
                                 print(" city id : $categoryName");
                               });
-                              ;
                             },
                           ),
                         ),
@@ -229,7 +228,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                         ),
                                         onPressed: () {
                                           itemCubit.pickLogo(
-                                              ImageSource.gallery, context);
+                                            ImageSource.gallery,
+                                          );
                                           pickedLogo = itemCubit.pickedLogo;
                                         },
                                       ))),
@@ -468,7 +468,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 20.w, vertical: 40.h),
-                            child: Container(
+                            child: SizedBox(
                               width: 420.w,
                               child: CustomTextFormField(
                                 controller: name,
@@ -497,7 +497,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 20.w, vertical: 40.h),
-                            child: Container(
+                            child: SizedBox(
                               width: 420.w,
                               child: CustomTextFormField(
                                 controller: description,
@@ -536,7 +536,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                   Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 30.w, vertical: 40.h),
-                                    child: Container(
+                                    child: SizedBox(
                                       width: 190.w,
                                       child: CustomTextFormField(
                                         readOnly: true,
@@ -587,7 +587,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                           }
                                         },
                                         controller: timeinputFrom,
-                                        prefixIcon: Padding(
+                                        prefixIcon: const Padding(
                                           padding: EdgeInsets.only(top: 7),
                                           child: Icon(
                                             Icons.timer,
@@ -617,7 +617,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                   Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 30.w, vertical: 40.h),
-                                    child: Container(
+                                    child: SizedBox(
                                       width: 190.w,
                                       child: CustomTextFormField(
                                         readOnly: true,
@@ -668,7 +668,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                           }
                                         },
                                         controller: timeinputTo,
-                                        prefixIcon: Padding(
+                                        prefixIcon: const Padding(
                                           padding: EdgeInsets.only(top: 7),
                                           child: Icon(
                                             Icons.timer,
@@ -727,7 +727,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                     (index) {
                                       return DropdownMenuItem<int>(
                                           value: index,
-                                          child: Container(
+                                          child: SizedBox(
                                             width: 130.w,
                                             child: Text(_statues[index]),
                                           ));
@@ -772,7 +772,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 10.w, vertical: 40.h),
-                            child: Container(
+                            child: SizedBox(
                               width: 420.w,
                               child: CustomTextFormField(
                                 controller: address,
@@ -798,7 +798,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 0.w, vertical: 40.h),
-                            child: Container(
+                            child: SizedBox(
                               width: 420.w,
                               child: CustomTextFormField(
                                 controller: price,
@@ -824,7 +824,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 20.w, vertical: 40.h),
-                            child: Container(
+                            child: SizedBox(
                               width: 420.w,
                               child: CustomTextFormField(
                                 controller: offers,
@@ -873,7 +873,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                     (index) {
                                       return DropdownMenuItem<int>(
                                           value: index,
-                                          child: Container(
+                                          child: SizedBox(
                                             width: 140.w,
                                             child: Text(_priceState[index]),
                                           ));
@@ -954,6 +954,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                             if (value == "") {
                                               return "please enter empty fields";
                                             }
+                                            return null;
                                           },
                                           keyboardType: TextInputType.text,
                                           labelText: "اضافه مقتنيه"),
@@ -961,7 +962,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.all(38.sp),
-                                    child: Container(
+                                    child: SizedBox(
                                       width: 110,
                                       child: CustomTextFormField(
                                           height: 70,
@@ -980,6 +981,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                             if (isNumeric == null) {
                                               return 'ادخل رقم صحيح';
                                             }
+                                            return null;
                                           },
                                           keyboardType: TextInputType.text,
                                           labelText: "اضافه العدد"),
@@ -987,7 +989,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                   ),
                                   (i != 0)
                                       ? InkWell(
-                                          child: Icon(
+                                          child: const Icon(
                                             Icons.remove_circle,
                                             color: Colors.red,
                                           ),
