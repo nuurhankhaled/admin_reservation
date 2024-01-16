@@ -43,8 +43,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
   int? statue;
   String? priceDuaration;
 
-  final List<TextEditingController> _items = [TextEditingController()];
-  final List<TextEditingController> _quantity = [TextEditingController()];
+  final List<TextEditingController> _items = [];
+  final List<TextEditingController> _quantity = [];
 
   final _formKey = GlobalKey<FormState>();
 
@@ -1012,12 +1012,13 @@ class _EditItemScreenState extends State<EditItemScreen> {
                             ))
                         .values
                         .toList();
+                    print(pickedLogo);
                     itemCubit.editItem(
                         id: widget.item.id!,
-                        logo: itemCubit.editedLogo ?? "",
-                        image1: itemCubit.editedImage1 ?? "",
-                        image2: itemCubit.editedImage2 ?? "",
-                        image3: itemCubit.editedImage3 ?? "",
+                        logo: itemCubit.editedLogo,
+                        image1: itemCubit.editedImage1,
+                        image2: itemCubit.editedImage2,
+                        image3: itemCubit.editedImage3,
                         name: name.text,
                         description: description.text,
                         price: price.text,

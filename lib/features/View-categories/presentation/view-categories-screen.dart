@@ -93,7 +93,7 @@ class ViewCategoriesScreen extends StatelessWidget {
                                             overflow: TextOverflow.ellipsis,
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 19.sp,
+                                            fontSize: 22.sp,
                                           ),
                                         ),
                                       ),

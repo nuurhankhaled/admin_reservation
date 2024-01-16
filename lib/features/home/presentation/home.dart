@@ -163,6 +163,9 @@ class _HomeState extends State<Home> {
                           color: Colors.white, fontWeight: FontWeight.bold)),
                 )),
             footer: InkWell(
+              onTap: () {
+                context.pushNamed(Routes.viewAdminScreen);
+              },
               child: Container(
                 height: 90.h,
                 width: double.infinity,

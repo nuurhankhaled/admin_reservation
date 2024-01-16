@@ -8,6 +8,8 @@ import 'package:reservationapp_admin/features/Auth/business-logic/auth-cubit/log
 import 'package:reservationapp_admin/features/Edit-Item/presentation/edit-item.dart';
 import 'package:reservationapp_admin/features/View-Additional-Options/presentation/view-additional-options-screen.dart';
 import 'package:reservationapp_admin/features/View-Additional-Options/presentation/widgets/edit-option-dialpog.dart';
+import 'package:reservationapp_admin/features/View-Admins/business-logic/admin_cubit/admin_cubit.dart';
+import 'package:reservationapp_admin/features/View-Admins/presentation/view-admin.dart';
 import 'package:reservationapp_admin/features/View-Reservations/presentation/view-reservations.dart';
 import 'package:reservationapp_admin/features/View-Waiting-Reservations/business-logic/reservations_cubit/reservations_cubit.dart';
 import 'package:reservationapp_admin/features/View-Waiting-Reservations/presentation/view-waiting-reservations.dart';
@@ -53,7 +55,17 @@ class AppRouter {
             child: AuthScreen(),
           ),
         );
-
+      case Routes.viewAdminScreen:
+        return PageTransition(
+          type: PageTransitionType.fade,
+          duration: const Duration(milliseconds: 200),
+          alignment: Alignment.center,
+          settings: settings,
+          child: BlocProvider(
+            create: (context) => AdminCubit()..getadmins(),
+            child: ViewAdminsScreen(),
+          ),
+        );
       case Routes.addItemScreen:
         return PageTransition(
           type: PageTransitionType.fade,

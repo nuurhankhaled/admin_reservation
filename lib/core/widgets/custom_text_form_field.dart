@@ -83,7 +83,8 @@ class CustomTextFormField extends StatelessWidget {
     this.onFieldSubmitted,
     this.buildCounter,
     this.scrollPhysics,
-    this.onTap, this.height,
+    this.onTap,
+    this.height,
   }) : super(key: key);
 
   @override
@@ -93,11 +94,11 @@ class CustomTextFormField extends StatelessWidget {
       padding: padding,
       decoration: BoxDecoration(
           border: Border.all(
-            color: borderColor ?? AppColors.buttonBackGroundWhite,
+            color: borderColor ?? Colors.grey[200]!,
             width: borderWidth ?? 1.sp,
           ),
           borderRadius: borderRadius ?? BorderRadius.circular(10.sp),
-          color: backgroundColor ?? AppColors.buttonBackGroundWhite),
+          color: backgroundColor ?? Colors.grey[200]!),
       child: Center(
         child: TextFormField(
           style: textStyle,

@@ -112,7 +112,7 @@ class ViewCategoryDetails extends StatelessWidget {
                                                   style: TextStyle(
                                                     overflow:
                                                         TextOverflow.ellipsis,
-                                                    fontSize: 19.sp,
+                                                    fontSize: 22.sp,
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.white,
                                                   ),

@@ -27,4 +27,6 @@ class EndPoints {
       '/additional_options/get_options.php';
   static const String deleteOptiopn = '/additional_options/delete_option.php';
   static const String editOptiopn = '/additional_options/edit_option.php';
+  static const String deleteAdmin = '/user/delete_user.php';
+  static const String getAdmins = '/user/get_admins.php';
 }
