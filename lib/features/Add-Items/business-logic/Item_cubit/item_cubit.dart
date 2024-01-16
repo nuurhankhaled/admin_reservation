@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reservationapp_admin/core/Api/my_http.dart';
 import 'package:reservationapp_admin/core/utilies/easy_loading.dart';
 import 'package:reservationapp_admin/features/View-users/data/models/acceptance-model.dart';
+
 import '../../../../Core/Api/endPoints.dart'; // Import the library that defines 'getCategories'.
 import '../../../View-category-details/data/models/items-model.dart';
+
 part 'item_state.dart';
 
 class ItemCubit extends Cubit<ItemState> {
@@ -72,10 +75,9 @@ class ItemCubit extends Cubit<ItemState> {
           hideLoading();
           showSuccess("تم اضافه المرفق بنجاح");
           emit(AddItemSuccess());
-          ;
         } else {
           showError("حدث خطأ ما");
-          print(response!.data);
+          print(response.data);
           print(response.statusCode);
         }
       }
@@ -89,14 +91,15 @@ class ItemCubit extends Cubit<ItemState> {
 
   File? pickedLogo;
 
-  pickLogo(ImageSource source, context) async {
+  pickLogo(ImageSource source) async {
     try {
       final picker = ImagePicker();
       final image = await picker.pickImage(source: source);
       if (image == null) return;
       final imageTemp = File(image.path);
       pickedLogo = imageTemp;
-
+      print("Image");
+      print(pickedLogo);
       emit(PickImageSuccessState());
     } catch (e) {
       print("failed to pick image : $e");
@@ -113,7 +116,8 @@ class ItemCubit extends Cubit<ItemState> {
       if (image == null) return;
       final imageTemp = File(image.path);
       pickedImage1 = imageTemp;
-
+      print("Image");
+      print(pickedImage1);
       emit(PickImageSuccessState());
     } catch (e) {
       print("failed to pick image : $e");
@@ -162,7 +166,7 @@ class ItemCubit extends Cubit<ItemState> {
     try {
       var response = await MyDio.post(endPoint: EndPoints.getItems, data: {});
       print(response!.statusCode);
-      if (response!.statusCode == 200) {
+      if (response.statusCode == 200) {
         print(response.data);
         var decodedData = json.decode(response.data);
         var jsonResponse = ItemModel.fromJson(decodedData);
@@ -194,7 +198,7 @@ class ItemCubit extends Cubit<ItemState> {
       var response =
           await MyDio.post(endPoint: EndPoints.deleteItem, data: {"id": id});
       print(response!.statusCode);
-      if (response!.statusCode == 200) {
+      if (response.statusCode == 200) {
         print(response.data);
         var decodedData = json.decode(response.data);
         var jsonResponse = AcceptanceModel.fromJson(decodedData);
@@ -359,68 +363,130 @@ class ItemCubit extends Cubit<ItemState> {
   }) async {
     emit(EditItemLoading());
     showLoading();
+
+    String fileNameLogo = "";
+    if (image1 != null) {
+      fileNameLogo = logo.path.split('/').last;
+    }
+
+    print(fileNameLogo);
+
+    String fileNameImage1 = "";
+    if (image1 != null) {
+      fileNameImage1 = image1.path.split('/').last;
+    }
+    String fileNameImage2 = "";
+    if (image1 != null) {
+      fileNameImage2 = image2.path.split('/').last;
+    }
+    String fileNameImage3 = "";
+    if (image1 != null) {
+      fileNameImage3 = image3.path.split('/').last;
+    }
+
+    FormData formData = FormData();
+
+    formData.fields.addAll([
+      MapEntry("category_name", categoryName),
+      MapEntry("name", name),
+      MapEntry("id", id),
+      MapEntry("type", type),
+      MapEntry("description", description),
+      MapEntry("address", address),
+      MapEntry("available_time_from", availableTimeFrom),
+      MapEntry("available_time_to", availableTimeTo),
+      MapEntry("status", statues),
+      MapEntry("offer", offers),
+      MapEntry("price", price),
+      MapEntry("devices", collectibles),
+    ]);
+
+    if (logo != "" || logo != null) {
+      formData.files.add(MapEntry(
+        "logo",
+        await MultipartFile.fromFile(logo.path, filename: fileNameLogo),
+      ));
+    }
+
+    if (image1 != "" || image1 != null) {
+      formData.files.add(MapEntry(
+        "image1",
+        await MultipartFile.fromFile(image1.path, filename: fileNameImage1),
+      ));
+    }
+
+    if (image2 != "" || image2 != null) {
+      formData.files.add(MapEntry(
+        "image2",
+        await MultipartFile.fromFile(image2.path, filename: fileNameImage2),
+      ));
+    }
+
+    if (image3 != "" || image3 != null) {
+      formData.files.add(MapEntry(
+        "image3",
+        await MultipartFile.fromFile(image3.path, filename: fileNameImage3),
+      ));
+    }
+    print("chekcing");
+    print(logo != "" && logo != null);
+    print(image1 != "" && image1 != null);
+
+    print(image2 != "" && image2 != null);
+
+    print(image3 != "" && image3 != null);
+
+    print("Uploading");
+
+    // String fileNameLogo = "";
+    // print(fileNameLogo);
+    // if (logo != null) {
+    //   fileNameLogo = logo.path;
+    // }
+
+    // String fileNameImage1 = "";
+    // if (image1 != null) {
+    //   fileNameImage1 = image1.path;
+    // }
+
+    // String fileNameImage2 = "";
+    // if (image2 != null) {
+    //   fileNameImage2 = image2.path;
+    // }
+    // String fileNameImage3 = "";
+    // if (image3 != null) {
+    //   fileNameImage3 = image3.path;
+    // }
+
+    // Map<String, dynamic> data = {
+    //   "category_name": categoryName,
+    //   "name": name,
+    //   "logo": fileNameLogo,
+    //   "image1": fileNameImage1,
+    //   "image2": fileNameImage2,
+    //   "image3": fileNameImage3,
+    //   "id": id,
+    //   "type": type,
+    //   "description": description,
+    //   "address": address,
+    //   "available_time_from": availableTimeFrom,
+    //   "available_time_to": availableTimeTo,
+    //   "status": statues,
+    //   "offer": offers,
+    //   "price": price,
+    //   "devices": collectibles,
+    // };
+
+    print("--------------");
+    // data.forEach((key, value) {
+    //   print('$key: $value');
+    // });
+
+    for (var field in formData.fields) {
+      print('${field.key}: ${field.value}');
+    }
+    print("--------------");
     try {
-      print("object");
-      String fileNameLogo = (logo != "") ? logo.path.split('/').last : "";
-      print(fileNameLogo);
-
-      //ptint(fileNameLogo);
-      //debugPrint(fileNameLogo);
-      String fileNameImage1 = (image1 != "") ? image1.path.split('/').last : "";
-      String fileNameImage2 = (image2 != "") ? image2.path.split('/').last : "";
-      String fileNameImage3 = (image3 != "") ? image3.path.split('/').last : "";
-      print(fileNameLogo);
-
-      FormData formData = FormData();
-
-      formData.fields
-        ..addAll([
-          MapEntry("category_name", categoryName),
-          MapEntry("name", name),
-          MapEntry("id", id),
-          MapEntry("type", type),
-          MapEntry("description", description),
-          MapEntry("address", address),
-          MapEntry("available_time_from", availableTimeFrom),
-          MapEntry("available_time_to", availableTimeTo),
-          MapEntry("status", statues),
-          MapEntry("offer", offers),
-          MapEntry("price", price),
-          MapEntry("devices", collectibles),
-        ]);
-
-      if (logo != "") {
-        formData.files.add(MapEntry(
-          "logo",
-          await MultipartFile.fromFile(logo.path, filename: fileNameLogo),
-        ));
-      }
-
-      if (image1 != "") {
-        formData.files.add(MapEntry(
-          "image1",
-          await MultipartFile.fromFile(image1.path, filename: fileNameImage1),
-        ));
-      }
-
-      if (image2 != "") {
-        formData.files.add(MapEntry(
-          "image2",
-          await MultipartFile.fromFile(image2.path, filename: fileNameImage2),
-        ));
-      }
-
-      if (image3 != "") {
-        formData.files.add(MapEntry(
-          "image3",
-          await MultipartFile.fromFile(image3.path, filename: fileNameImage3),
-        ));
-      }
-
-      print("--------------");
-      print(formData.fields);
-      print("--------------");
-
       var response =
           await MyDio.post(endPoint: EndPoints.editItem, data: formData);
       print(response!.data);
@@ -435,13 +501,17 @@ class ItemCubit extends Cubit<ItemState> {
           emit(EditItemSuccess());
         } else {
           showError("حدث خطأ ما");
-          print(response!.data);
+          print(response.data);
           print(response.statusCode);
+          hideLoading();
           emit(EditItemFailure());
         }
       }
     } catch (e) {
       showError("حدث خطأ ما");
+      print("حدث خطأ ما");
+      print(e.toString());
+      hideLoading();
       emit(EditItemFailure());
     }
   }

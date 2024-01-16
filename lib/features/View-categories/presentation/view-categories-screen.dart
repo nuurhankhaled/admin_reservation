@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:reservationapp_admin/core/helpers/extensions.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reservationapp_admin/core/helpers/extensions.dart';
+import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/core/widgets/custom_loading_indecator.dart';
 import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reservationapp_admin/features/View-categories/presentation/widgets/edit-category-dialog.dart';
 
 class ViewCategoriesScreen extends StatelessWidget {
@@ -59,7 +58,7 @@ class ViewCategoriesScreen extends StatelessWidget {
                           child: Center(
                             child: Column(
                               children: [
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 CachedNetworkImage(
                                   imageUrl:
                                       categoryCubit.categories[index].image!,
@@ -80,9 +79,10 @@ class ViewCategoriesScreen extends StatelessWidget {
                                   errorWidget: (context, url, error) =>
                                       const Icon(Icons.error),
                                 ),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12),
                                   child: Row(
                                     children: [
                                       SizedBox(
@@ -97,10 +97,10 @@ class ViewCategoriesScreen extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Container(
                                         width: 35,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
                                           color: Colors.white,
                                         ),
@@ -128,7 +128,7 @@ class ViewCategoriesScreen extends StatelessWidget {
                                                 },
                                               );
                                             },
-                                            icon: Icon(
+                                            icon: const Icon(
                                               Icons.edit,
                                               color: Colors.green,
                                               size: 20,
@@ -137,7 +137,7 @@ class ViewCategoriesScreen extends StatelessWidget {
                                       SizedBox(width: 10.w),
                                       Container(
                                         width: 35,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
                                           color: Colors.white,
                                         ),
@@ -147,7 +147,7 @@ class ViewCategoriesScreen extends StatelessWidget {
                                                   id: categoryCubit
                                                       .categories[index].id!);
                                             },
-                                            icon: Icon(
+                                            icon: const Icon(
                                               Icons.delete,
                                               color: Colors.red,
                                               size: 20,

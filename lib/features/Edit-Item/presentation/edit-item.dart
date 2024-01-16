@@ -1,18 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/core/widgets/custom_button.dart';
 import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
-import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
-import 'package:flutter/material.dart';
-import 'package:reservationapp_admin/features/View-category-details/data/models/items-model.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:reservationapp_admin/features/Add-Items/business-logic/Item_cubit/item_cubit.dart';
+import 'package:reservationapp_admin/features/View-category-details/data/models/items-model.dart';
 
 class EditItemScreen extends StatefulWidget {
   Data item;
@@ -23,8 +22,8 @@ class EditItemScreen extends StatefulWidget {
 }
 
 class _EditItemScreenState extends State<EditItemScreen> {
-  List<String> _statues = ["في الصيانه", "متاح", "محجوز"];
-  List<String> _priceState = ["خلال اليوم", "خلال الساعه"];
+  final List<String> _statues = ["في الصيانه", "متاح", "محجوز"];
+  final List<String> _priceState = ["خلال اليوم", "خلال الساعه"];
 
   File? pickedLogo; // Variable to store the selected image
   File? pickedImage1; // Variable to store the selected image
@@ -223,7 +222,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                     ),
                                     onPressed: () {
                                       itemCubit.pickLogo(
-                                          ImageSource.gallery, context);
+                                        ImageSource.gallery,
+                                      );
                                       pickedLogo = itemCubit.pickedLogo;
                                     },
                                   ))),
@@ -456,7 +456,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 20.w, vertical: 40.h),
-                        child: Container(
+                        child: SizedBox(
                           width: 420.w,
                           child: CustomTextFormField(
                             controller: name,
@@ -485,7 +485,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 20.w, vertical: 40.h),
-                        child: Container(
+                        child: SizedBox(
                           width: 420.w,
                           child: CustomTextFormField(
                             controller: description,
@@ -522,7 +522,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 30.w, vertical: 40.h),
-                                child: Container(
+                                child: SizedBox(
                                   width: 190.w,
                                   child: CustomTextFormField(
                                     readOnly: true,
@@ -573,7 +573,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                       }
                                     },
                                     controller: timeinputFrom,
-                                    prefixIcon: Padding(
+                                    prefixIcon: const Padding(
                                       padding: EdgeInsets.only(top: 7),
                                       child: Icon(
                                         Icons.timer,
@@ -601,7 +601,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 30.w, vertical: 40.h),
-                                child: Container(
+                                child: SizedBox(
                                   width: 190.w,
                                   child: CustomTextFormField(
                                     readOnly: true,
@@ -648,7 +648,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                       }
                                     },
                                     controller: timeinputTo,
-                                    prefixIcon: Padding(
+                                    prefixIcon: const Padding(
                                       padding: EdgeInsets.only(top: 7),
                                       child: Icon(
                                         Icons.timer,
@@ -707,7 +707,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                 (index) {
                                   return DropdownMenuItem<int>(
                                       value: index,
-                                      child: Container(
+                                      child: SizedBox(
                                         width: 130.w,
                                         child: Text(_statues[index]),
                                       ));
@@ -752,7 +752,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 10.w, vertical: 40.h),
-                        child: Container(
+                        child: SizedBox(
                           width: 420.w,
                           child: CustomTextFormField(
                             controller: address,
@@ -778,7 +778,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 0.w, vertical: 40.h),
-                        child: Container(
+                        child: SizedBox(
                           width: 420.w,
                           child: CustomTextFormField(
                             controller: price,
@@ -804,7 +804,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 20.w, vertical: 40.h),
-                        child: Container(
+                        child: SizedBox(
                           width: 420.w,
                           child: CustomTextFormField(
                             controller: offers,
@@ -854,7 +854,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                 (index) {
                                   return DropdownMenuItem<int>(
                                       value: index,
-                                      child: Container(
+                                      child: SizedBox(
                                         width: 140.w,
                                         child: Text(_priceState[index]),
                                       ));
@@ -934,6 +934,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                         if (value == "") {
                                           return "please enter empty fields";
                                         }
+                                        return null;
                                       },
                                       keyboardType: TextInputType.text,
                                       labelText: "اضافه مقتنيه"),
@@ -941,7 +942,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                               ),
                               Padding(
                                 padding: EdgeInsets.all(38.sp),
-                                child: Container(
+                                child: SizedBox(
                                   width: 110,
                                   child: CustomTextFormField(
                                       height: 70,
@@ -960,6 +961,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                         if (isNumeric == null) {
                                           return 'ادخل رقم صحيح';
                                         }
+                                        return null;
                                       },
                                       keyboardType: TextInputType.text,
                                       labelText: "اضافه العدد"),
@@ -967,7 +969,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                               ),
                               (i != 0)
                                   ? InkWell(
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.remove_circle,
                                         color: Colors.red,
                                       ),
@@ -1012,13 +1014,13 @@ class _EditItemScreenState extends State<EditItemScreen> {
                             ))
                         .values
                         .toList();
-                    print(pickedLogo);
+
                     itemCubit.editItem(
                         id: widget.item.id!,
-                        logo: itemCubit.editedLogo,
-                        image1: itemCubit.editedImage1,
-                        image2: itemCubit.editedImage2,
-                        image3: itemCubit.editedImage3,
+                        logo: itemCubit.pickedLogo,
+                        image1: itemCubit.pickedImage1,
+                        image2: itemCubit.pickedImage2,
+                        image3: itemCubit.pickedImage3,
                         name: name.text,
                         description: description.text,
                         price: price.text,
