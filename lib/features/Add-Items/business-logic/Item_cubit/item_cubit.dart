@@ -365,7 +365,7 @@ class ItemCubit extends Cubit<ItemState> {
     showLoading();
 
     String fileNameLogo = "";
-    if (image1 != null) {
+    if (logo != null) {
       fileNameLogo = logo.path.split('/').last;
     }
 
@@ -376,11 +376,11 @@ class ItemCubit extends Cubit<ItemState> {
       fileNameImage1 = image1.path.split('/').last;
     }
     String fileNameImage2 = "";
-    if (image1 != null) {
+    if (image2 != null) {
       fileNameImage2 = image2.path.split('/').last;
     }
     String fileNameImage3 = "";
-    if (image1 != null) {
+    if (image3 != null) {
       fileNameImage3 = image3.path.split('/').last;
     }
 
@@ -401,28 +401,29 @@ class ItemCubit extends Cubit<ItemState> {
       MapEntry("devices", collectibles),
     ]);
 
-    if (logo != "" || logo != null) {
+    if (fileNameLogo != "" || logo != null) {
       formData.files.add(MapEntry(
         "logo",
         await MultipartFile.fromFile(logo.path, filename: fileNameLogo),
       ));
     }
 
-    if (image1 != "" || image1 != null) {
+    if (fileNameImage1 != "" || image1 != null) {
       formData.files.add(MapEntry(
         "image1",
         await MultipartFile.fromFile(image1.path, filename: fileNameImage1),
       ));
+      print("hna");
     }
 
-    if (image2 != "" || image2 != null) {
+    if (fileNameImage2 != "" || image2 != null) {
       formData.files.add(MapEntry(
         "image2",
         await MultipartFile.fromFile(image2.path, filename: fileNameImage2),
       ));
     }
 
-    if (image3 != "" || image3 != null) {
+    if (fileNameImage3 != "" || image3 != null) {
       formData.files.add(MapEntry(
         "image3",
         await MultipartFile.fromFile(image3.path, filename: fileNameImage3),
