@@ -429,6 +429,7 @@ class ItemCubit extends Cubit<ItemState> {
         await MultipartFile.fromFile(image3.path, filename: fileNameImage3),
       ));
     }
+
     print("chekcing");
     print(logo != "" && logo != null);
     print(image1 != "" && image1 != null);
