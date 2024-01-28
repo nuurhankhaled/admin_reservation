@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/core/widgets/custom_button.dart';
@@ -99,9 +98,9 @@ class _EditItemScreenState extends State<EditItemScreen> {
     initializeListsFromData();
     categoryName = widget.item.categoryName;
     print(categoryName);
-    timeinputFrom.text =
-        widget.item.availableTimeFrom!; //set the initial value of text field
-    timeinputTo.text = widget.item.availableTimeTo!;
+    // timeinputFrom.text =
+    //     widget.item.availableTimeFrom!; //set the initial value of text field
+    // timeinputTo.text = widget.item.availableTimeTo!;
     name.text = widget.item.name!; //set the initial value of text field
     description.text =
         widget.item.description!; //set the initial value of text field
@@ -498,176 +497,176 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       ),
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 70.w),
-                        child: const Text(
-                          "التوقيت",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 70.w),
-                                child: const Text(
-                                  " من صباحا",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 30.w, vertical: 40.h),
-                                child: SizedBox(
-                                  width: 190.w,
-                                  child: CustomTextFormField(
-                                    readOnly: true,
-                                    onTap: () async {
-                                      TimeOfDay? pickedTime =
-                                          await showTimePicker(
-                                        initialTime: TimeOfDay.now(),
-                                        context: context,
-                                      );
+                  // Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   children: [
+                  //     Padding(
+                  //       padding: EdgeInsets.symmetric(horizontal: 70.w),
+                  //       child: const Text(
+                  //         "التوقيت",
+                  //         style: TextStyle(fontWeight: FontWeight.bold),
+                  //       ),
+                  //     ),
+                  //     Row(
+                  //       children: [
+                  //         Column(
+                  //           children: [
+                  //             Padding(
+                  //               padding: EdgeInsets.symmetric(horizontal: 70.w),
+                  //               child: const Text(
+                  //                 " من صباحا",
+                  //                 style: TextStyle(fontWeight: FontWeight.bold),
+                  //               ),
+                  //             ),
+                  //             Padding(
+                  //               padding: EdgeInsets.symmetric(
+                  //                   horizontal: 30.w, vertical: 40.h),
+                  //               child: SizedBox(
+                  //                 width: 190.w,
+                  //                 child: CustomTextFormField(
+                  //                   readOnly: true,
+                  //                   onTap: () async {
+                  //                     TimeOfDay? pickedTime =
+                  //                         await showTimePicker(
+                  //                       initialTime: TimeOfDay.now(),
+                  //                       context: context,
+                  //                     );
 
-                                      if (pickedTime != null) {
-                                        // Explicitly set the locale to English when formatting and parsing
-                                        String formattedTime =
-                                            DateFormat('HH:mm:ss', 'en_US')
-                                                .format(
-                                          DateTime(
-                                            2024,
-                                            1,
-                                            1,
-                                            pickedTime.hour,
-                                            pickedTime.minute,
-                                          ),
-                                        );
+                  //                     if (pickedTime != null) {
+                  //                       // Explicitly set the locale to English when formatting and parsing
+                  //                       String formattedTime =
+                  //                           DateFormat('HH:mm:ss', 'en_US')
+                  //                               .format(
+                  //                         DateTime(
+                  //                           2024,
+                  //                           1,
+                  //                           1,
+                  //                           pickedTime.hour,
+                  //                           pickedTime.minute,
+                  //                         ),
+                  //                       );
 
-                                        print(formattedTime);
+                  //                       print(formattedTime);
 
-                                        DateTime parsedTime =
-                                            DateFormat('HH:mm:ss', 'en_US')
-                                                .parse(
-                                          formattedTime,
-                                        );
-                                        // Converting to DateTime so that we can further format on a different pattern.
-                                        print(
-                                            parsedTime); // Output: 1970-01-01 22:53:00.000
-                                        String finalFormattedTime =
-                                            DateFormat('HH:mm:ss')
-                                                .format(parsedTime);
-                                        print(
-                                            finalFormattedTime); // Output: 14:59:00
-                                        // DateFormat() is from the intl package, and you can format the time in any pattern you need.
+                  //                       DateTime parsedTime =
+                  //                           DateFormat('HH:mm:ss', 'en_US')
+                  //                               .parse(
+                  //                         formattedTime,
+                  //                       );
+                  //                       // Converting to DateTime so that we can further format on a different pattern.
+                  //                       print(
+                  //                           parsedTime); // Output: 1970-01-01 22:53:00.000
+                  //                       String finalFormattedTime =
+                  //                           DateFormat('HH:mm:ss')
+                  //                               .format(parsedTime);
+                  //                       print(
+                  //                           finalFormattedTime); // Output: 14:59:00
+                  //                       // DateFormat() is from the intl package, and you can format the time in any pattern you need.
 
-                                        setState(() {
-                                          timeinputFrom.text =
-                                              formattedTime; // Set the value of the text field.
-                                        });
-                                      } else {
-                                        print("Time is not selected");
-                                      }
-                                    },
-                                    controller: timeinputFrom,
-                                    prefixIcon: const Padding(
-                                      padding: EdgeInsets.only(top: 7),
-                                      child: Icon(
-                                        Icons.timer,
-                                        size: 25,
-                                      ),
-                                    ),
-                                    backgroundColor: Colors.grey[300],
-                                    padding: EdgeInsets.only(
-                                        bottom: 8, left: 10.w, right: 10.w),
-                                    height: 80.h,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 70.w),
-                                child: const Text(
-                                  " الي مساءا",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 30.w, vertical: 40.h),
-                                child: SizedBox(
-                                  width: 190.w,
-                                  child: CustomTextFormField(
-                                    readOnly: true,
-                                    onTap: () async {
-                                      TimeOfDay? pickedTime =
-                                          await showTimePicker(
-                                        initialTime: TimeOfDay.now(),
-                                        context: context,
-                                      );
+                  //                       setState(() {
+                  //                         timeinputFrom.text =
+                  //                             formattedTime; // Set the value of the text field.
+                  //                       });
+                  //                     } else {
+                  //                       print("Time is not selected");
+                  //                     }
+                  //                   },
+                  //                   controller: timeinputFrom,
+                  //                   prefixIcon: const Padding(
+                  //                     padding: EdgeInsets.only(top: 7),
+                  //                     child: Icon(
+                  //                       Icons.timer,
+                  //                       size: 25,
+                  //                     ),
+                  //                   ),
+                  //                   backgroundColor: Colors.grey[300],
+                  //                   padding: EdgeInsets.only(
+                  //                       bottom: 8, left: 10.w, right: 10.w),
+                  //                   height: 80.h,
+                  //                 ),
+                  //               ),
+                  //             )
+                  //           ],
+                  //         ),
+                  //         Column(
+                  //           children: [
+                  //             Padding(
+                  //               padding: EdgeInsets.symmetric(horizontal: 70.w),
+                  //               child: const Text(
+                  //                 " الي مساءا",
+                  //                 style: TextStyle(fontWeight: FontWeight.bold),
+                  //               ),
+                  //             ),
+                  //             Padding(
+                  //               padding: EdgeInsets.symmetric(
+                  //                   horizontal: 30.w, vertical: 40.h),
+                  //               child: SizedBox(
+                  //                 width: 190.w,
+                  //                 child: CustomTextFormField(
+                  //                   readOnly: true,
+                  //                   onTap: () async {
+                  //                     TimeOfDay? pickedTime =
+                  //                         await showTimePicker(
+                  //                       initialTime: TimeOfDay.now(),
+                  //                       context: context,
+                  //                     );
 
-                                      if (pickedTime != null) {
-                                        // Explicitly set the locale to English when formatting and parsing
-                                        String formattedTime =
-                                            DateFormat('HH:mm:ss', 'en_US')
-                                                .format(
-                                          DateTime(2024, 1, 1, pickedTime.hour,
-                                              pickedTime.minute),
-                                        );
+                  //                     if (pickedTime != null) {
+                  //                       // Explicitly set the locale to English when formatting and parsing
+                  //                       String formattedTime =
+                  //                           DateFormat('HH:mm:ss', 'en_US')
+                  //                               .format(
+                  //                         DateTime(2024, 1, 1, pickedTime.hour,
+                  //                             pickedTime.minute),
+                  //                       );
 
-                                        print(formattedTime);
+                  //                       print(formattedTime);
 
-                                        DateTime parsedTime =
-                                            DateFormat('HH:mm:ss', 'en_US')
-                                                .parse(
-                                          formattedTime,
-                                        );
-                                        //converting to DateTime so that we can further format on different pattern.
-                                        print(
-                                            parsedTime); //output 1970-01-01 22:53:00.000
-                                        String finalFormattedTime =
-                                            DateFormat('HH:mm:ss')
-                                                .format(parsedTime);
-                                        print(
-                                            finalFormattedTime); //output 14:59:00
-                                        //DateFormat() is from intl package, you can format the time on any pattern you need.
+                  //                       DateTime parsedTime =
+                  //                           DateFormat('HH:mm:ss', 'en_US')
+                  //                               .parse(
+                  //                         formattedTime,
+                  //                       );
+                  //                       //converting to DateTime so that we can further format on different pattern.
+                  //                       print(
+                  //                           parsedTime); //output 1970-01-01 22:53:00.000
+                  //                       String finalFormattedTime =
+                  //                           DateFormat('HH:mm:ss')
+                  //                               .format(parsedTime);
+                  //                       print(
+                  //                           finalFormattedTime); //output 14:59:00
+                  //                       //DateFormat() is from intl package, you can format the time on any pattern you need.
 
-                                        setState(() {
-                                          timeinputTo.text =
-                                              formattedTime; //set the value of text field.
-                                          print(timeinputTo.text);
-                                        });
-                                      } else {
-                                        print("Time is not selected");
-                                      }
-                                    },
-                                    controller: timeinputTo,
-                                    prefixIcon: const Padding(
-                                      padding: EdgeInsets.only(top: 7),
-                                      child: Icon(
-                                        Icons.timer,
-                                        size: 25,
-                                      ),
-                                    ),
-                                    backgroundColor: Colors.grey[300],
-                                    padding: EdgeInsets.only(
-                                        bottom: 8, left: 10.w, right: 10.w),
-                                    height: 80.h,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  //                       setState(() {
+                  //                         timeinputTo.text =
+                  //                             formattedTime; //set the value of text field.
+                  //                         print(timeinputTo.text);
+                  //                       });
+                  //                     } else {
+                  //                       print("Time is not selected");
+                  //                     }
+                  //                   },
+                  //                   controller: timeinputTo,
+                  //                   prefixIcon: const Padding(
+                  //                     padding: EdgeInsets.only(top: 7),
+                  //                     child: Icon(
+                  //                       Icons.timer,
+                  //                       size: 25,
+                  //                     ),
+                  //                   ),
+                  //                   backgroundColor: Colors.grey[300],
+                  //                   padding: EdgeInsets.only(
+                  //                       bottom: 8, left: 10.w, right: 10.w),
+                  //                   height: 80.h,
+                  //                 ),
+                  //               ),
+                  //             )
+                  //           ],
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
