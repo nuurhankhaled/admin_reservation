@@ -15,3 +15,9 @@ class DeleteALLAvailableLoading extends EditOrDeleteStates {}
 class DeleteALLAvailableSuccess extends EditOrDeleteStates {}
 
 class DeleteALLAvailableFailure extends EditOrDeleteStates {}
+
+class EditAvailableLoading extends EditOrDeleteStates {}
+
+class EditAvailableSuccess extends EditOrDeleteStates {}
+
+class EditAvailableFailure extends EditOrDeleteStates {}

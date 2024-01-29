@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
+import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/core/utilies/easy_loading.dart';
 import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
 import 'package:reservationapp_admin/features/Add-Items/business-logic/Item_cubit/item_cubit.dart';
+import 'package:reservationapp_admin/features/Auth/presentation/login-screen.dart';
 
 class AddTimeDialog extends StatefulWidget {
   const AddTimeDialog({super.key});
@@ -34,7 +36,7 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
         if (state is AddItemSuccess) {
           hideLoading();
           showSuccess("تمت الاضافه بنجاح");
-          context.pop();
+          context.pushReplacementNamed(Routes.viewCategoriesScreen);
         }
         if (state is AddItemFailure) {
           hideLoading();
@@ -338,8 +340,8 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   itemCubit.addAvailableTime(
-                                    availableTimeFrom: timeinputFrom,
-                                    availableTimeTo: timeinputTo,
+                                    availableTimeFrom: timeinputFrom.text,
+                                    availableTimeTo: timeinputTo.text,
                                     item_id: categoryId,
                                     price: price.text,
                                   );

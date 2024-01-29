@@ -3,34 +3,47 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
-import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
-import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
+import 'package:reservationapp_admin/features/edit_or_detlete_available_time/bloc/edit_or_delete_cubit.dart';
+import 'package:reservationapp_admin/features/edit_or_detlete_available_time/presentation/edit_or_delete_available_time.dart';
 
-class EditCategoryDialog extends StatelessWidget {
-  EditCategoryDialog(
-      {super.key, required this.id, required this.name, required this.image});
+class EditTimeDialog extends StatelessWidget {
+  EditTimeDialog(
+      {super.key,
+      required this.id,
+      required this.price,
+      required this.from,
+      required this.to,
+      required this.date,
+      required this.status});
   String id;
-  String name;
-  String image;
-  late TextEditingController nameController = TextEditingController(text: name);
+  String price;
+  String from;
+  String to;
+  String date;
+  String status;
+
+  late TextEditingController priceController =
+      TextEditingController(text: price);
   File? imageFile;
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     print("id is $id");
-    return BlocConsumer<CategoryCubit, CategoryState>(
+    return BlocConsumer<EditOrDeleteAvailableCubit, EditOrDeleteStates>(
       listener: (context, state) {
-        if (state is EditCategorySuccess) {
+        if (state is EditAvailableSuccess) {
           context.pop();
-          context.pushReplacementNamed(Routes.viewCategoriesScreen);
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const ViewAvailableTime()));
         }
       },
       builder: (context, state) {
-        var categoryCubit = CategoryCubit.get(context);
+        var cubit = EditOrDeleteAvailableCubit.get(context);
         return Form(
           key: _formKey,
           child: PopScope(
@@ -43,7 +56,7 @@ class EditCategoryDialog extends StatelessWidget {
                         : 500.w),
                 child: Container(
                   width: double.infinity,
-                  height: 600,
+                  height: 400,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: Colors.white),
@@ -61,7 +74,7 @@ class EditCategoryDialog extends StatelessWidget {
                             SizedBox(
                               width: 10.w,
                             ),
-                            const Text("تعديل سعر الوقت",
+                            const Text("تعديل المنشأه",
                                 style: TextStyle(fontSize: 24),
                                 textAlign: TextAlign.center),
                           ],
@@ -69,63 +82,12 @@ class EditCategoryDialog extends StatelessWidget {
                         SizedBox(
                           height: 50.h,
                         ),
-                        Stack(
-                          children: [
-                            Container(
-                              width: 400.w,
-                              height: 320.h,
-                              decoration: BoxDecoration(
-                                boxShadow: const [
-                                  BoxShadow(
-                                      color: Colors.black12,
-                                      spreadRadius: -1,
-                                      blurRadius: 5)
-                                ],
-                                shape: BoxShape.circle,
-                                color: Colors.deepPurple.shade50,
-                                image: categoryCubit.updatedImage != null
-                                    ? DecorationImage(
-                                        image: FileImage(
-                                            categoryCubit.updatedImage!),
-                                        fit: BoxFit.contain,
-                                      )
-                                    : DecorationImage(
-                                        image: NetworkImage(image),
-                                        fit: BoxFit.contain,
-                                      ),
-                              ),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    top: 220.3.h, left: 47.w, right: 47.w),
-                                child: Container(
-                                    width: 80.w,
-                                    height: 94.7.h,
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey.shade100,
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                            width: 7.w, color: Colors.white)),
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.camera_alt_rounded,
-                                        size: 30.w,
-                                        color: Colors.grey,
-                                      ),
-                                      onPressed: () {
-                                        categoryCubit.pickUpdateImage(
-                                            ImageSource.gallery, context);
-                                        imageFile = categoryCubit.updatedImage;
-                                      },
-                                    ))),
-                          ],
-                        ),
                         SizedBox(
                           height: 50.h,
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 70.w),
-                          child: const Text("الاسم"),
+                          child: const Text("السعر"),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(
@@ -135,11 +97,16 @@ class EditCategoryDialog extends StatelessWidget {
                             child: CustomTextFormField(
                               validator: (String? value) {
                                 if (value == null || value.isEmpty) {
-                                  return "هذا الحقل مطلوب";
+                                  return 'هذا الحقل مطلوب';
                                 }
-                                return null;
+                                try {
+                                  double.parse(value);
+                                  return null; // Return null if the input is a valid integer
+                                } catch (e) {
+                                  return 'من فضلك ادخل رقم '; // Error message for invalid input
+                                }
                               },
-                              controller: nameController,
+                              controller: priceController,
                               padding: EdgeInsets.only(
                                   bottom: 22.h, left: 10.w, right: 10.w),
                               height: 80.h,
@@ -156,13 +123,15 @@ class EditCategoryDialog extends StatelessWidget {
                             ElevatedButton(
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
-                                    if (nameController.text.isNotEmpty) {
-                                      categoryCubit.editCategory(
+                                    if (priceController.text.isNotEmpty) {
+                                      cubit.edit(
                                           id: id,
-                                          name: nameController.text,
-                                          image: categoryCubit.updatedImage,
-                                          context: context);
-                                      nameController.clear();
+                                          from: from,
+                                          to: to,
+                                          date: date,
+                                          price: priceController.text,
+                                          status: status);
+                                      priceController.clear();
                                     }
                                   }
                                 },

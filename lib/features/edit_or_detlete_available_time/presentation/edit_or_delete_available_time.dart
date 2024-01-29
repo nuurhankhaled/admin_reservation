@@ -6,20 +6,25 @@ import 'package:reservationapp_admin/core/theming/colors.dart';
 import 'package:reservationapp_admin/core/widgets/custom_loading_indecator.dart';
 import 'package:reservationapp_admin/features/View-users/business-logic/users_cubit/users_cubit.dart';
 import 'package:reservationapp_admin/features/edit_or_detlete_available_time/bloc/edit_or_delete_cubit.dart';
+import 'package:reservationapp_admin/features/edit_or_detlete_available_time/presentation/widgets/edit_time_dialouge.dart';
 
 class ViewAvailableTime extends StatelessWidget {
   const ViewAvailableTime({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => EditOrDeleteAvailableCubit(),
+      create: (context) => EditOrDeleteAvailableCubit()..getallAvailable(),
       child: BlocConsumer<EditOrDeleteAvailableCubit, EditOrDeleteStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is EditAvailableSuccess) {
+            EditOrDeleteAvailableCubit.get(context).getallAvailable();
+          }
+        },
         builder: (context, state) {
           var cubit = EditOrDeleteAvailableCubit.get(context);
           return Scaffold(
               appBar: AppBar(
-                  title: const Text('عرض المتحكمين '),
+                  title: const Text('عرض الاوقات '),
                   leading: Padding(
                     padding: EdgeInsets.only(right: 50.w),
                     child: IconButton(
@@ -32,7 +37,7 @@ class ViewAvailableTime extends StatelessWidget {
                   ? const CustomLoadingIndicator()
                   : (cubit.allAvailableTimes.isEmpty)
                       ? const Center(
-                          child: Text("لا يوجد مستخدمين معلقين"),
+                          child: Text("لا يوجد اوقات حاليا"),
                         )
                       : SingleChildScrollView(
                           child: Padding(
@@ -51,12 +56,12 @@ class ViewAvailableTime extends StatelessWidget {
                                 child: DataTable(
                                   columns: const [
                                     DataColumn(label: Text("الكود")),
-                                    DataColumn(label: Text("الاسم")),
-                                    DataColumn(
-                                        label: Text('البريد الالكتروني')),
-                                    DataColumn(label: Text('كلمه السر')),
-                                    DataColumn(label: Text('الرقم القومي')),
-                                    DataColumn(label: Text('رقم الهاتف')),
+                                    DataColumn(label: Text("من")),
+                                    DataColumn(label: Text('الي')),
+                                    DataColumn(label: Text('التاريخ')),
+                                    DataColumn(label: Text('السعر')),
+                                    DataColumn(label: Text('الحاله')),
+                                    DataColumn(label: Text('تعديل')),
                                     DataColumn(label: Text('مسح')),
                                   ],
                                   rows: cubit.allAvailableTimes.map((user) {
@@ -73,7 +78,9 @@ class ViewAvailableTime extends StatelessWidget {
                                                 .withOpacity(0.08);
                                           }
                                           // Even rows will have a grey color.
-                                          if (cubit.allAvailableTimes.indexOf(user) % 2 ==
+                                          if (cubit.allAvailableTimes
+                                                      .indexOf(user) %
+                                                  2 ==
                                               0) {
                                             return Colors.grey[100];
                                           }
@@ -81,12 +88,41 @@ class ViewAvailableTime extends StatelessWidget {
                                         },
                                       ),
                                       cells: [
-                                        // DataCell(Text(user.id.toString())),
-                                        // DataCell(Text(user.name!)),
-                                        // DataCell(Text(user.email!)),
-                                        // DataCell(Text(user.password!)),
-                                        // DataCell(Text(user.nid!)),
-                                        // DataCell(Text(user.phone.toString())),
+                                        DataCell(Text(user.id!)),
+                                        DataCell(Text(user.availableTimeFrom!)),
+                                        DataCell(Text(user.availableTimeTo!)),
+                                        DataCell(Text(user.date!)),
+                                        DataCell(Text(user.price!)),
+                                        DataCell(Text(user.status!)),
+                                        DataCell(
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.edit,
+                                              color: Colors.green,
+                                            ),
+                                            onPressed: () {
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return BlocProvider(
+                                                      create: (context) =>
+                                                          EditOrDeleteAvailableCubit(),
+                                                      child: EditTimeDialog(
+                                                        id: user.id!,
+                                                        price: user.price!,
+                                                        from: user
+                                                            .availableTimeFrom!,
+                                                        to: user
+                                                            .availableTimeTo!,
+                                                        date: user.date!,
+                                                        status: user.status!,
+                                                      ));
+                                                },
+                                              );
+                                            },
+                                          ),
+                                        ),
                                         DataCell(
                                           IconButton(
                                             icon: const Icon(
@@ -94,7 +130,7 @@ class ViewAvailableTime extends StatelessWidget {
                                               color: Colors.red,
                                             ),
                                             onPressed: () {
-                                          
+                                              cubit.delete(id: user.id!);
                                             },
                                           ),
                                         ),

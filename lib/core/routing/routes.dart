@@ -7,7 +7,7 @@ class Routes {
   static const viewReceptionistScreen = '/view_person_screen';
   static const viewCategoryDetailsScreen = '/view-facility-screen';
   static const mainlayout = '/mainlayout';
-  static const viewCategoriesScreen = '/view-screen';
+  static const viewCategoriesScreen = '/view_category_screen';
   static const addItemScreen = '/add-item';
   static const editItemScreen = '/edit-item';
   static const viewUsersScreen = '/view-user';

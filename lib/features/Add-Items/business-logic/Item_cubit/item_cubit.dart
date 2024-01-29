@@ -47,7 +47,9 @@ class ItemCubit extends Cubit<ItemState> {
         var decodedData = json.decode(response.data);
         var jsonResponse = AcceptanceModel.fromJson(decodedData);
         if (jsonResponse.success == true) {
-          emit(AddItemSuccess());
+          if (!fromadditem) {
+            emit(AddItemSuccess());
+          }
         } else {
           emit(AddItemFailure());
         }
@@ -57,6 +59,7 @@ class ItemCubit extends Cubit<ItemState> {
     }
   }
 
+  bool fromadditem = false;
   AddItem(
       {required logo,
       required image1,
@@ -109,6 +112,7 @@ class ItemCubit extends Cubit<ItemState> {
         var decodedData = json.decode(response.data);
         var jsonResponse = AcceptanceModel.fromJson(decodedData);
         if (jsonResponse.success == true) {
+          fromadditem = true;
           await addAvailableTime(
             availableTimeFrom: availableTimeFrom,
             availableTimeTo: availableTimeTo,

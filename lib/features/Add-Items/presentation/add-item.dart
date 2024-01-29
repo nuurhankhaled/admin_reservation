@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
+import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/core/widgets/custom_button.dart';
 import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
 import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
@@ -74,17 +75,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CategoryCubit, CategoryState>(
-      listener: (context, state) {},
+    return BlocConsumer<ItemCubit, ItemState>(
+      listener: (context, state) {
+        if (state is AddItemSuccess) {
+          // context.pop();
+          context.pushReplacementNamed(Routes.mainlayout);
+        }
+      },
       builder: (context, state) {
         var categoryCubit = CategoryCubit.get(context);
 
-        return BlocConsumer<ItemCubit, ItemState>(
-          listener: (context, state) {
-            if (state is AddItemSuccess) {
-              context.pop();
-            }
-          },
+        return BlocConsumer<CategoryCubit, CategoryState>(
+          listener: (context, state) {},
           builder: (context, state) {
             var itemCubit = ItemCubit.get(context);
             return Scaffold(

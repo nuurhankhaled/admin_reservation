@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/features/Add-Additional-Options/business-logic/additional_options_cubit/additional_options_cubit.dart';
@@ -7,26 +8,25 @@ import 'package:reservationapp_admin/features/Add-Items/business-logic/Item_cubi
 import 'package:reservationapp_admin/features/Auth/business-logic/auth-cubit/login_cubit.dart';
 import 'package:reservationapp_admin/features/Edit-Item/presentation/edit-item.dart';
 import 'package:reservationapp_admin/features/View-Additional-Options/presentation/view-additional-options-screen.dart';
-import 'package:reservationapp_admin/features/View-Additional-Options/presentation/widgets/edit-option-dialpog.dart';
 import 'package:reservationapp_admin/features/View-Admins/business-logic/admin_cubit/admin_cubit.dart';
 import 'package:reservationapp_admin/features/View-Admins/presentation/view-admin.dart';
 import 'package:reservationapp_admin/features/View-Reservations/presentation/view-reservations.dart';
 import 'package:reservationapp_admin/features/View-Waiting-Reservations/business-logic/reservations_cubit/reservations_cubit.dart';
 import 'package:reservationapp_admin/features/View-Waiting-Reservations/presentation/view-waiting-reservations.dart';
+import 'package:reservationapp_admin/features/View-categories/presentation/view_categories_screen.dart';
 import 'package:reservationapp_admin/features/View-category-details/business-logic/category_cubit/category_items_cubit.dart';
 import 'package:reservationapp_admin/features/View-category-details/presentation/view-category-details.dart';
-import 'package:reservationapp_admin/features/View-categories/presentation/view-categories-screen.dart';
 import 'package:reservationapp_admin/features/View-receptionist/business-logic/receptionist_cubit/receptionist_cubit.dart';
 import 'package:reservationapp_admin/features/View-receptionist/presentation/view-receptionist.dart';
 import 'package:reservationapp_admin/features/View-users/business-logic/accept-user/cubit.dart';
 import 'package:reservationapp_admin/features/View-users/business-logic/users_cubit/users_cubit.dart';
 import 'package:reservationapp_admin/features/View-users/presentation/view-user.dart';
 import 'package:reservationapp_admin/features/home/business-logic/cubit/mainlayout_cubit.dart';
+
 import '../../features/Add-Items/presentation/add-item.dart';
 import '../../features/Auth/presentation/login-screen.dart';
 import '../../features/View-category-details/data/models/items-model.dart';
 import '../../features/home/presentation/home.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppRouter {
   Route generateRoute(RouteSettings settings) {
@@ -41,7 +41,7 @@ class AppRouter {
           settings: settings,
           child: BlocProvider(
             create: (context) => ReservationsCubit()..getReservations(),
-            child: ViewReservationscreen(),
+            child: const ViewReservationscreen(),
           ),
         );
       case Routes.authScreen:
@@ -63,7 +63,7 @@ class AppRouter {
           settings: settings,
           child: BlocProvider(
             create: (context) => AdminCubit()..getadmins(),
-            child: ViewAdminsScreen(),
+            child: const ViewAdminsScreen(),
           ),
         );
       case Routes.addItemScreen:
@@ -81,7 +81,7 @@ class AppRouter {
                 create: (context) => ItemCubit(),
               ),
             ],
-            child: AddItemScreen(),
+            child: const AddItemScreen(),
           ),
         );
 
@@ -161,7 +161,7 @@ class AppRouter {
             settings: settings,
             child: BlocProvider(
               create: (context) => MainlayoutCubit(),
-              child: Home(),
+              child: const Home(),
             ));
       case Routes.editItemScreen:
         final item = settings.arguments as Data;
@@ -184,7 +184,7 @@ class AppRouter {
           settings: settings,
           child: BlocProvider(
             create: (context) => CategoryCubit()..getCategories(),
-            child: ViewCategoriesScreen(),
+            child: const ViewCategoriesScreen(),
           ),
         );
 
@@ -197,7 +197,7 @@ class AppRouter {
           child: BlocProvider(
             create: (context) =>
                 AdditionalOptionsCubit()..getAllAdditionalOptions(),
-            child: ViewAdditionalOptionsScreen(),
+            child: const ViewAdditionalOptionsScreen(),
           ),
         );
 
