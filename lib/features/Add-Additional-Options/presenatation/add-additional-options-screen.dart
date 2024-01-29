@@ -1,18 +1,13 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:reservationapp_admin/core/helpers/extensions.dart';
-import 'package:reservationapp_admin/core/routing/routes.dart';
-import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reservationapp_admin/core/helpers/extensions.dart';
+import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
 import 'package:reservationapp_admin/features/Add-Additional-Options/business-logic/additional_options_cubit/additional_options_cubit.dart';
-import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
 import 'package:reservationapp_admin/features/Add-Items/business-logic/Item_cubit/item_cubit.dart';
 
 class AddAdditionalOptionsDialog extends StatefulWidget {
-  AddAdditionalOptionsDialog({super.key});
+  const AddAdditionalOptionsDialog({super.key});
 
   @override
   State<AddAdditionalOptionsDialog> createState() =>
@@ -59,7 +54,7 @@ class _AddAdditionalOptionsDialogState
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
-                    padding: EdgeInsets.all(30),
+                    padding: const EdgeInsets.all(30),
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment
@@ -69,11 +64,11 @@ class _AddAdditionalOptionsDialogState
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.home_work_sharp),
+                              const Icon(Icons.home_work_sharp),
                               SizedBox(
                                 width: 10.w,
                               ),
-                              Text("اضافه اضافات للمنشأه",
+                              const Text("اضافه وقت للمنشأه",
                                   style: TextStyle(fontSize: 24),
                                   textAlign: TextAlign.center),
                             ],
@@ -81,7 +76,7 @@ class _AddAdditionalOptionsDialogState
                           SizedBox(
                             height: 50.h,
                           ),
-                          Container(
+                          SizedBox(
                             width: 220,
                             child: Container(
                               margin: EdgeInsetsDirectional.only(start: 2.w),
@@ -97,7 +92,7 @@ class _AddAdditionalOptionsDialogState
                                   decoration: const InputDecoration(
                                     border: InputBorder.none,
                                   ),
-                                  hint: Text("المنشأه",
+                                  hint: const Text("المنشأه",
                                       style: TextStyle(color: Colors.black)),
                                   items: List.generate(
                                     itemCubit.items.length,
@@ -121,29 +116,30 @@ class _AddAdditionalOptionsDialogState
                                       categoryId = itemCubit.items[value].id!;
                                       print(" city id : $categoryId");
                                     });
-                                    ;
                                   },
                                 ),
                               ),
                             ),
                           ),
+                        
                           SizedBox(
                             height: 50.h,
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 70.w),
-                            child: Text("الاسم"),
+                            child: const Text("الاسم"),
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 70.w, vertical: 20.h),
-                            child: Container(
+                            child: SizedBox(
                               width: 220,
                               child: CustomTextFormField(
                                 validator: (String? value) {
                                   if (value == null || value.isEmpty) {
                                     return "هذا الحقل مطلوب";
                                   }
+                                  return null;
                                 },
                                 controller: nameController,
                                 padding: EdgeInsets.only(
@@ -157,12 +153,12 @@ class _AddAdditionalOptionsDialogState
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 70.w),
-                            child: Text("السعر"),
+                            child: const Text("السعر"),
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 70.w, vertical: 20.h),
-                            child: Container(
+                            child: SizedBox(
                               width: 220,
                               child: CustomTextFormField(
                                 validator: (value) {
@@ -185,6 +181,7 @@ class _AddAdditionalOptionsDialogState
                               ),
                             ),
                           ),
+                        
                           SizedBox(
                             height: 50.h,
                           ),
@@ -208,7 +205,7 @@ class _AddAdditionalOptionsDialogState
                                       }
                                     }
                                   },
-                                  child: Text("اضافه")),
+                                  child: const Text("اضافه")),
                               SizedBox(
                                 width: 50.w,
                               ),
@@ -216,7 +213,7 @@ class _AddAdditionalOptionsDialogState
                                   onPressed: () {
                                     context.pop();
                                   },
-                                  child: Text("الغاء")),
+                                  child: const Text("الغاء")),
                             ],
                           )
                         ],

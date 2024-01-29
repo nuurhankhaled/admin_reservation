@@ -1,3 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_admin_scaffold/admin_scaffold.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/features/Add-Additional-Options/business-logic/additional_options_cubit/additional_options_cubit.dart';
@@ -9,13 +14,10 @@ import 'package:reservationapp_admin/features/Add-Category/presentation/add-faci
 import 'package:reservationapp_admin/features/Add-Items/business-logic/Item_cubit/item_cubit.dart';
 import 'package:reservationapp_admin/features/Add-admin/business-logic/add-admin/cubit.dart';
 import 'package:reservationapp_admin/features/Add-admin/presentation/add-admin-dialoge.dart';
+import 'package:reservationapp_admin/features/Add_time/add_time.dart';
 import 'package:reservationapp_admin/features/Dashboard/presentation/dashboard-screen.dart';
+import 'package:reservationapp_admin/features/edit_or_detlete_available_time/presentation/edit_or_delete_available_time.dart';
 import 'package:reservationapp_admin/features/home/business-logic/cubit/mainlayout_cubit.dart';
-import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_admin_scaffold/admin_scaffold.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -46,10 +48,20 @@ class _HomeState extends State<Home> {
                 route: '/addFacility',
                 icon: Icons.home_work_sharp,
               ),
-              AdminMenuItem(
+              const AdminMenuItem(
                 icon: Icons.add_business_rounded,
                 title: "اضافه عنصر للمنشأه",
                 route: '/addItem',
+              ),
+              const AdminMenuItem(
+                icon: Icons.add_business_rounded,
+                title: "اضافه  وقت",
+                route: '/addtime',
+              ),
+              const AdminMenuItem(
+                icon: Icons.add_business_rounded,
+                title: "عرض الوقت",
+                route: '/Availabletimes',
               ),
               AdminMenuItem(
                 icon: Icons.add_business_rounded,
@@ -61,22 +73,22 @@ class _HomeState extends State<Home> {
                 title: 'addCashier'.tr(),
                 route: "/addCashier",
               ),
-              AdminMenuItem(
+              const AdminMenuItem(
                 icon: Icons.person,
                 title: 'اضافه ادمن',
                 route: "/addAdmin",
               ),
-              AdminMenuItem(
+              const AdminMenuItem(
                 icon: Icons.receipt_long_rounded,
                 title: ' عرض الحجوزات المنتظرة',
                 route: "/viewWaitingReservations",
               ),
-              AdminMenuItem(
+              const AdminMenuItem(
                 icon: Icons.receipt_long_rounded,
                 title: ' عرض الحجوزات المقبولة و المنتهيه',
                 route: "/viewReservations",
               ),
-              AdminMenuItem(
+              const AdminMenuItem(
                 icon: Icons.receipt,
                 title: 'عرض الاضافات',
                 route: "/viewExtras",
@@ -101,6 +113,7 @@ class _HomeState extends State<Home> {
                   case "/addItem":
                     context.pushNamed(Routes.addItemScreen);
                     break;
+
                   case "/viewExtras":
                     context.pushNamed(Routes.viewAdditionalOptionsScreen);
                     break;
@@ -110,6 +123,14 @@ class _HomeState extends State<Home> {
                   case "/viewReservations":
                     context.pushNamed(Routes.viewReservationsScreen);
                     break;
+                  case "/Availabletimes":
+                    // context.pushNamed(Routes.viewReservationsScreen);
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return const ViewAvailableTime();
+                    }));
+                    break;
+
                   case "/addFacility":
                     showDialog(
                         context: context,
@@ -133,10 +154,25 @@ class _HomeState extends State<Home> {
                                 create: (context) => ItemCubit()..getAllItems(),
                               ),
                             ],
-                            child: AddAdditionalOptionsDialog(),
+                            child: const AddAdditionalOptionsDialog(),
                           );
                         });
                     break;
+                  case "/addtime":
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return MultiBlocProvider(
+                            providers: [
+                              BlocProvider(
+                                create: (context) => ItemCubit()..getAllItems(),
+                              ),
+                            ],
+                            child: const AddTimeDialog(),
+                          );
+                        });
+                    break;
+
                   case "/addAdmin":
                     showDialog(
                         context: context,
@@ -192,7 +228,7 @@ class _HomeState extends State<Home> {
                 SizedBox(
                   height: 20.h,
                 ),
-                DashBoardScreen(),
+                const DashBoardScreen(),
               ],
             ),
           )),

@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:reservationapp_admin/core/helpers/extensions.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/theming/colors.dart';
 import 'package:reservationapp_admin/core/widgets/custom_loading_indecator.dart';
 import 'package:reservationapp_admin/features/View-Admins/business-logic/admin_cubit/admin_cubit.dart';
-import 'package:reservationapp_admin/features/View-receptionist/business-logic/receptionist_cubit/receptionist_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reservationapp_admin/features/View-users/business-logic/accept-user/cubit.dart';
 import 'package:reservationapp_admin/features/View-users/business-logic/users_cubit/users_cubit.dart';
 
 class ViewAdminsScreen extends StatelessWidget {
-  ViewAdminsScreen({super.key});
+  const ViewAdminsScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AdminCubit, AdminState>(
@@ -36,7 +34,7 @@ class ViewAdminsScreen extends StatelessWidget {
                     state is GetPendingUsersLoading)
                 ? const CustomLoadingIndicator()
                 : (cubit.admins.isEmpty)
-                    ? Center(
+                    ? const Center(
                         child: Text("لا يوجد مستخدمين معلقين"),
                       )
                     : SingleChildScrollView(
@@ -54,16 +52,14 @@ class ViewAdminsScreen extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: DataTable(
-                                columns: [
-                                  const DataColumn(label: Text("الكود")),
-                                  const DataColumn(label: Text("الاسم")),
-                                  const DataColumn(
-                                      label: Text('البريد الالكتروني')),
-                                  const DataColumn(label: Text('كلمه السر')),
-                                  const DataColumn(
-                                      label: const Text('الرقم القومي')),
-                                  const DataColumn(label: Text('رقم الهاتف')),
-                                  const DataColumn(label: Text('مسح')),
+                                columns: const [
+                                  DataColumn(label: Text("الكود")),
+                                  DataColumn(label: Text("الاسم")),
+                                  DataColumn(label: Text('البريد الالكتروني')),
+                                  DataColumn(label: Text('كلمه السر')),
+                                  DataColumn(label: Text('الرقم القومي')),
+                                  DataColumn(label: Text('رقم الهاتف')),
+                                  DataColumn(label: Text('مسح')),
                                 ],
                                 rows: cubit.admins.map((user) {
                                   return DataRow(

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:reservationapp_admin/core/helpers/extensions.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/theming/colors.dart';
 import 'package:reservationapp_admin/core/widgets/custom_loading_indecator.dart';
 import 'package:reservationapp_admin/features/Add-Additional-Options/business-logic/additional_options_cubit/additional_options_cubit.dart';
 import 'package:reservationapp_admin/features/View-Additional-Options/presentation/widgets/edit-option-dialpog.dart';
-import 'package:reservationapp_admin/features/View-receptionist/business-logic/receptionist_cubit/receptionist_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ViewAdditionalOptionsScreen extends StatelessWidget {
-  ViewAdditionalOptionsScreen({super.key});
+  const ViewAdditionalOptionsScreen({super.key});
   @override
   Widget build(BuildContext context) {
     var cubit = AdditionalOptionsCubit.get(context);
@@ -23,17 +22,17 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
-                title: Text('عرض الاضافات ',
+                title: const Text('عرض الاضافات ',
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 leading: Padding(
                   padding: EdgeInsets.only(right: 50.w),
                   child: IconButton(
-                    icon: Icon(Icons.arrow_back_ios),
+                    icon: const Icon(Icons.arrow_back_ios),
                     onPressed: () => context.pop(),
                   ),
                 )),
             body: (state is GetAdditionalOptionsLoading)
-                ? CustomLoadingIndicator()
+                ? const CustomLoadingIndicator()
                 : (cubit.additionalOptions.isEmpty)
                     ? const Center(
                         child: Text("لايوجد اغراض للعرض",
@@ -94,7 +93,7 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
                                       DataCell(Text(user.name!)),
                                       DataCell(Text(user.price!)),
                                       DataCell(IconButton(
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.edit,
                                           color: Colors.green,
                                         ),
@@ -117,7 +116,7 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
                                       )),
                                       DataCell(
                                         IconButton(
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.delete,
                                             color: Colors.red,
                                           ),

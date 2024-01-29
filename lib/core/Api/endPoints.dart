@@ -1,6 +1,8 @@
 class EndPoints {
   static const String baseUrl = 'https://quizzy.site/reservation_app';
   static const String addCashier = '/user/add_receptionist.php';
+
+
   static const String addAdmin = '/user/add_admin.php';
   static const String login = '/user/login.php';
   static const String addCategory = '/category/add_category.php';
@@ -29,4 +31,7 @@ class EndPoints {
   static const String editOptiopn = '/additional_options/edit_option.php';
   static const String deleteAdmin = '/user/delete_user.php';
   static const String getAdmins = '/user/get_admins.php';
+
+    static const String getAvailableTimes = '/item/get_all_available_time.php';
+
 }
