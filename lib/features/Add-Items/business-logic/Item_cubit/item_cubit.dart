@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reservationapp_admin/core/Api/my_http.dart';
+import 'package:reservationapp_admin/core/functions/date_format.dart';
 import 'package:reservationapp_admin/core/utilies/easy_loading.dart';
 import 'package:reservationapp_admin/features/View-users/data/models/acceptance-model.dart';
 
@@ -19,6 +20,42 @@ class ItemCubit extends Cubit<ItemState> {
   static ItemCubit get(context) => BlocProvider.of(context);
 
   static const Duration timeoutDuration = Duration(seconds: 30);
+
+  Future<void> addAvailableTime({
+    required availableTimeFrom,
+    required availableTimeTo,
+    required item_id,
+    required price,
+  }) async {
+    emit(AddItemLoading());
+
+    FormData formData = FormData.fromMap({
+      "available_time_from": availableTimeFrom,
+      "available_time_to": availableTimeTo,
+      "date": separateDate(DateTime.now().toString()),
+      "item_id": item_id,
+      "price": price,
+      "status": 0,
+    });
+
+    try {
+      Response? response = await MyDio.post(
+          endPoint: "/item/add_available_time.php", data: formData);
+
+      print(response!.data);
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.data);
+        var jsonResponse = AcceptanceModel.fromJson(decodedData);
+        if (jsonResponse.success == true) {
+          emit(AddItemSuccess());
+        } else {
+          emit(AddItemFailure());
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   AddItem(
       {required logo,
@@ -57,9 +94,9 @@ class ItemCubit extends Cubit<ItemState> {
         "type": type,
         "description": description,
         "address": address,
-        "available_time_from": availableTimeFrom,
-        "available_time_to": availableTimeTo,
-        "status": statues,
+        // "available_time_from": availableTimeFrom,
+        // "available_time_to": availableTimeTo,
+        "status": 1,
         "offer": offers,
         "price": price,
         "devices": collectibles,
@@ -72,6 +109,13 @@ class ItemCubit extends Cubit<ItemState> {
         var decodedData = json.decode(response.data);
         var jsonResponse = AcceptanceModel.fromJson(decodedData);
         if (jsonResponse.success == true) {
+          await addAvailableTime(
+            availableTimeFrom: availableTimeFrom,
+            availableTimeTo: availableTimeTo,
+            item_id: jsonResponse.itemId,
+            price: price,
+          );
+
           hideLoading();
           showSuccess("تم اضافه المرفق بنجاح");
           emit(AddItemSuccess());
@@ -351,8 +395,8 @@ class ItemCubit extends Cubit<ItemState> {
     required name,
     required description,
     required price,
-    required availableTimeFrom,
-    required availableTimeTo,
+    // required availableTimeFrom,
+    // required availableTimeTo,
     required categoryName,
     required statues,
     required address,
@@ -393,8 +437,8 @@ class ItemCubit extends Cubit<ItemState> {
       MapEntry("type", type),
       MapEntry("description", description),
       MapEntry("address", address),
-      MapEntry("available_time_from", availableTimeFrom),
-      MapEntry("available_time_to", availableTimeTo),
+      // MapEntry("available_time_from", availableTimeFrom),
+      // MapEntry("available_time_to", availableTimeTo),
       MapEntry("status", statues),
       MapEntry("offer", offers),
       MapEntry("price", price),
