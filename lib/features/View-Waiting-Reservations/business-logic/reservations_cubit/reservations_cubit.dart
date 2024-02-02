@@ -1,14 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:dio/dio.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:reservationapp_admin/Core/Api/endPoints.dart';
 import 'package:reservationapp_admin/core/Api/my_http.dart';
 import 'package:reservationapp_admin/core/utilies/easy_loading.dart';
-import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/features/View-Waiting-Reservations/data/models/reservations-model.dart';
 import 'package:reservationapp_admin/features/View-users/data/models/acceptance-model.dart';
+
 part 'reservations_state.dart';
 
 class ReservationsCubit extends Cubit<ReservationsState> {
@@ -38,6 +36,9 @@ class ReservationsCubit extends Cubit<ReservationsState> {
               acceptedReservations.add(reservation);
             }
           }
+          print(waintingReservations);
+          print("annnnnnnnnaaaaaaaaaa zhhhhhhhh222222222t");
+          print(acceptedReservations);
           emit(GetReservationsSuccess());
         } else {
           print(response.data);

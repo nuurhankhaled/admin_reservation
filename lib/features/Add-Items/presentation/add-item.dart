@@ -6,12 +6,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/src/intl/date_format.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/routing/routes.dart';
+import 'package:reservationapp_admin/core/utilies/easy_loading.dart';
 import 'package:reservationapp_admin/core/widgets/custom_button.dart';
 import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
 import 'package:reservationapp_admin/features/Add-Category/business-logic/category_cubit/category_cubit.dart';
 import 'package:reservationapp_admin/features/Add-Items/business-logic/Item_cubit/item_cubit.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class AddItemScreen extends StatefulWidget {
   const AddItemScreen({super.key});
@@ -30,7 +33,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   File? pickedImage1; // Variable to store the selected image
   File? pickedImage2; // Variable to store the selected image
   File? pickedImage3; // Variable to store the selected image
-
+  DateTime _selectedDate = DateTime.now();
   TextEditingController name = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController address = TextEditingController();
@@ -42,12 +45,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
   String? categoryName;
   int? statue;
   String? priceDuaration;
+  String? formattedDate;
 
-  final List<TextEditingController> _items = [TextEditingController()];
-  final List<TextEditingController> _quantity = [TextEditingController()];
+  final List<TextEditingController> _items = [];
+  final List<TextEditingController> _quantity = [];
 
   final _formKey = GlobalKey<FormState>();
-
+  final formKey = GlobalKey<FormState>();
+  final CalendarFormat _calendarFormat = CalendarFormat.month;
   _addField() {
     setState(() {
       _items.add(TextEditingController());
@@ -164,907 +169,1092 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 ],
               ),
               body: SingleChildScrollView(
-                  child: Column(
-                children: [
-                  SizedBox(
-                    height: 50.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Column(
-                        children: [
-                          const Text(
-                            "الصورة الخارجيه",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 50.h,
-                          ),
-                          Stack(
-                            children: [
-                              Container(
-                                width: 400.w,
-                                height: 320.h,
-                                decoration: BoxDecoration(
-                                  boxShadow: const [
-                                    BoxShadow(
-                                        color: Colors.black12,
-                                        spreadRadius: -1,
-                                        blurRadius: 5)
-                                  ],
-                                  shape: BoxShape.circle,
-                                  color: Colors.deepPurple.shade50,
-                                  image: itemCubit.pickedLogo != null
-                                      ? DecorationImage(
-                                          image:
-                                              FileImage(itemCubit.pickedLogo!),
-                                          fit: BoxFit.contain,
-                                        )
-                                      : const DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/loggo.png"),
-                                          fit: BoxFit.contain,
-                                        ),
-                                ),
-                              ),
-                              Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 220.3.h, left: 47.w, right: 47.w),
-                                  child: Container(
-                                      width: 80.w,
-                                      height: 94.7.h,
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey.shade100,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              width: 7.w, color: Colors.white)),
-                                      child: IconButton(
-                                        icon: Icon(
-                                          Icons.camera_alt_rounded,
-                                          size: 30.w,
-                                          color: Colors.grey,
-                                        ),
-                                        onPressed: () {
-                                          itemCubit.pickLogo(
-                                            ImageSource.gallery,
-                                          );
-                                          pickedLogo = itemCubit.pickedLogo;
-                                        },
-                                      ))),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 40.h,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          const Text(
-                            "الصورة الداخليه الاولي",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 50.h,
-                          ),
-                          Stack(
-                            children: [
-                              Container(
-                                width: 400.w,
-                                height: 320.h,
-                                decoration: BoxDecoration(
-                                  boxShadow: const [
-                                    BoxShadow(
-                                        color: Colors.black12,
-                                        spreadRadius: -1,
-                                        blurRadius: 5)
-                                  ],
-                                  shape: BoxShape.rectangle,
-                                  color: Colors.deepPurple.shade50,
-                                  image: itemCubit.pickedImage1 != null
-                                      ? DecorationImage(
-                                          image: FileImage(
-                                              itemCubit.pickedImage1!),
-                                          fit: BoxFit.contain,
-                                        )
-                                      : const DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/loggo.png"),
-                                          fit: BoxFit.contain,
-                                        ),
-                                ),
-                              ),
-                              Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 220.3.h, left: 47.w, right: 47.w),
-                                  child: Container(
-                                      width: 80.w,
-                                      height: 94.7.h,
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey.shade100,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              width: 7.w, color: Colors.white)),
-                                      child: IconButton(
-                                        icon: Icon(
-                                          Icons.camera_alt_rounded,
-                                          size: 30.w,
-                                          color: Colors.grey,
-                                        ),
-                                        onPressed: () {
-                                          itemCubit.pickImage1(
-                                              ImageSource.gallery, context);
-                                          pickedLogo = itemCubit.pickedImage1;
-                                        },
-                                      ))),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 40.h,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          const Text(
-                            "الصورة الداخليه الثانيه",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 50.h,
-                          ),
-                          Stack(
-                            children: [
-                              Container(
-                                width: 400.w,
-                                height: 320.h,
-                                decoration: BoxDecoration(
-                                  boxShadow: const [
-                                    BoxShadow(
-                                        color: Colors.black12,
-                                        spreadRadius: -1,
-                                        blurRadius: 5)
-                                  ],
-                                  shape: BoxShape.rectangle,
-                                  color: Colors.deepPurple.shade50,
-                                  image: itemCubit.pickedImage2 != null
-                                      ? DecorationImage(
-                                          image: FileImage(
-                                              itemCubit.pickedImage2!),
-                                          fit: BoxFit.contain,
-                                        )
-                                      : const DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/loggo.png"),
-                                          fit: BoxFit.contain,
-                                        ),
-                                ),
-                              ),
-                              Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 220.3.h, left: 47.w, right: 47.w),
-                                  child: Container(
-                                      width: 80.w,
-                                      height: 94.7.h,
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey.shade100,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              width: 7.w, color: Colors.white)),
-                                      child: IconButton(
-                                        icon: Icon(
-                                          Icons.camera_alt_rounded,
-                                          size: 30.w,
-                                          color: Colors.grey,
-                                        ),
-                                        onPressed: () {
-                                          itemCubit.pickImage2(
-                                              ImageSource.gallery, context);
-                                          pickedLogo = itemCubit.pickedImage2;
-                                        },
-                                      ))),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 40.h,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          const Text(
-                            "الصورة الداخليه الثالثه",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 50.h,
-                          ),
-                          Stack(
-                            children: [
-                              Container(
-                                width: 400.w,
-                                height: 320.h,
-                                decoration: BoxDecoration(
-                                  boxShadow: const [
-                                    BoxShadow(
-                                        color: Colors.black12,
-                                        spreadRadius: -1,
-                                        blurRadius: 5)
-                                  ],
-                                  shape: BoxShape.rectangle,
-                                  color: Colors.deepPurple.shade50,
-                                  image: itemCubit.pickedImage3 != null
-                                      ? DecorationImage(
-                                          image: FileImage(
-                                              itemCubit.pickedImage3!),
-                                          fit: BoxFit.contain,
-                                        )
-                                      : const DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/loggo.png"),
-                                          fit: BoxFit.contain,
-                                        ),
-                                ),
-                              ),
-                              Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 220.3.h, left: 47.w, right: 47.w),
-                                  child: Container(
-                                      width: 80.w,
-                                      height: 94.7.h,
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey.shade100,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              width: 7.w, color: Colors.white)),
-                                      child: IconButton(
-                                        icon: Icon(
-                                          Icons.camera_alt_rounded,
-                                          size: 30.w,
-                                          color: Colors.grey,
-                                        ),
-                                        onPressed: () {
-                                          itemCubit.pickImage3(
-                                              ImageSource.gallery, context);
-                                          pickedLogo = itemCubit.pickedImage3;
-                                        },
-                                      ))),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 40.h,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 50.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 20.w,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 70.w),
-                            child: const Text(
-                              "الاسم",
+                  child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 50.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Column(
+                          children: [
+                            const Text(
+                              "الصورة الخارجيه",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                          ),
-                          SizedBox(
-                            height: 30.h,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20.w, vertical: 40.h),
-                            child: SizedBox(
-                              width: 420.w,
-                              child: CustomTextFormField(
-                                controller: name,
-                                backgroundColor: Colors.grey[300],
-                                padding: EdgeInsets.only(
-                                    bottom: 22.h, left: 10.w, right: 10.w),
-                                height: 80.h,
-                              ),
+                            SizedBox(
+                              height: 50.h,
                             ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 70.w),
-                            child: const Text(
-                              "الوصف",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 30.h,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20.w, vertical: 40.h),
-                            child: SizedBox(
-                              width: 420.w,
-                              child: CustomTextFormField(
-                                controller: description,
-                                backgroundColor: Colors.grey[300],
-                                padding: EdgeInsets.only(
-                                    bottom: 22.h, left: 10.w, right: 10.w),
-                                height: 80.h,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 70.w),
-                            child: const Text(
-                              "التوقيت",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 70.w),
-                                    child: const Text(
-                                      " من صباحا",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                            Stack(
+                              children: [
+                                Container(
+                                  width: 400.w,
+                                  height: 320.h,
+                                  decoration: BoxDecoration(
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color: Colors.black12,
+                                          spreadRadius: -1,
+                                          blurRadius: 5)
+                                    ],
+                                    shape: BoxShape.circle,
+                                    color: Colors.deepPurple.shade50,
+                                    image: itemCubit.pickedLogo != null
+                                        ? DecorationImage(
+                                            image: FileImage(
+                                                itemCubit.pickedLogo!),
+                                            fit: BoxFit.contain,
+                                          )
+                                        : const DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/loggo.png"),
+                                            fit: BoxFit.contain,
+                                          ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 30.w, vertical: 40.h),
-                                    child: SizedBox(
-                                      width: 190.w,
-                                      child: CustomTextFormField(
-                                        readOnly: true,
-                                        onTap: () async {
-                                          TimeOfDay? pickedTime =
-                                              await showTimePicker(
-                                            initialTime: TimeOfDay.now(),
-                                            context: context,
-                                          );
-
-                                          if (pickedTime != null) {
-                                            // Explicitly set the locale to English when formatting and parsing
-                                            String formattedTime =
-                                                DateFormat('HH:mm:ss', 'en_US')
-                                                    .format(
-                                              DateTime(
-                                                2024,
-                                                1,
-                                                1,
-                                                pickedTime.hour,
-                                                pickedTime.minute,
-                                              ),
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 220.3.h, left: 47.w, right: 47.w),
+                                    child: Container(
+                                        width: 80.w,
+                                        height: 94.7.h,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey.shade100,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                width: 7.w,
+                                                color: Colors.white)),
+                                        child: IconButton(
+                                          icon: Icon(
+                                            Icons.camera_alt_rounded,
+                                            size: 30.w,
+                                            color: Colors.grey,
+                                          ),
+                                          onPressed: () {
+                                            itemCubit.pickLogo(
+                                              ImageSource.gallery,
                                             );
+                                            pickedLogo = itemCubit.pickedLogo;
+                                          },
+                                        ))),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 40.h,
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const Text(
+                              "الصورة الداخليه الاولي",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 50.h,
+                            ),
+                            Stack(
+                              children: [
+                                Container(
+                                  width: 400.w,
+                                  height: 320.h,
+                                  decoration: BoxDecoration(
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color: Colors.black12,
+                                          spreadRadius: -1,
+                                          blurRadius: 5)
+                                    ],
+                                    shape: BoxShape.rectangle,
+                                    color: Colors.deepPurple.shade50,
+                                    image: itemCubit.pickedImage1 != null
+                                        ? DecorationImage(
+                                            image: FileImage(
+                                                itemCubit.pickedImage1!),
+                                            fit: BoxFit.contain,
+                                          )
+                                        : const DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/loggo.png"),
+                                            fit: BoxFit.contain,
+                                          ),
+                                  ),
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 220.3.h, left: 47.w, right: 47.w),
+                                    child: Container(
+                                        width: 80.w,
+                                        height: 94.7.h,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey.shade100,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                width: 7.w,
+                                                color: Colors.white)),
+                                        child: IconButton(
+                                          icon: Icon(
+                                            Icons.camera_alt_rounded,
+                                            size: 30.w,
+                                            color: Colors.grey,
+                                          ),
+                                          onPressed: () {
+                                            itemCubit.pickImage1(
+                                                ImageSource.gallery, context);
+                                            pickedLogo = itemCubit.pickedImage1;
+                                          },
+                                        ))),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 40.h,
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const Text(
+                              "الصورة الداخليه الثانيه",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 50.h,
+                            ),
+                            Stack(
+                              children: [
+                                Container(
+                                  width: 400.w,
+                                  height: 320.h,
+                                  decoration: BoxDecoration(
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color: Colors.black12,
+                                          spreadRadius: -1,
+                                          blurRadius: 5)
+                                    ],
+                                    shape: BoxShape.rectangle,
+                                    color: Colors.deepPurple.shade50,
+                                    image: itemCubit.pickedImage2 != null
+                                        ? DecorationImage(
+                                            image: FileImage(
+                                                itemCubit.pickedImage2!),
+                                            fit: BoxFit.contain,
+                                          )
+                                        : const DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/loggo.png"),
+                                            fit: BoxFit.contain,
+                                          ),
+                                  ),
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 220.3.h, left: 47.w, right: 47.w),
+                                    child: Container(
+                                        width: 80.w,
+                                        height: 94.7.h,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey.shade100,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                width: 7.w,
+                                                color: Colors.white)),
+                                        child: IconButton(
+                                          icon: Icon(
+                                            Icons.camera_alt_rounded,
+                                            size: 30.w,
+                                            color: Colors.grey,
+                                          ),
+                                          onPressed: () {
+                                            itemCubit.pickImage2(
+                                                ImageSource.gallery, context);
+                                            pickedLogo = itemCubit.pickedImage2;
+                                          },
+                                        ))),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 40.h,
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const Text(
+                              "الصورة الداخليه الثالثه",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 50.h,
+                            ),
+                            Stack(
+                              children: [
+                                Container(
+                                  width: 400.w,
+                                  height: 320.h,
+                                  decoration: BoxDecoration(
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color: Colors.black12,
+                                          spreadRadius: -1,
+                                          blurRadius: 5)
+                                    ],
+                                    shape: BoxShape.rectangle,
+                                    color: Colors.deepPurple.shade50,
+                                    image: itemCubit.pickedImage3 != null
+                                        ? DecorationImage(
+                                            image: FileImage(
+                                                itemCubit.pickedImage3!),
+                                            fit: BoxFit.contain,
+                                          )
+                                        : const DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/loggo.png"),
+                                            fit: BoxFit.contain,
+                                          ),
+                                  ),
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 220.3.h, left: 47.w, right: 47.w),
+                                    child: Container(
+                                        width: 80.w,
+                                        height: 94.7.h,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey.shade100,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                width: 7.w,
+                                                color: Colors.white)),
+                                        child: IconButton(
+                                          icon: Icon(
+                                            Icons.camera_alt_rounded,
+                                            size: 30.w,
+                                            color: Colors.grey,
+                                          ),
+                                          onPressed: () {
+                                            itemCubit.pickImage3(
+                                                ImageSource.gallery, context);
+                                            pickedLogo = itemCubit.pickedImage3;
+                                          },
+                                        ))),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 40.h,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 50.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: 20.w,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 70.w),
+                              child: const Text(
+                                "الاسم",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 30.h,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20.w, vertical: 40.h),
+                              child: SizedBox(
+                                width: 420.w,
+                                child: CustomTextFormField(
+                                  validator: (String? value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "هذا الحقل مطلوب";
+                                    }
+                                    return null;
+                                  },
+                                  controller: name,
+                                  backgroundColor: Colors.grey[300],
+                                  padding: EdgeInsets.only(
+                                      bottom: 22.h, left: 10.w, right: 10.w),
+                                  height: 80.h,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 70.w),
+                              child: const Text(
+                                "الوصف",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 30.h,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20.w, vertical: 40.h),
+                              child: SizedBox(
+                                width: 420.w,
+                                child: CustomTextFormField(
+                                  validator: (String? value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "هذا الحقل مطلوب";
+                                    }
+                                    return null;
+                                  },
+                                  controller: description,
+                                  backgroundColor: Colors.grey[300],
+                                  padding: EdgeInsets.only(
+                                      bottom: 22.h, left: 10.w, right: 10.w),
+                                  height: 80.h,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10.w),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  const Text(
+                                    "التوقيت",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 10.w,
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.blue,
+                                    ),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => Dialog(
+                                          child: Container(
+                                            padding: const EdgeInsets.all(16),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                TableCalendar(
+                                                  calendarFormat:
+                                                      _calendarFormat,
+                                                  startingDayOfWeek:
+                                                      StartingDayOfWeek.sunday,
+                                                  focusedDay: _selectedDate,
+                                                  firstDay: DateTime(
+                                                      DateTime.now().year),
+                                                  lastDay: DateTime(
+                                                      DateTime.now().year + 1),
+                                                  selectedDayPredicate: (date) {
+                                                    return isSameDay(
+                                                        _selectedDate, date);
+                                                  },
+                                                  onDaySelected:
+                                                      (date, events) {
+                                                    print(date);
+                                                    if (date.isAfter(
+                                                        DateTime.now().subtract(
+                                                            const Duration(
+                                                                days: 1)))) {
+                                                      setState(() {
+                                                        _selectedDate = date;
+                                                      });
 
-                                            print(formattedTime);
-
-                                            DateTime parsedTime =
-                                                DateFormat('HH:mm:ss', 'en_US')
-                                                    .parse(
-                                              formattedTime,
-                                            );
-                                            // Converting to DateTime so that we can further format on a different pattern.
-                                            print(
-                                                parsedTime); // Output: 1970-01-01 22:53:00.000
-                                            String finalFormattedTime =
-                                                DateFormat('HH:mm:ss')
-                                                    .format(parsedTime);
-                                            print(
-                                                finalFormattedTime); // Output: 14:59:00
-                                            // DateFormat() is from the intl package, and you can format the time in any pattern you need.
-
-                                            setState(() {
-                                              timeinputFrom.text =
-                                                  formattedTime; // Set the value of the text field.
-                                            });
-                                          } else {
-                                            print("Time is not selected");
-                                          }
-                                        },
-                                        controller: timeinputFrom,
-                                        prefixIcon: const Padding(
-                                          padding: EdgeInsets.only(top: 7),
-                                          child: Icon(
-                                            Icons.timer,
-                                            size: 25,
+                                                      formattedDate = DateFormat(
+                                                              'yyyy-MM-dd')
+                                                          .format(
+                                                              _selectedDate);
+                                                      print(
+                                                          "&&&&&&&&&&&&&&&&&&&&&&&&&&");
+                                                      print(formattedDate);
+                                                      print(
+                                                          "&&&&&&&&&&&&&&&&&&&&&&&&&&");
+                                                      context.pop();
+                                                    } else {
+                                                      // Show a message for past or current date
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return const AlertDialog(
+                                                            content: Text(
+                                                                "لا يمكن اختيار تاريخ قد مضي"),
+                                                          );
+                                                        },
+                                                      );
+                                                    }
+                                                  },
+                                                  calendarStyle:
+                                                      const CalendarStyle(
+                                                    // weekendTextStyle: TextStyle(color: Colors.red),
+                                                    selectedTextStyle:
+                                                        TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                    selectedDecoration:
+                                                        BoxDecoration(
+                                                      color: Colors.blue,
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    // markersColor: Colors.green,
+                                                  ),
+                                                  headerStyle:
+                                                      const HeaderStyle(
+                                                    formatButtonVisible: true,
+                                                    titleCentered: true,
+                                                    titleTextStyle:
+                                                        TextStyle(fontSize: 20),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                        backgroundColor: Colors.grey[300],
-                                        padding: EdgeInsets.only(
-                                            bottom: 8, left: 10.w, right: 10.w),
-                                        height: 80.h,
-                                      ),
-                                    ),
-                                  )
+                                      );
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 40.w,
+                                  ),
+                                  if (formattedDate != null)
+                                    Text("التاريخ المختار  : ${formattedDate!}",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                            color: Color.fromARGB(
+                                                255, 6, 103, 182))),
                                 ],
                               ),
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 70.w),
-                                    child: const Text(
-                                      " الي مساءا",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                            ),
+                            Row(
+                              children: [
+                                Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 70.w),
+                                      child: const Text(
+                                        " من صباحا",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 30.w, vertical: 40.h),
-                                    child: SizedBox(
-                                      width: 190.w,
-                                      child: CustomTextFormField(
-                                        readOnly: true,
-                                        onTap: () async {
-                                          TimeOfDay? pickedTime =
-                                              await showTimePicker(
-                                            initialTime: TimeOfDay.now(),
-                                            context: context,
-                                          );
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 30.w, vertical: 40.h),
+                                      child: SizedBox(
+                                        width: 190.w,
+                                        child: CustomTextFormField(
+                                          readOnly: true,
+                                          onTap: () async {
+                                            TimeOfDay? pickedTime =
+                                                await showTimePicker(
+                                              initialTime: TimeOfDay.now(),
+                                              context: context,
+                                            );
 
-                                          if (pickedTime != null) {
-                                            // Explicitly set the locale to English when formatting and parsing
-                                            String formattedTime =
-                                                DateFormat('HH:mm:ss', 'en_US')
-                                                    .format(
-                                              DateTime(
+                                            if (pickedTime != null) {
+                                              // Explicitly set the locale to English when formatting and parsing
+                                              String formattedTime = DateFormat(
+                                                      'HH:mm:ss', 'en_US')
+                                                  .format(
+                                                DateTime(
                                                   2024,
                                                   1,
                                                   1,
                                                   pickedTime.hour,
-                                                  pickedTime.minute),
-                                            );
+                                                  pickedTime.minute,
+                                                ),
+                                              );
 
-                                            print(formattedTime);
+                                              print(formattedTime);
 
-                                            DateTime parsedTime =
-                                                DateFormat('HH:mm:ss', 'en_US')
-                                                    .parse(
-                                              formattedTime,
-                                            );
-                                            //converting to DateTime so that we can further format on different pattern.
-                                            print(
-                                                parsedTime); //output 1970-01-01 22:53:00.000
-                                            String finalFormattedTime =
-                                                DateFormat('HH:mm:ss')
-                                                    .format(parsedTime);
-                                            print(
-                                                finalFormattedTime); //output 14:59:00
-                                            //DateFormat() is from intl package, you can format the time on any pattern you need.
+                                              DateTime parsedTime = DateFormat(
+                                                      'HH:mm:ss', 'en_US')
+                                                  .parse(
+                                                formattedTime,
+                                              );
+                                              // Converting to DateTime so that we can further format on a different pattern.
+                                              print(
+                                                  parsedTime); // Output: 1970-01-01 22:53:00.000
+                                              String finalFormattedTime =
+                                                  DateFormat('HH:mm:ss')
+                                                      .format(parsedTime);
+                                              print(
+                                                  finalFormattedTime); // Output: 14:59:00
+                                              // DateFormat() is from the intl package, and you can format the time in any pattern you need.
 
-                                            setState(() {
-                                              timeinputTo.text =
-                                                  formattedTime; //set the value of text field.
-                                              print(timeinputTo.text);
-                                            });
-                                          } else {
-                                            print("Time is not selected");
-                                          }
-                                        },
-                                        controller: timeinputTo,
-                                        prefixIcon: const Padding(
-                                          padding: EdgeInsets.only(top: 7),
-                                          child: Icon(
-                                            Icons.timer,
-                                            size: 25,
+                                              setState(() {
+                                                timeinputFrom.text =
+                                                    formattedTime; // Set the value of the text field.
+                                              });
+                                            } else {
+                                              print("Time is not selected");
+                                            }
+                                          },
+                                          controller: timeinputFrom,
+                                          validator: (String? value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "هذا الحقل مطلوب";
+                                            }
+                                            return null;
+                                          },
+                                          prefixIcon: const Padding(
+                                            padding: EdgeInsets.only(top: 7),
+                                            child: Icon(
+                                              Icons.timer,
+                                              size: 25,
+                                            ),
                                           ),
+                                          backgroundColor: Colors.grey[300],
+                                          padding: EdgeInsets.only(
+                                              bottom: 8,
+                                              left: 10.w,
+                                              right: 10.w),
+                                          height: 80.h,
                                         ),
-                                        backgroundColor: Colors.grey[300],
-                                        padding: EdgeInsets.only(
-                                            bottom: 8, left: 10.w, right: 10.w),
-                                        height: 80.h,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 70.w),
+                                      child: const Text(
+                                        " الي مساءا",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 70.w),
-                            child: const Text(
-                              "الحاله",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 30.h,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 70.w, vertical: 20.h),
-                            child: Container(
-                              margin: EdgeInsetsDirectional.only(end: 2.w),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 15.w, vertical: 1.h),
-                              height: 80.h,
-                              width: 200,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[300],
-                                  borderRadius: BorderRadius.circular(10.sp)),
-                              child: Center(
-                                child: DropdownButtonFormField(
-                                  menuMaxHeight: 700.h,
-                                  decoration: const InputDecoration(
-                                      border: InputBorder.none),
-                                  hint: const Text(
-                                    "اختر الحاله",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  items: List.generate(
-                                    _statues.length,
-                                    (index) {
-                                      return DropdownMenuItem<int>(
-                                          value: index,
-                                          child: SizedBox(
-                                            width: 130.w,
-                                            child: Text(_statues[index]),
-                                          ));
-                                    },
-                                  ),
-                                  onChanged: (int? value) {
-                                    setState(() {
-                                      statue = value;
-                                    });
-                                    print('statue : $statue');
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 20.w,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 40.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20.w),
-                            child: const Text(
-                              "العنوان",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10.w, vertical: 40.h),
-                            child: SizedBox(
-                              width: 420.w,
-                              child: CustomTextFormField(
-                                controller: address,
-                                backgroundColor: Colors.grey[300],
-                                padding: EdgeInsets.only(
-                                    bottom: 22.h, left: 10.w, right: 10.w),
-                                height: 80.h,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 50.w),
-                            child: const Text(
-                              "السعر",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 0.w, vertical: 40.h),
-                            child: SizedBox(
-                              width: 420.w,
-                              child: CustomTextFormField(
-                                controller: price,
-                                backgroundColor: Colors.grey[300],
-                                padding: EdgeInsets.only(
-                                    bottom: 22.h, left: 10.w, right: 10.w),
-                                height: 80.h,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 50.w),
-                            child: const Text(
-                              "  العروض \"اتركها فارغه اذا لم يتواجد\" ",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20.w, vertical: 40.h),
-                            child: SizedBox(
-                              width: 420.w,
-                              child: CustomTextFormField(
-                                controller: offers,
-                                backgroundColor: Colors.grey[300],
-                                padding: EdgeInsets.only(
-                                    bottom: 22.h, left: 10.w, right: 10.w),
-                                height: 80.h,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 70.w),
-                            child: const Text(
-                              "السعر / الفتره",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 50.w, vertical: 20.h),
-                            child: Container(
-                              margin: EdgeInsetsDirectional.only(end: 2.w),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 15.w, vertical: 1.h),
-                              height: 80.h,
-                              width: 200,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[300],
-                                  borderRadius: BorderRadius.circular(10.sp)),
-                              child: Center(
-                                child: DropdownButtonFormField(
-                                  menuMaxHeight: 700.h,
-                                  decoration: const InputDecoration(
-                                      border: InputBorder.none),
-                                  hint: const Text(
-                                    "اختر الفترة",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  items: List.generate(
-                                    _priceState.length,
-                                    (index) {
-                                      return DropdownMenuItem<int>(
-                                          value: index,
-                                          child: SizedBox(
-                                            width: 140.w,
-                                            child: Text(_priceState[index]),
-                                          ));
-                                    },
-                                  ),
-                                  onChanged: (int? value) {
-                                    setState(() {
-                                      priceDuaration = _priceState[value!];
-                                    });
-                                    print('priceDuaration : $priceDuaration');
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 20.w,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 60.h,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 170.w),
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      child: Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              _addField();
-                            },
-                            child: Icon(
-                              Icons.add_circle,
-                              size: 30,
-                              color: Colors.green[500],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 50.w,
-                          ),
-                          Text("اضافه ",
-                              style: TextStyle(
-                                  color: Colors.green[500],
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        for (int i = 0; i < _items.length; i++)
-                          Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.all(38.sp),
-                                    child: SizedBox(
-                                      width: 500,
-                                      height: 70,
-                                      child: CustomTextFormField(
-                                          backgroundColor: Colors.grey[300],
-                                          padding: EdgeInsets.only(
-                                              bottom: 22.h,
-                                              left: 10.w,
-                                              right: 10.w),
-                                          controller: _items[i],
-                                          validator: (value) {
-                                            if (value == "") {
-                                              return "please enter empty fields";
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 30.w, vertical: 40.h),
+                                      child: SizedBox(
+                                        width: 190.w,
+                                        child: CustomTextFormField(
+                                          readOnly: true,
+                                          onTap: () async {
+                                            TimeOfDay? pickedTime =
+                                                await showTimePicker(
+                                              initialTime: TimeOfDay.now(),
+                                              context: context,
+                                            );
+
+                                            if (pickedTime != null) {
+                                              // Explicitly set the locale to English when formatting and parsing
+                                              String formattedTime = DateFormat(
+                                                      'HH:mm:ss', 'en_US')
+                                                  .format(
+                                                DateTime(
+                                                    2024,
+                                                    1,
+                                                    1,
+                                                    pickedTime.hour,
+                                                    pickedTime.minute),
+                                              );
+
+                                              print(formattedTime);
+
+                                              DateTime parsedTime = DateFormat(
+                                                      'HH:mm:ss', 'en_US')
+                                                  .parse(
+                                                formattedTime,
+                                              );
+                                              //converting to DateTime so that we can further format on different pattern.
+                                              print(
+                                                  parsedTime); //output 1970-01-01 22:53:00.000
+                                              String finalFormattedTime =
+                                                  DateFormat('HH:mm:ss')
+                                                      .format(parsedTime);
+                                              print(
+                                                  finalFormattedTime); //output 14:59:00
+                                              //DateFormat() is from intl package, you can format the time on any pattern you need.
+
+                                              setState(() {
+                                                timeinputTo.text =
+                                                    formattedTime; //set the value of text field.
+                                                print(timeinputTo.text);
+                                              });
+                                            } else {
+                                              print("Time is not selected");
+                                            }
+                                          },
+                                          controller: timeinputTo,
+                                          validator: (String? value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "هذا الحقل مطلوب";
                                             }
                                             return null;
                                           },
-                                          keyboardType: TextInputType.text,
-                                          labelText: "اضافه مقتنيه"),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(38.sp),
-                                    child: SizedBox(
-                                      width: 110,
-                                      child: CustomTextFormField(
-                                          height: 70,
-                                          backgroundColor: Colors.grey[300],
-                                          padding: EdgeInsets.only(
-                                              bottom: 22.h,
-                                              left: 10.w,
-                                              right: 10.w),
-                                          controller: _quantity[i],
-                                          validator: (value) {
-                                            if (value == "") {
-                                              return "ادخل الحقل الفارغ";
-                                            }
-                                            final isNumeric = int.tryParse(
-                                                value!); // Check if the entered value is an integer
-                                            if (isNumeric == null) {
-                                              return 'ادخل رقم صحيح';
-                                            }
-                                            return null;
-                                          },
-                                          keyboardType: TextInputType.text,
-                                          labelText: "اضافه العدد"),
-                                    ),
-                                  ),
-                                  (i != 0)
-                                      ? InkWell(
-                                          child: const Icon(
-                                            Icons.remove_circle,
-                                            color: Colors.red,
+                                          prefixIcon: const Padding(
+                                            padding: EdgeInsets.only(top: 7),
+                                            child: Icon(
+                                              Icons.timer,
+                                              size: 25,
+                                            ),
                                           ),
-                                          onTap: () {
-                                            _removeField(i);
-                                          },
-                                        )
-                                      : const SizedBox(
-                                          width: 20,
+                                          backgroundColor: Colors.grey[300],
+                                          padding: EdgeInsets.only(
+                                              bottom: 8,
+                                              left: 10.w,
+                                              right: 10.w),
+                                          height: 80.h,
                                         ),
-                                ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 70.w),
+                              child: const Text(
+                                "الحاله",
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                              Divider(
-                                thickness: 2,
-                                color: Colors.grey[300],
-                              )
-                            ],
-                          )
+                            ),
+                            SizedBox(
+                              height: 30.h,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 70.w, vertical: 20.h),
+                              child: Container(
+                                margin: EdgeInsetsDirectional.only(end: 2.w),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 15.w, vertical: 1.h),
+                                height: 80.h,
+                                width: 200,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[300],
+                                    borderRadius: BorderRadius.circular(10.sp)),
+                                child: Center(
+                                  child: DropdownButtonFormField(
+                                    menuMaxHeight: 700.h,
+                                    decoration: const InputDecoration(
+                                        border: InputBorder.none),
+                                    hint: const Text(
+                                      "اختر الحاله",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    items: List.generate(
+                                      _statues.length,
+                                      (index) {
+                                        return DropdownMenuItem<int>(
+                                            value: index,
+                                            child: SizedBox(
+                                              width: 130.w,
+                                              child: Text(_statues[index]),
+                                            ));
+                                      },
+                                    ),
+                                    onChanged: (int? value) {
+                                      setState(() {
+                                        statue = value;
+                                      });
+                                      print('statue : $statue');
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 20.w,
+                        ),
                       ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 40.h,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 800.w),
-                    child: CustomButton(
-                      onPressed: () {
-                        String offer = offers.text;
-                        if (offers.text.isEmpty) {
-                          offer = "لا يوجد عروض";
-                        }
-                        print(timeinputTo.text);
-                        devicesList = _items
-                            .asMap()
-                            .map((index, _) => MapEntry(
-                                  index,
-                                  {
-                                    "name": _items[index].text.trim(),
-                                    "number": _quantity[index].text.trim(),
-                                  },
-                                ))
-                            .values
-                            .toList();
-                        print(devicesList);
-                        print(timeinputFrom.text);
-                        print("-------------");
-                        print(timeinputTo.text);
-                        itemCubit.AddItem(
-                            logo: itemCubit.pickedLogo,
-                            image1: itemCubit.pickedImage1,
-                            image2: itemCubit.pickedImage2,
-                            image3: itemCubit.pickedImage3,
-                            name: name.text,
-                            description: description.text,
-                            price: price.text,
-                            availableTimeFrom: timeinputFrom.text,
-                            availableTimeTo: timeinputTo.text,
-                            categoryName: categoryName,
-                            statues: statue.toString(),
-                            address: address.text,
-                            offers: offer,
-                            type: priceDuaration,
-                            collectibles: jsonEncode(devicesList));
-                      },
-                      text: "اضافه عنصر",
-                      fontWeight: FontWeight.bold,
+                    SizedBox(
+                      height: 40.h,
                     ),
-                  ),
-                  SizedBox(
-                    height: 50.h,
-                  )
-                ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20.w),
+                              child: const Text(
+                                "العنوان",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10.w, vertical: 40.h),
+                              child: SizedBox(
+                                width: 420.w,
+                                child: CustomTextFormField(
+                                  controller: address,
+                                  validator: (String? value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "هذا الحقل مطلوب";
+                                    }
+                                    return null;
+                                  },
+                                  backgroundColor: Colors.grey[300],
+                                  padding: EdgeInsets.only(
+                                      bottom: 22.h, left: 10.w, right: 10.w),
+                                  height: 80.h,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 50.w),
+                              child: const Text(
+                                "السعر",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 0.w, vertical: 40.h),
+                              child: SizedBox(
+                                width: 420.w,
+                                child: CustomTextFormField(
+                                  controller: price,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'هذا الحقل مطلوب';
+                                    }
+                                    try {
+                                      double.parse(value);
+                                      return null; // Return null if the input is a valid integer
+                                    } catch (e) {
+                                      return 'من فضلك ادخل رقم صحيح'; // Error message for invalid input
+                                    }
+                                  },
+                                  backgroundColor: Colors.grey[300],
+                                  padding: EdgeInsets.only(
+                                      bottom: 22.h, left: 10.w, right: 10.w),
+                                  height: 80.h,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 50.w),
+                              child: const Text(
+                                "  العروض \"اتركها فارغه اذا لم يتواجد\" ",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20.w, vertical: 40.h),
+                              child: SizedBox(
+                                width: 420.w,
+                                child: CustomTextFormField(
+                                  controller: offers,
+                                  backgroundColor: Colors.grey[300],
+                                  padding: EdgeInsets.only(
+                                      bottom: 22.h, left: 10.w, right: 10.w),
+                                  height: 80.h,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 70.w),
+                              child: const Text(
+                                "السعر / الفتره",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 50.w, vertical: 20.h),
+                              child: Container(
+                                margin: EdgeInsetsDirectional.only(end: 2.w),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 15.w, vertical: 1.h),
+                                height: 80.h,
+                                width: 200,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[300],
+                                    borderRadius: BorderRadius.circular(10.sp)),
+                                child: Center(
+                                  child: DropdownButtonFormField(
+                                    menuMaxHeight: 700.h,
+                                    decoration: const InputDecoration(
+                                        border: InputBorder.none),
+                                    hint: const Text(
+                                      "اختر الفترة",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    items: List.generate(
+                                      _priceState.length,
+                                      (index) {
+                                        return DropdownMenuItem<int>(
+                                            value: index,
+                                            child: SizedBox(
+                                              width: 140.w,
+                                              child: Text(_priceState[index]),
+                                            ));
+                                      },
+                                    ),
+                                    onChanged: (int? value) {
+                                      setState(() {
+                                        priceDuaration = _priceState[value!];
+                                      });
+                                      print('priceDuaration : $priceDuaration');
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 20.w,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 60.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 170.w),
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                _addField();
+                              },
+                              child: Icon(
+                                Icons.add_circle,
+                                size: 30,
+                                color: Colors.green[500],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 50.w,
+                            ),
+                            Text("اضافه ",
+                                style: TextStyle(
+                                    color: Colors.green[500],
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          for (int i = 0; i < _items.length; i++)
+                            Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(38.sp),
+                                      child: SizedBox(
+                                        width: 500,
+                                        height: 70,
+                                        child: CustomTextFormField(
+                                            backgroundColor: Colors.grey[300],
+                                            padding: EdgeInsets.only(
+                                                bottom: 22.h,
+                                                left: 10.w,
+                                                right: 10.w),
+                                            controller: _items[i],
+                                            validator: (value) {
+                                              if (value == "") {
+                                                return "هذا الحقل مطلوب";
+                                              }
+                                              return null;
+                                            },
+                                            keyboardType: TextInputType.text,
+                                            labelText: "اضافه مقتنيه"),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(38.sp),
+                                      child: SizedBox(
+                                        width: 110,
+                                        child: CustomTextFormField(
+                                            height: 70,
+                                            backgroundColor: Colors.grey[300],
+                                            padding: EdgeInsets.only(
+                                                bottom: 22.h,
+                                                left: 10.w,
+                                                right: 10.w),
+                                            controller: _quantity[i],
+                                            validator: (value) {
+                                              if (value == "") {
+                                                return "ادخل الحقل الفارغ";
+                                              }
+                                              final isNumeric = int.tryParse(
+                                                  value!); // Check if the entered value is an integer
+                                              if (isNumeric == null) {
+                                                return 'ادخل رقم صحيح';
+                                              }
+                                              return null;
+                                            },
+                                            keyboardType: TextInputType.text,
+                                            labelText: "اضافه العدد"),
+                                      ),
+                                    ),
+                                    (i != 0)
+                                        ? InkWell(
+                                            child: const Icon(
+                                              Icons.remove_circle,
+                                              color: Colors.red,
+                                            ),
+                                            onTap: () {
+                                              _removeField(i);
+                                            },
+                                          )
+                                        : const SizedBox(
+                                            width: 20,
+                                          ),
+                                  ],
+                                ),
+                                Divider(
+                                  thickness: 2,
+                                  color: Colors.grey[300],
+                                )
+                              ],
+                            )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 800.w),
+                      child: CustomButton(
+                        onPressed: () {
+                          String offer = offers.text;
+                          if (offers.text.isEmpty) {
+                            offer = "لا يوجد عروض";
+                          }
+                          print(timeinputTo.text);
+                          devicesList = _items
+                              .asMap()
+                              .map((index, _) => MapEntry(
+                                    index,
+                                    {
+                                      "name": _items[index].text.trim(),
+                                      "number": _quantity[index].text.trim(),
+                                    },
+                                  ))
+                              .values
+                              .toList();
+                          print(devicesList);
+                          print(timeinputFrom.text);
+                          print("-------------");
+                          print(timeinputTo.text);
+                          if (formKey.currentState != null &&
+                              _formKey.currentState != null) {
+                            if (formKey.currentState!.validate() &&
+                                _formKey.currentState!.validate() &&
+                                itemCubit.pickedLogo != null &&
+                                itemCubit.pickedImage1 != null &&
+                                itemCubit.pickedImage2 != null &&
+                                itemCubit.pickedImage3 != null &&
+                                (categoryName != null || categoryName != "") &&
+                                statue != null &&
+                                (formattedDate != null ||
+                                    formattedDate != "") &&
+                                (priceDuaration != null ||
+                                    priceDuaration != "")) {
+                              itemCubit.AddItem(
+                                  logo: itemCubit.pickedLogo,
+                                  image1: itemCubit.pickedImage1,
+                                  image2: itemCubit.pickedImage2,
+                                  image3: itemCubit.pickedImage3,
+                                  name: name.text,
+                                  description: description.text,
+                                  price: price.text,
+                                  availableTimeFrom: timeinputFrom.text,
+                                  availableTimeTo: timeinputTo.text,
+                                  categoryName: categoryName,
+                                  statues: statue.toString(),
+                                  address: address.text,
+                                  offers: offer,
+                                  date: formattedDate,
+                                  type: priceDuaration,
+                                  collectibles: jsonEncode(devicesList));
+                            } else {
+                              showError("من فضلك ادخل القيم الناقصه");
+                            }
+                          }
+                        },
+                        text: "اضافه عنصر",
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50.h,
+                    )
+                  ],
+                ),
               )),
             );
           },

@@ -23,6 +23,7 @@ class ItemCubit extends Cubit<ItemState> {
 
   Future<void> addAvailableTime({
     required availableTimeFrom,
+    required date,
     required availableTimeTo,
     required item_id,
     required price,
@@ -32,7 +33,7 @@ class ItemCubit extends Cubit<ItemState> {
     FormData formData = FormData.fromMap({
       "available_time_from": availableTimeFrom,
       "available_time_to": availableTimeTo,
-      "date": separateDate(DateTime.now().toString()),
+      "date": date,
       "item_id": item_id,
       "price": price,
       "status": 0,
@@ -76,6 +77,7 @@ class ItemCubit extends Cubit<ItemState> {
       required offers,
       required type,
       required collectibles,
+      required date,
       context}) async {
     emit(AddItemLoading());
     showLoading();
@@ -114,6 +116,7 @@ class ItemCubit extends Cubit<ItemState> {
         if (jsonResponse.success == true) {
           fromadditem = true;
           await addAvailableTime(
+            date: date,
             availableTimeFrom: availableTimeFrom,
             availableTimeTo: availableTimeTo,
             item_id: jsonResponse.itemId,

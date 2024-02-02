@@ -3,11 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
-import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/core/utilies/easy_loading.dart';
 import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
 import 'package:reservationapp_admin/features/Add-Items/business-logic/Item_cubit/item_cubit.dart';
-import 'package:reservationapp_admin/features/Auth/presentation/login-screen.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class AddTimeDialog extends StatefulWidget {
   const AddTimeDialog({super.key});
@@ -20,8 +19,10 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
   TextEditingController timeinputFrom = TextEditingController();
   TextEditingController timeinputTo = TextEditingController();
   TextEditingController price = TextEditingController();
-
+  DateTime _selectedDate = DateTime.now();
+  String? formattedDate;
   final _formKey = GlobalKey<FormState>();
+  final CalendarFormat _calendarFormat = CalendarFormat.month;
 
   String? categoryId;
 
@@ -36,7 +37,7 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
         if (state is AddItemSuccess) {
           hideLoading();
           showSuccess("تمت الاضافه بنجاح");
-          context.pushReplacementNamed(Routes.viewCategoriesScreen);
+          context.pop();
         }
         if (state is AddItemFailure) {
           hideLoading();
@@ -56,7 +57,7 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                       : 500.w),
               child: Container(
                 width: double.infinity,
-                height: 540,
+                height: 640,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     color: Colors.white),
@@ -130,6 +131,101 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.calendar_today,
+                              color: Colors.blue,
+                            ),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => Dialog(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(16),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        TableCalendar(
+                                          calendarFormat: _calendarFormat,
+                                          startingDayOfWeek:
+                                              StartingDayOfWeek.sunday,
+                                          focusedDay: _selectedDate,
+                                          firstDay:
+                                              DateTime(DateTime.now().year),
+                                          lastDay:
+                                              DateTime(DateTime.now().year + 1),
+                                          selectedDayPredicate: (date) {
+                                            return isSameDay(
+                                                _selectedDate, date);
+                                          },
+                                          onDaySelected: (date, events) {
+                                            print(date);
+                                            if (date.isAfter(DateTime.now()
+                                                .subtract(
+                                                    const Duration(days: 1)))) {
+                                              setState(() {
+                                                _selectedDate = date;
+                                              });
+
+                                              formattedDate =
+                                                  DateFormat('yyyy-MM-dd')
+                                                      .format(_selectedDate);
+                                              print(
+                                                  "&&&&&&&&&&&&&&&&&&&&&&&&&&");
+                                              print(formattedDate);
+                                              print(
+                                                  "&&&&&&&&&&&&&&&&&&&&&&&&&&");
+                                              context.pop();
+                                            } else {
+                                              // Show a message for past or current date
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return const AlertDialog(
+                                                    content: Text(
+                                                        "لا يمكن اختيار تاريخ قد مضي"),
+                                                  );
+                                                },
+                                              );
+                                            }
+                                          },
+                                          calendarStyle: const CalendarStyle(
+                                            // weekendTextStyle: TextStyle(color: Colors.red),
+                                            selectedTextStyle:
+                                                TextStyle(color: Colors.white),
+                                            selectedDecoration: BoxDecoration(
+                                              color: Colors.blue,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            // markersColor: Colors.green,
+                                          ),
+                                          headerStyle: const HeaderStyle(
+                                            formatButtonVisible: true,
+                                            titleCentered: true,
+                                            titleTextStyle:
+                                                TextStyle(fontSize: 20),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          SizedBox(
+                            height: 10.w,
+                          ),
+                          if (formattedDate != null)
+                            Text("التاريخ المختار  : ${formattedDate!}",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 6, 103, 182))),
+                          SizedBox(
+                            height: 10.w,
+                          ),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 70.w),
                             child: const Text(
@@ -204,6 +300,12 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                                           }
                                         },
                                         controller: timeinputFrom,
+                                        validator: (String? value) {
+                                          if (value == null || value.isEmpty) {
+                                            return "هذا الحقل مطلوب";
+                                          }
+                                          return null;
+                                        },
                                         prefixIcon: const Padding(
                                           padding: EdgeInsets.only(top: 7),
                                           child: Icon(
@@ -285,6 +387,12 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                                           }
                                         },
                                         controller: timeinputTo,
+                                        validator: (String? value) {
+                                          if (value == null || value.isEmpty) {
+                                            return "هذا الحقل مطلوب";
+                                          }
+                                          return null;
+                                        },
                                         prefixIcon: const Padding(
                                           padding: EdgeInsets.only(top: 7),
                                           child: Icon(
@@ -323,6 +431,17 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                               width: 420.w,
                               child: CustomTextFormField(
                                 controller: price,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'هذا الحقل مطلوب';
+                                  }
+                                  try {
+                                    double.parse(value);
+                                    return null; // Return null if the input is a valid integer
+                                  } catch (e) {
+                                    return 'من فضلك ادخل رقم صحيح'; // Error message for invalid input
+                                  }
+                                },
                                 backgroundColor: Colors.grey[300],
                                 padding: EdgeInsets.only(
                                     bottom: 22.h, left: 10.w, right: 10.w),
@@ -338,8 +457,12 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                         children: [
                           ElevatedButton(
                               onPressed: () {
-                                if (_formKey.currentState!.validate()) {
+                                if (_formKey.currentState!.validate() &&
+                                    (formattedDate != "" ||
+                                        formattedDate != null) &&
+                                    (categoryId != null || categoryId != "")) {
                                   itemCubit.addAvailableTime(
+                                    date: formattedDate,
                                     availableTimeFrom: timeinputFrom.text,
                                     availableTimeTo: timeinputTo.text,
                                     item_id: categoryId,

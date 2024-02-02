@@ -29,12 +29,14 @@ class Data {
   String? userId;
   String? categoryName;
   String? itemId;
+  String? packageId;
   String? time;
   String? timeOfReservationFrom;
   String? timeOfReservationTo;
   String? additionalOptions;
   String? status;
   String? document;
+  String? comment;
   String? approveOfPayment;
   String? price;
   String? paid;
@@ -46,11 +48,13 @@ class Data {
       this.userId,
       this.categoryName,
       this.itemId,
+      this.packageId,
       this.time,
       this.timeOfReservationFrom,
       this.timeOfReservationTo,
       this.additionalOptions,
       this.status,
+      this.comment,
       this.document,
       this.approveOfPayment,
       this.price,
@@ -64,11 +68,13 @@ class Data {
     categoryName = json['category_name'];
     itemId = json['item_id'];
     time = json['time'];
+    packageId = json['package_id'];
     timeOfReservationFrom = json['time_of_reservation_from'];
     timeOfReservationTo = json['time_of_reservation_to'];
     additionalOptions = json['additional_options'];
     status = json['status'];
     document = json['document'];
+    comment = json['comments'];
     approveOfPayment = json['approve_of_payment'];
     price = json['price'];
     paid = json['paid'];
@@ -83,11 +89,13 @@ class Data {
     data['category_name'] = categoryName;
     data['item_id'] = itemId;
     data['time'] = time;
+    data['package_id'] = packageId;
     data['time_of_reservation_from'] = timeOfReservationFrom;
     data['time_of_reservation_to'] = timeOfReservationTo;
     data['additional_options'] = additionalOptions;
     data['status'] = status;
     data['document'] = document;
+    data['comments'] = comment;
     data['approve_of_payment'] = approveOfPayment;
     data['price'] = price;
     data['paid'] = paid;
