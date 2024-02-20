@@ -5,11 +5,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reservationapp_admin/core/Api/my_http.dart';
-import 'package:reservationapp_admin/core/functions/date_format.dart';
 import 'package:reservationapp_admin/core/utilies/easy_loading.dart';
 import 'package:reservationapp_admin/features/View-users/data/models/acceptance-model.dart';
 
-import '../../../../Core/Api/endPoints.dart'; // Import the library that defines 'getCategories'.
+import '../../../../Core/Api/endPoints.dart';
 import '../../../View-category-details/data/models/items-model.dart';
 
 part 'item_state.dart';
@@ -68,16 +67,12 @@ class ItemCubit extends Cubit<ItemState> {
       required image3,
       required name,
       required description,
-      required price,
-      required availableTimeFrom,
-      required availableTimeTo,
       required categoryName,
       required statues,
       required address,
       required offers,
       required type,
       required collectibles,
-      required date,
       context}) async {
     emit(AddItemLoading());
     showLoading();
@@ -103,7 +98,7 @@ class ItemCubit extends Cubit<ItemState> {
         // "available_time_to": availableTimeTo,
         "status": 1,
         "offer": offers,
-        "price": price,
+        //  "price": price,
         "devices": collectibles,
       });
       print(formData.fields);
@@ -114,15 +109,6 @@ class ItemCubit extends Cubit<ItemState> {
         var decodedData = json.decode(response.data);
         var jsonResponse = AcceptanceModel.fromJson(decodedData);
         if (jsonResponse.success == true) {
-          fromadditem = true;
-          await addAvailableTime(
-            date: date,
-            availableTimeFrom: availableTimeFrom,
-            availableTimeTo: availableTimeTo,
-            item_id: jsonResponse.itemId,
-            price: price,
-          );
-
           hideLoading();
           showSuccess("تم اضافه المرفق بنجاح");
           emit(AddItemSuccess());
@@ -401,9 +387,6 @@ class ItemCubit extends Cubit<ItemState> {
     required image3,
     required name,
     required description,
-    required price,
-    // required availableTimeFrom,
-    // required availableTimeTo,
     required categoryName,
     required statues,
     required address,
@@ -448,7 +431,7 @@ class ItemCubit extends Cubit<ItemState> {
       // MapEntry("available_time_to", availableTimeTo),
       MapEntry("status", statues),
       MapEntry("offer", offers),
-      MapEntry("price", price),
+      //  MapEntry("price", price),
       MapEntry("devices", collectibles),
     ]);
 

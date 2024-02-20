@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
-import 'package:intl/src/intl/date_format.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/core/utilies/easy_loading.dart';
@@ -33,14 +31,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
   File? pickedImage1; // Variable to store the selected image
   File? pickedImage2; // Variable to store the selected image
   File? pickedImage3; // Variable to store the selected image
-  DateTime _selectedDate = DateTime.now();
+  final DateTime _selectedDate = DateTime.now();
   TextEditingController name = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController address = TextEditingController();
   TextEditingController price = TextEditingController();
   TextEditingController offers = TextEditingController();
-  TextEditingController timeinputFrom = TextEditingController();
-  TextEditingController timeinputTo = TextEditingController();
+  //TextEditingController timeinputFrom = TextEditingController();
+  // TextEditingController timeinputTo = TextEditingController();
 
   String? categoryName;
   int? statue;
@@ -74,8 +72,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _addField();
     });
-    timeinputFrom.text = ""; //set the initial value of text field
-    timeinputTo.text = ""; //set the initial value of text field
   }
 
   @override
@@ -539,314 +535,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10.w),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  const Text(
-                                    "التوقيت",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    height: 10.w,
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.calendar_today,
-                                      color: Colors.blue,
-                                    ),
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => Dialog(
-                                          child: Container(
-                                            padding: const EdgeInsets.all(16),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                TableCalendar(
-                                                  calendarFormat:
-                                                      _calendarFormat,
-                                                  startingDayOfWeek:
-                                                      StartingDayOfWeek.sunday,
-                                                  focusedDay: _selectedDate,
-                                                  firstDay: DateTime(
-                                                      DateTime.now().year),
-                                                  lastDay: DateTime(
-                                                      DateTime.now().year + 1),
-                                                  selectedDayPredicate: (date) {
-                                                    return isSameDay(
-                                                        _selectedDate, date);
-                                                  },
-                                                  onDaySelected:
-                                                      (date, events) {
-                                                    print(date);
-                                                    if (date.isAfter(
-                                                        DateTime.now().subtract(
-                                                            const Duration(
-                                                                days: 1)))) {
-                                                      setState(() {
-                                                        _selectedDate = date;
-                                                      });
-
-                                                      formattedDate = DateFormat(
-                                                              'yyyy-MM-dd')
-                                                          .format(
-                                                              _selectedDate);
-                                                      print(
-                                                          "&&&&&&&&&&&&&&&&&&&&&&&&&&");
-                                                      print(formattedDate);
-                                                      print(
-                                                          "&&&&&&&&&&&&&&&&&&&&&&&&&&");
-                                                      context.pop();
-                                                    } else {
-                                                      // Show a message for past or current date
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return const AlertDialog(
-                                                            content: Text(
-                                                                "لا يمكن اختيار تاريخ قد مضي"),
-                                                          );
-                                                        },
-                                                      );
-                                                    }
-                                                  },
-                                                  calendarStyle:
-                                                      const CalendarStyle(
-                                                    // weekendTextStyle: TextStyle(color: Colors.red),
-                                                    selectedTextStyle:
-                                                        TextStyle(
-                                                            color:
-                                                                Colors.white),
-                                                    selectedDecoration:
-                                                        BoxDecoration(
-                                                      color: Colors.blue,
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                    // markersColor: Colors.green,
-                                                  ),
-                                                  headerStyle:
-                                                      const HeaderStyle(
-                                                    formatButtonVisible: true,
-                                                    titleCentered: true,
-                                                    titleTextStyle:
-                                                        TextStyle(fontSize: 20),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 40.w,
-                                  ),
-                                  if (formattedDate != null)
-                                    Text("التاريخ المختار  : ${formattedDate!}",
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15,
-                                            color: Color.fromARGB(
-                                                255, 6, 103, 182))),
-                                ],
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 70.w),
-                                      child: const Text(
-                                        " من صباحا",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 30.w, vertical: 40.h),
-                                      child: SizedBox(
-                                        width: 190.w,
-                                        child: CustomTextFormField(
-                                          readOnly: true,
-                                          onTap: () async {
-                                            TimeOfDay? pickedTime =
-                                                await showTimePicker(
-                                              initialTime: TimeOfDay.now(),
-                                              context: context,
-                                            );
-
-                                            if (pickedTime != null) {
-                                              // Explicitly set the locale to English when formatting and parsing
-                                              String formattedTime = DateFormat(
-                                                      'HH:mm:ss', 'en_US')
-                                                  .format(
-                                                DateTime(
-                                                  2024,
-                                                  1,
-                                                  1,
-                                                  pickedTime.hour,
-                                                  pickedTime.minute,
-                                                ),
-                                              );
-
-                                              print(formattedTime);
-
-                                              DateTime parsedTime = DateFormat(
-                                                      'HH:mm:ss', 'en_US')
-                                                  .parse(
-                                                formattedTime,
-                                              );
-                                              // Converting to DateTime so that we can further format on a different pattern.
-                                              print(
-                                                  parsedTime); // Output: 1970-01-01 22:53:00.000
-                                              String finalFormattedTime =
-                                                  DateFormat('HH:mm:ss')
-                                                      .format(parsedTime);
-                                              print(
-                                                  finalFormattedTime); // Output: 14:59:00
-                                              // DateFormat() is from the intl package, and you can format the time in any pattern you need.
-
-                                              setState(() {
-                                                timeinputFrom.text =
-                                                    formattedTime; // Set the value of the text field.
-                                              });
-                                            } else {
-                                              print("Time is not selected");
-                                            }
-                                          },
-                                          controller: timeinputFrom,
-                                          validator: (String? value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return "هذا الحقل مطلوب";
-                                            }
-                                            return null;
-                                          },
-                                          prefixIcon: const Padding(
-                                            padding: EdgeInsets.only(top: 7),
-                                            child: Icon(
-                                              Icons.timer,
-                                              size: 25,
-                                            ),
-                                          ),
-                                          backgroundColor: Colors.grey[300],
-                                          padding: EdgeInsets.only(
-                                              bottom: 8,
-                                              left: 10.w,
-                                              right: 10.w),
-                                          height: 80.h,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 70.w),
-                                      child: const Text(
-                                        " الي مساءا",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 30.w, vertical: 40.h),
-                                      child: SizedBox(
-                                        width: 190.w,
-                                        child: CustomTextFormField(
-                                          readOnly: true,
-                                          onTap: () async {
-                                            TimeOfDay? pickedTime =
-                                                await showTimePicker(
-                                              initialTime: TimeOfDay.now(),
-                                              context: context,
-                                            );
-
-                                            if (pickedTime != null) {
-                                              // Explicitly set the locale to English when formatting and parsing
-                                              String formattedTime = DateFormat(
-                                                      'HH:mm:ss', 'en_US')
-                                                  .format(
-                                                DateTime(
-                                                    2024,
-                                                    1,
-                                                    1,
-                                                    pickedTime.hour,
-                                                    pickedTime.minute),
-                                              );
-
-                                              print(formattedTime);
-
-                                              DateTime parsedTime = DateFormat(
-                                                      'HH:mm:ss', 'en_US')
-                                                  .parse(
-                                                formattedTime,
-                                              );
-                                              //converting to DateTime so that we can further format on different pattern.
-                                              print(
-                                                  parsedTime); //output 1970-01-01 22:53:00.000
-                                              String finalFormattedTime =
-                                                  DateFormat('HH:mm:ss')
-                                                      .format(parsedTime);
-                                              print(
-                                                  finalFormattedTime); //output 14:59:00
-                                              //DateFormat() is from intl package, you can format the time on any pattern you need.
-
-                                              setState(() {
-                                                timeinputTo.text =
-                                                    formattedTime; //set the value of text field.
-                                                print(timeinputTo.text);
-                                              });
-                                            } else {
-                                              print("Time is not selected");
-                                            }
-                                          },
-                                          controller: timeinputTo,
-                                          validator: (String? value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return "هذا الحقل مطلوب";
-                                            }
-                                            return null;
-                                          },
-                                          prefixIcon: const Padding(
-                                            padding: EdgeInsets.only(top: 7),
-                                            child: Icon(
-                                              Icons.timer,
-                                              size: 25,
-                                            ),
-                                          ),
-                                          backgroundColor: Colors.grey[300],
-                                          padding: EdgeInsets.only(
-                                              bottom: 8,
-                                              left: 10.w,
-                                              right: 10.w),
-                                          height: 80.h,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
                               padding: EdgeInsets.symmetric(horizontal: 70.w),
                               child: const Text(
                                 "الحاله",
@@ -1194,7 +882,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           if (offers.text.isEmpty) {
                             offer = "لا يوجد عروض";
                           }
-                          print(timeinputTo.text);
+                          //    print(timeinputTo.text);
                           devicesList = _items
                               .asMap()
                               .map((index, _) => MapEntry(
@@ -1207,9 +895,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
                               .values
                               .toList();
                           print(devicesList);
-                          print(timeinputFrom.text);
+                          //   print(timeinputFrom.text);
                           print("-------------");
-                          print(timeinputTo.text);
+                          //    print(timeinputTo.text);
                           if (formKey.currentState != null &&
                               _formKey.currentState != null) {
                             if (formKey.currentState!.validate() &&
@@ -1231,14 +919,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                   image3: itemCubit.pickedImage3,
                                   name: name.text,
                                   description: description.text,
-                                  price: price.text,
-                                  availableTimeFrom: timeinputFrom.text,
-                                  availableTimeTo: timeinputTo.text,
+                                  //  price: price.text,
                                   categoryName: categoryName,
                                   statues: statue.toString(),
                                   address: address.text,
                                   offers: offer,
-                                  date: formattedDate,
+                                  //  date: formattedDate,
                                   type: priceDuaration,
                                   collectibles: jsonEncode(devicesList));
                             } else {

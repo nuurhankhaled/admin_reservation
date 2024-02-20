@@ -32,7 +32,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
   TextEditingController name = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController address = TextEditingController();
-  TextEditingController price = TextEditingController();
+  // TextEditingController price = TextEditingController();
   TextEditingController offers = TextEditingController();
   TextEditingController timeinputFrom = TextEditingController();
   TextEditingController timeinputTo = TextEditingController();
@@ -105,7 +105,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     description.text =
         widget.item.description!; //set the initial value of text field
     address.text = widget.item.address!; //set the initial value of text field
-    price.text = widget.item.price!; //set the initial value of text field
+    //price.text = widget.item.price!; //set the initial value of text field
     offers.text = widget.item.offer!;
     statue = int.parse(widget.item.status!);
     priceDuaration = widget.item.type!;
@@ -770,32 +770,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 50.w),
                         child: const Text(
-                          "السعر",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 0.w, vertical: 40.h),
-                        child: SizedBox(
-                          width: 420.w,
-                          child: CustomTextFormField(
-                            controller: price,
-                            backgroundColor: Colors.grey[300],
-                            padding: EdgeInsets.only(
-                                bottom: 22.h, left: 10.w, right: 10.w),
-                            height: 80.h,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 50.w),
-                        child: const Text(
                           "  العروض \"اتركها فارغه اذا لم يتواجد\" ",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
@@ -1013,7 +987,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
                             ))
                         .values
                         .toList();
-
                     itemCubit.editItem(
                         id: widget.item.id!,
                         logo: itemCubit.pickedLogo,
@@ -1022,7 +995,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         image3: itemCubit.pickedImage3,
                         name: name.text,
                         description: description.text,
-                        price: price.text,
+                        // price: price.text,
                         // availableTimeFrom: timeinputFrom.text,
                         // availableTimeTo: timeinputTo.text,
                         categoryName: categoryName,

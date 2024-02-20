@@ -50,22 +50,22 @@ class _HomeState extends State<Home> {
               ),
               const AdminMenuItem(
                 icon: Icons.add_business_rounded,
-                title: "اضافه عنصر للمنشأه",
+                title: "اضافه وحده للمنشأه",
                 route: '/addItem',
               ),
               const AdminMenuItem(
                 icon: Icons.add_business_rounded,
-                title: "اضافه  وقت",
+                title: "اضافه وقت للوحده",
                 route: '/addtime',
               ),
               const AdminMenuItem(
                 icon: Icons.timeline_rounded,
-                title: "عرض الوقت",
+                title: "عرض اوقات الوحدات",
                 route: '/Availabletimes',
               ),
-              AdminMenuItem(
+              const AdminMenuItem(
                 icon: Icons.add_business_rounded,
-                title: 'addExtras'.tr(),
+                title: "اضافه اضافات للوحده",
                 route: '/addExtras',
               ),
               AdminMenuItem(
@@ -90,7 +90,7 @@ class _HomeState extends State<Home> {
               ),
               const AdminMenuItem(
                 icon: Icons.receipt,
-                title: 'عرض الاضافات',
+                title: 'عرض الاضافات الوحدات',
                 route: "/viewExtras",
               ),
             ],
@@ -127,7 +127,7 @@ class _HomeState extends State<Home> {
                     // context.pushNamed(Routes.viewReservationsScreen);
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (BuildContext context) {
-                      return const ViewAvailableTime();
+                      return ViewAvailableTime();
                     }));
                     break;
 
