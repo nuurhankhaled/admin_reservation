@@ -4,15 +4,30 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/theming/colors.dart';
 import 'package:reservationapp_admin/core/widgets/custom_loading_indecator.dart';
+import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
 import 'package:reservationapp_admin/features/Add-Additional-Options/business-logic/additional_options_cubit/additional_options_cubit.dart';
+import 'package:reservationapp_admin/features/View-Additional-Options/data/models/additional-options-model.dart';
 import 'package:reservationapp_admin/features/View-Additional-Options/presentation/widgets/edit-option-dialpog.dart';
 
 class ViewAdditionalOptionsScreen extends StatelessWidget {
   const ViewAdditionalOptionsScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    var cubit = AdditionalOptionsCubit.get(context);
+    var searchController = TextEditingController();
 
+    var cubit = AdditionalOptionsCubit.get(context);
+    List<Data> filteredList = [];
+    if (searchController.text.isEmpty) {
+      filteredList = cubit.additionalOptions;
+    } else {
+      filteredList = cubit.additionalOptions
+          .where((time) => (time.itemName != null)
+              ? time.itemName!
+                  .toLowerCase()
+                  .contains(searchController.text.toLowerCase())
+              : false)
+          .toList();
+    }
     return BlocConsumer<AdditionalOptionsCubit, AdditionalOptionsState>(
       listener: (context, state) {
         if (state is DeleteAdditionalOptionsSuccess) {
@@ -22,15 +37,35 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
-                title: const Text('عرض الاضافات ',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                leading: Padding(
-                  padding: EdgeInsets.only(right: 50.w),
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios),
-                    onPressed: () => context.pop(),
+              title: const Text('عرض الاضافات ',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              leading: Padding(
+                padding: EdgeInsets.only(right: 50.w),
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios),
+                  onPressed: () => context.pop(),
+                ),
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 50, top: 10),
+                  child: SizedBox(
+                    width: 200,
+                    child: CustomTextFormField(
+                      controller: searchController,
+                      onChanged: (value) {
+                        context
+                            .read<AdditionalOptionsCubit>()
+                            .getAllAdditionalOptions();
+                      },
+                      contentPadding: const EdgeInsets.only(bottom: 15),
+                      hintText: 'ابحث عن وحدة...',
+                      prefixIcon: const Icon(Icons.search),
+                    ),
                   ),
-                )),
+                ),
+              ],
+            ),
             body: (state is GetAdditionalOptionsLoading)
                 ? const CustomLoadingIndicator()
                 : (cubit.additionalOptions.isEmpty)
@@ -56,8 +91,8 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
                               child: DataTable(
                                 columns: const [
                                   DataColumn(label: Text("الكود")),
-                                  DataColumn(label: Text("كود العنصر")),
-                                  DataColumn(label: Text("اسم العنصر")),
+                                  DataColumn(label: Text("كودالوحده")),
+                                  DataColumn(label: Text("اسم الوحده")),
                                   DataColumn(label: Text('الاسم')),
                                   DataColumn(label: Text('السعر')),
                                   DataColumn(label: Text('تعديل')),
@@ -88,8 +123,12 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
                                     ),
                                     cells: [
                                       DataCell(Text(user.id.toString())),
-                                      DataCell(Text(user.itemId!)),
-                                      DataCell(Text(user.itemName!)),
+                                      DataCell(Text((user.itemId != null)
+                                          ? user.itemId!
+                                          : "تم الحذف")),
+                                      DataCell(Text((user.itemName != null)
+                                          ? user.itemName!
+                                          : "تم الحذف")),
                                       DataCell(Text(user.name!)),
                                       DataCell(Text(user.price!)),
                                       DataCell(IconButton(

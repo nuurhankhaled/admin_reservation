@@ -7,7 +7,7 @@ import 'package:reservationapp_admin/features/View-receptionist/business-logic/r
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ViewReceptionistScreen extends StatelessWidget {
-  ViewReceptionistScreen({super.key});
+  const ViewReceptionistScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ReceptionistCubit, ReceptionistState>(
@@ -18,16 +18,16 @@ class ViewReceptionistScreen extends StatelessWidget {
         var cubit = ReceptionistCubit.get(context);
         return Scaffold(
             appBar: AppBar(
-                title: Text('عرض موظفي الاستتقبال'),
+                title: const Text('عرض موظفي الاستتقبال'),
                 leading: Padding(
                   padding: EdgeInsets.only(right: 50.w),
                   child: IconButton(
-                    icon: Icon(Icons.arrow_back_ios),
+                    icon: const Icon(Icons.arrow_back_ios),
                     onPressed: () => context.pop(),
                   ),
                 )),
             body: (state is GetReceptionistsLoading)
-                ? CustomLoadingIndicator()
+                ? const CustomLoadingIndicator()
                 : SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.all(30.0),
@@ -43,12 +43,12 @@ class ViewReceptionistScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: DataTable(
-                            columns: [
+                            columns: const [
                               DataColumn(label: Text("الكود")),
                               DataColumn(label: Text("الاسم")),
                               DataColumn(label: Text('البريد الالكتروني')),
                               DataColumn(label: Text('كلمه السر')),
-                              DataColumn(label: Text('الرقم القومي')),
+                              DataColumn(label: Text('رقم الهويه')),
                               DataColumn(label: Text('رقم الهاتف')),
                               DataColumn(label: Text('الحاله')),
                             ],

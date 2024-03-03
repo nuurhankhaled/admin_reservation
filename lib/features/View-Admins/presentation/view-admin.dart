@@ -57,7 +57,7 @@ class ViewAdminsScreen extends StatelessWidget {
                                   DataColumn(label: Text("الاسم")),
                                   DataColumn(label: Text('البريد الالكتروني')),
                                   DataColumn(label: Text('كلمه السر')),
-                                  DataColumn(label: Text('الرقم القومي')),
+                                  DataColumn(label: Text('رقم الهويه')),
                                   DataColumn(label: Text('رقم الهاتف')),
                                   DataColumn(label: Text('مسح')),
                                 ],

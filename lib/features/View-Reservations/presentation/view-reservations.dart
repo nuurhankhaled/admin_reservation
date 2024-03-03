@@ -164,17 +164,23 @@ class ViewReservationscreen extends StatelessWidget {
                                             overflow: TextOverflow.ellipsis),
                                       )),
                                       DataCell(Text(
-                                        user.categoryName!,
+                                        (user.categoryName != null)
+                                            ? user.categoryName!
+                                            : "تم الحذف",
                                         style: const TextStyle(
                                             overflow: TextOverflow.ellipsis),
                                       )),
                                       DataCell(Text(
-                                        user.item!.name!,
+                                        (user.item != null)
+                                            ? user.item!.name!
+                                            : "تم الحذف",
                                         style: const TextStyle(
                                             overflow: TextOverflow.ellipsis),
                                       )),
                                       DataCell(Text(
-                                        user.packageId.toString(),
+                                        (user.packageId != null)
+                                            ? user.packageId.toString()
+                                            : "تم الحذف",
                                         style: const TextStyle(
                                             overflow: TextOverflow.ellipsis),
                                       )),

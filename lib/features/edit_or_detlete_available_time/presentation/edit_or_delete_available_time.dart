@@ -4,14 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/theming/colors.dart';
 import 'package:reservationapp_admin/core/widgets/custom_loading_indecator.dart';
+import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
 import 'package:reservationapp_admin/features/View-users/business-logic/users_cubit/users_cubit.dart';
 import 'package:reservationapp_admin/features/edit_or_detlete_available_time/bloc/edit_or_delete_cubit.dart';
 import 'package:reservationapp_admin/features/edit_or_detlete_available_time/model/available_time_model.dart';
 import 'package:reservationapp_admin/features/edit_or_detlete_available_time/presentation/widgets/edit_time_dialouge.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class ViewAvailableTime extends StatelessWidget {
-  ViewAvailableTime({super.key});
+  const ViewAvailableTime({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +31,11 @@ class ViewAvailableTime extends StatelessWidget {
             filteredList = cubit.allAvailableTimes;
           } else {
             filteredList = cubit.allAvailableTimes
-                .where((time) => time.item!.name!
-                    .toLowerCase()
-                    .contains(searchController.text.toLowerCase()))
+                .where((time) => (time.item != null)
+                    ? time.item!.name!
+                        .toLowerCase()
+                        .contains(searchController.text.toLowerCase())
+                    : false)
                 .toList();
           }
           return Scaffold(
@@ -51,22 +53,16 @@ class ViewAvailableTime extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 50, top: 10),
                     child: SizedBox(
                       width: 200,
-                      child: TextField(
+                      child: CustomTextFormField(
+                        prefixIcon: const Icon(Icons.search),
+                        hintText: "ابحث عن وحدة...",
+                        contentPadding: const EdgeInsets.only(bottom: 15),
                         controller: searchController,
                         onChanged: (value) {
                           context
                               .read<EditOrDeleteAvailableCubit>()
                               .getallAvailable();
                         },
-                        decoration: const InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black,
-                            ),
-                          ),
-                          hintText: 'ابحث عن وحدة...',
-                          prefixIcon: Icon(Icons.search),
-                        ),
                       ),
                     ),
                   ),
@@ -126,12 +122,16 @@ class ViewAvailableTime extends StatelessWidget {
                                         },
                                       ),
                                       cells: [
-                                        DataCell(Text(user.item!.name!)),
+                                        DataCell(Text((user.item == null)
+                                            ? "تم الحذف"
+                                            : user.item!.name!)),
                                         DataCell(Text(user.availableTimeFrom!)),
                                         DataCell(Text(user.availableTimeTo!)),
                                         DataCell(Text(user.date!)),
                                         DataCell(Text(user.price!)),
-                                        DataCell(Text(user.status!)),
+                                        DataCell(Text(user.status! == "1"
+                                            ? "متاح"
+                                            : "غير متاح")),
                                         DataCell(
                                           IconButton(
                                             icon: const Icon(

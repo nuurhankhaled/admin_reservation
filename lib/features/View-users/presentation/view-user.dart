@@ -59,7 +59,7 @@ class ViewUsersScreen extends StatelessWidget {
                                   const DataColumn(
                                       label: Text('البريد الالكتروني')),
                                   const DataColumn(label: Text('كلمه السر')),
-                                  const DataColumn(label: Text('الرقم القومي')),
+                                  const DataColumn(label: Text('رقم الهويه')),
                                   const DataColumn(label: Text('رقم الهاتف')),
                                   const DataColumn(label: Text('الحاله')),
                                   if (isAccepted == 0)

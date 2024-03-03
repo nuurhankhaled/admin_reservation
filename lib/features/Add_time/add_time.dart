@@ -10,7 +10,6 @@ import 'package:table_calendar/table_calendar.dart';
 
 class AddTimeDialog extends StatefulWidget {
   const AddTimeDialog({super.key});
-
   @override
   State<AddTimeDialog> createState() => _AddTimeDialogState();
 }
@@ -57,7 +56,7 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                       : 500.w),
               child: Container(
                 width: double.infinity,
-                height: 640,
+                height: 590,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     color: Colors.white),
@@ -75,7 +74,7 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                           SizedBox(
                             width: 10.w,
                           ),
-                          const Text("اضافه وقت للمنشأه",
+                          const Text("اضافه وقت للوحده",
                               style: TextStyle(fontSize: 24),
                               textAlign: TextAlign.center),
                         ],
@@ -99,7 +98,7 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
                               ),
-                              hint: const Text("المنشأه",
+                              hint: const Text("الوحده",
                                   style: TextStyle(color: Colors.black)),
                               items: List.generate(
                                 itemCubit.items.length,

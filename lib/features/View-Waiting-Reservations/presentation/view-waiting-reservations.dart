@@ -163,15 +163,19 @@ class ViewWaitingReservationscreen extends StatelessWidget {
                                     cells: [
                                       DataCell(Text((user.user != null)
                                           ? user.user!.name!
-                                          : user.userId!)),
+                                          : "تم الحذف")),
                                       DataCell(Text(user.categoryName!)),
                                       DataCell(Text(
-                                        user.item!.name!,
+                                        (user.item == null)
+                                            ? "تم الحذف"
+                                            : user.item!.name!,
                                         style: const TextStyle(
                                             overflow: TextOverflow.ellipsis),
                                       )),
                                       DataCell(Text(
-                                        user.packageId.toString(),
+                                        (user.packageId == null)
+                                            ? "تم الحذف"
+                                            : user.packageId.toString(),
                                         style: const TextStyle(
                                             overflow: TextOverflow.ellipsis),
                                       )),

@@ -11,11 +11,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddCashierDialoge extends StatelessWidget {
   AddCashierDialoge({super.key});
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _nationalIdController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _nationalIdController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class AddCashierDialoge extends StatelessWidget {
               height: 580,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15), color: Colors.white),
-              padding: EdgeInsets.all(30),
+              padding: const EdgeInsets.all(30),
               child: Form(
                 canPop: false,
                 key: formKey,
@@ -59,12 +59,12 @@ class AddCashierDialoge extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.person),
+                          const Icon(Icons.person),
                           SizedBox(
                             width: 10.w,
                           ),
                           Text("addCashier".tr(),
-                              style: TextStyle(fontSize: 24),
+                              style: const TextStyle(fontSize: 24),
                               textAlign: TextAlign.center),
                         ],
                       ),
@@ -78,18 +78,19 @@ class AddCashierDialoge extends StatelessWidget {
                             children: [
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 70.w),
-                                child: Text("الاسم"),
+                                child: const Text("الاسم"),
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 70.w, vertical: 20.h),
-                                child: Container(
+                                child: SizedBox(
                                   width: 220,
                                   child: CustomTextFormField(
                                     validator: (String? value) {
                                       if (value == null || value.isEmpty) {
                                         return "هذا الحقل مطلوب";
                                       }
+                                      return null;
                                     },
                                     controller: _nameController,
                                     padding: EdgeInsets.only(
@@ -105,12 +106,12 @@ class AddCashierDialoge extends StatelessWidget {
                             children: [
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 70.w),
-                                child: Text("البريد الالكتروني"),
+                                child: const Text("البريد الالكتروني"),
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 70.w, vertical: 20.h),
-                                child: Container(
+                                child: SizedBox(
                                   width: 220,
                                   child: CustomTextFormField(
                                     controller: _usernameController,
@@ -143,12 +144,12 @@ class AddCashierDialoge extends StatelessWidget {
                             children: [
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 70.w),
-                                child: Text("كلمه السر"),
+                                child: const Text("كلمه السر"),
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 70.w, vertical: 20.h),
-                                child: Container(
+                                child: SizedBox(
                                   width: 220,
                                   child: CustomTextFormField(
                                     validator: (String? value) {
@@ -158,6 +159,7 @@ class AddCashierDialoge extends StatelessWidget {
                                       if (_passwordController.text.length < 6) {
                                         return "كلمه السر اقل من 6 حروف";
                                       }
+                                      return null;
                                     },
                                     controller: _passwordController,
                                     padding: EdgeInsets.only(
@@ -173,12 +175,12 @@ class AddCashierDialoge extends StatelessWidget {
                             children: [
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 70.w),
-                                child: Text("رقم التليفون"),
+                                child: const Text("رقم التليفون"),
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 70.w, vertical: 20.h),
-                                child: Container(
+                                child: SizedBox(
                                   width: 220,
                                   child: CustomTextFormField(
                                     validator: (String? value) {
@@ -210,12 +212,12 @@ class AddCashierDialoge extends StatelessWidget {
                         children: [
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 70.w),
-                            child: Text("الرقم القومي"),
+                            child: const Text("رقم الهويه"),
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 70.w, vertical: 20.h),
-                            child: Container(
+                            child: SizedBox(
                               width: 220,
                               child: CustomTextFormField(
                                 validator: (value) {
@@ -260,7 +262,7 @@ class AddCashierDialoge extends StatelessWidget {
                                     }
                                   }
                                 },
-                                child: Text("اضافه")),
+                                child: const Text("اضافه")),
                             SizedBox(
                               width: 50.w,
                             ),
@@ -268,7 +270,7 @@ class AddCashierDialoge extends StatelessWidget {
                                 onPressed: () {
                                   context.pop();
                                 },
-                                child: Text("الغاء")),
+                                child: const Text("الغاء")),
                           ],
                         ),
                       )

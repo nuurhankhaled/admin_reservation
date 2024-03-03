@@ -7,13 +7,17 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reservationapp_admin/core/Api/my_http.dart';
 import 'package:reservationapp_admin/core/bloc_observer.dart';
+import 'package:reservationapp_admin/core/cache_helper/cache_helper.dart';
+import 'package:reservationapp_admin/core/cache_helper/cache_values.dart';
 import 'package:window_manager/window_manager.dart';
+
 import 'core/routing/app_router.dart';
 import 'core/routing/routes.dart';
 import 'core/theming/themes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  CacheHelper.init();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   Bloc.observer = MyBlocObserver();
   MyDio.init();
@@ -78,7 +82,9 @@ class MyApp extends StatelessWidget {
           darkTheme: darkTheme,
           themeMode: ThemeMode.light,
           builder: EasyLoading.init(),
-          initialRoute: Routes.authScreen,
+          initialRoute: (CacheHelper.getData(key: CacheKeys.userToken) != null)
+              ? Routes.authScreen
+              : Routes.mainlayout,
         ),
       ),
     );
