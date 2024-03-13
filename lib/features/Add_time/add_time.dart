@@ -6,7 +6,6 @@ import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/utilies/easy_loading.dart';
 import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
 import 'package:reservationapp_admin/features/Add-Items/business-logic/Item_cubit/item_cubit.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class AddTimeDialog extends StatefulWidget {
   const AddTimeDialog({super.key});
@@ -18,10 +17,10 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
   TextEditingController timeinputFrom = TextEditingController();
   TextEditingController timeinputTo = TextEditingController();
   TextEditingController price = TextEditingController();
-  DateTime _selectedDate = DateTime.now();
-  String? formattedDate;
+  //DateTime _selectedDate = DateTime.now();
+  //String? formattedDate;
   final _formKey = GlobalKey<FormState>();
-  final CalendarFormat _calendarFormat = CalendarFormat.month;
+  // final CalendarFormat _calendarFormat = CalendarFormat.month;
 
   String? categoryId;
 
@@ -130,98 +129,6 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          IconButton(
-                            icon: const Icon(
-                              Icons.calendar_today,
-                              color: Colors.blue,
-                            ),
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => Dialog(
-                                  child: Container(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        TableCalendar(
-                                          calendarFormat: _calendarFormat,
-                                          startingDayOfWeek:
-                                              StartingDayOfWeek.sunday,
-                                          focusedDay: _selectedDate,
-                                          firstDay:
-                                              DateTime(DateTime.now().year),
-                                          lastDay:
-                                              DateTime(DateTime.now().year + 1),
-                                          selectedDayPredicate: (date) {
-                                            return isSameDay(
-                                                _selectedDate, date);
-                                          },
-                                          onDaySelected: (date, events) {
-                                            print(date);
-                                            if (date.isAfter(DateTime.now()
-                                                .subtract(
-                                                    const Duration(days: 1)))) {
-                                              setState(() {
-                                                _selectedDate = date;
-                                              });
-
-                                              formattedDate =
-                                                  DateFormat('yyyy-MM-dd')
-                                                      .format(_selectedDate);
-                                              print(
-                                                  "&&&&&&&&&&&&&&&&&&&&&&&&&&");
-                                              print(formattedDate);
-                                              print(
-                                                  "&&&&&&&&&&&&&&&&&&&&&&&&&&");
-                                              context.pop();
-                                            } else {
-                                              // Show a message for past or current date
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return const AlertDialog(
-                                                    content: Text(
-                                                        "لا يمكن اختيار تاريخ قد مضي"),
-                                                  );
-                                                },
-                                              );
-                                            }
-                                          },
-                                          calendarStyle: const CalendarStyle(
-                                            // weekendTextStyle: TextStyle(color: Colors.red),
-                                            selectedTextStyle:
-                                                TextStyle(color: Colors.white),
-                                            selectedDecoration: BoxDecoration(
-                                              color: Colors.blue,
-                                              shape: BoxShape.circle,
-                                            ),
-                                            // markersColor: Colors.green,
-                                          ),
-                                          headerStyle: const HeaderStyle(
-                                            formatButtonVisible: true,
-                                            titleCentered: true,
-                                            titleTextStyle:
-                                                TextStyle(fontSize: 20),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          SizedBox(
-                            height: 10.w,
-                          ),
-                          if (formattedDate != null)
-                            Text("التاريخ المختار  : ${formattedDate!}",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                    color: Color.fromARGB(255, 6, 103, 182))),
                           SizedBox(
                             height: 10.w,
                           ),
@@ -457,11 +364,10 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                           ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate() &&
-                                    (formattedDate != "" ||
-                                        formattedDate != null) &&
                                     (categoryId != null || categoryId != "")) {
                                   itemCubit.addAvailableTime(
-                                    date: formattedDate,
+                                    //   date: formattedDate,
+                                    //   date: formattedDate,
                                     availableTimeFrom: timeinputFrom.text,
                                     availableTimeTo: timeinputTo.text,
                                     item_id: categoryId,

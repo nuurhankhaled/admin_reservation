@@ -1,13 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:dio/dio.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:reservationapp_admin/core/Api/my_http.dart';
 import 'package:reservationapp_admin/core/utilies/easy_loading.dart';
 import 'package:reservationapp_admin/features/View-receptionist/data/models/recetptionist_model.dart';
+
 import '../../../../Core/Api/endPoints.dart'; // Import the library that defines 'getCategories'.
-import 'package:reservationapp_admin/core/helpers/extensions.dart';
+
 part 'users_state.dart';
 
 class UsersCubit extends Cubit<UsersState> {
@@ -23,7 +22,7 @@ class UsersCubit extends Cubit<UsersState> {
     try {
       var response = await MyDio.get(endPoint: EndPoints.getAcceptedUsers);
       print(response!.statusCode);
-      if (response!.statusCode == 200) {
+      if (response.statusCode == 200) {
         print(response.data);
         var decodedData = json.decode(response.data);
         var jsonResponse = ReceptionistModel.fromJson(decodedData);
@@ -109,6 +108,45 @@ class UsersCubit extends Cubit<UsersState> {
     } catch (e) {
       print(e);
       emit(GetPendingUsersFailure());
+    }
+  }
+
+  Future<void> changePassword({
+    required id,
+    required password,
+  }) async {
+    showLoading();
+    emit(ChangePasswordLoading());
+    try {
+      var response =
+          await MyDio.post(endPoint: "/user/change_password.php", data: {
+        "id": id,
+        "password": password,
+      });
+      print(response!.statusCode);
+      if (response.statusCode == 200) {
+        print(response.data);
+        var decodedData = json.decode(response.data);
+        var jsonResponse = ReceptionistModel.fromJson(decodedData);
+        if (jsonResponse.success!) {
+          showSuccess("تم تغيير كلمة المرور بنجاح");
+          emit(ChangePasswordSuccess());
+        } else {
+          showError("حدث خطأ ما");
+          print(response.data);
+          print(response.statusCode);
+          emit(ChangePasswordError());
+        }
+      } else {
+        showError("حدث خطأ ما");
+        print(response.data);
+        print(response.statusCode);
+        emit(ChangePasswordError());
+      }
+    } catch (e) {
+      showError("حدث خطأ ما");
+      print(e);
+      emit(ChangePasswordError());
     }
   }
 }

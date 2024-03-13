@@ -31,18 +31,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
   File? pickedImage1; // Variable to store the selected image
   File? pickedImage2; // Variable to store the selected image
   File? pickedImage3; // Variable to store the selected image
-  final DateTime _selectedDate = DateTime.now();
+//  final DateTime _selectedDate = DateTime.now();
   TextEditingController name = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController address = TextEditingController();
-  TextEditingController price = TextEditingController();
+  // TextEditingController price = TextEditingController();
   TextEditingController offers = TextEditingController();
   //TextEditingController timeinputFrom = TextEditingController();
   // TextEditingController timeinputTo = TextEditingController();
 
   String? categoryName;
   int? statue;
-  String? priceDuaration;
+  //String? priceDuaration;
   String? formattedDate;
 
   final List<TextEditingController> _items = [];
@@ -79,7 +79,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
     return BlocConsumer<ItemCubit, ItemState>(
       listener: (context, state) {
         if (state is AddItemSuccess) {
-          // context.pop();
           context.pushReplacementNamed(Routes.mainlayout);
         }
       },
@@ -640,43 +639,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 50.w),
                               child: const Text(
-                                "السعر",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 0.w, vertical: 40.h),
-                              child: SizedBox(
-                                width: 420.w,
-                                child: CustomTextFormField(
-                                  controller: price,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'هذا الحقل مطلوب';
-                                    }
-                                    try {
-                                      double.parse(value);
-                                      return null; // Return null if the input is a valid integer
-                                    } catch (e) {
-                                      return 'من فضلك ادخل رقم صحيح'; // Error message for invalid input
-                                    }
-                                  },
-                                  backgroundColor: Colors.grey[300],
-                                  padding: EdgeInsets.only(
-                                      bottom: 22.h, left: 10.w, right: 10.w),
-                                  height: 80.h,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 50.w),
-                              child: const Text(
                                 "  العروض \"اتركها فارغه اذا لم يتواجد\" ",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
@@ -692,60 +654,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                   padding: EdgeInsets.only(
                                       bottom: 22.h, left: 10.w, right: 10.w),
                                   height: 80.h,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 70.w),
-                              child: const Text(
-                                "السعر / الفتره",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 50.w, vertical: 20.h),
-                              child: Container(
-                                margin: EdgeInsetsDirectional.only(end: 2.w),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 15.w, vertical: 1.h),
-                                height: 80.h,
-                                width: 200,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey[300],
-                                    borderRadius: BorderRadius.circular(10.sp)),
-                                child: Center(
-                                  child: DropdownButtonFormField(
-                                    menuMaxHeight: 700.h,
-                                    decoration: const InputDecoration(
-                                        border: InputBorder.none),
-                                    hint: const Text(
-                                      "اختر الفترة",
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                    items: List.generate(
-                                      _priceState.length,
-                                      (index) {
-                                        return DropdownMenuItem<int>(
-                                            value: index,
-                                            child: SizedBox(
-                                              width: 140.w,
-                                              child: Text(_priceState[index]),
-                                            ));
-                                      },
-                                    ),
-                                    onChanged: (int? value) {
-                                      setState(() {
-                                        priceDuaration = _priceState[value!];
-                                      });
-                                      print('priceDuaration : $priceDuaration');
-                                    },
-                                  ),
                                 ),
                               ),
                             ),
@@ -909,9 +817,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                 (categoryName != null || categoryName != "") &&
                                 statue != null &&
                                 (formattedDate != null ||
-                                    formattedDate != "") &&
-                                (priceDuaration != null ||
-                                    priceDuaration != "")) {
+                                    formattedDate != "")) {
                               itemCubit.AddItem(
                                   logo: itemCubit.pickedLogo,
                                   image1: itemCubit.pickedImage1,
@@ -925,7 +831,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                   address: address.text,
                                   offers: offer,
                                   //  date: formattedDate,
-                                  type: priceDuaration,
+                                  type: "",
                                   collectibles: jsonEncode(devicesList));
                             } else {
                               showError("من فضلك ادخل القيم الناقصه");

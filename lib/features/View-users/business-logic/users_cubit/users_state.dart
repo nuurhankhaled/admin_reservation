@@ -19,3 +19,9 @@ class GetPendingUsersSuccess extends UsersState {}
 class GetPendingUsersFailure extends UsersState {}
 
 class GetPendingUsersTimeOut extends UsersState {}
+
+class ChangePasswordLoading extends UsersState {}
+
+class ChangePasswordSuccess extends UsersState {}
+
+class ChangePasswordError extends UsersState {}

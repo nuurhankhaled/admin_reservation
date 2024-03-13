@@ -47,4 +47,44 @@ class ReceptionistCubit extends Cubit<ReceptionistState> {
       emit(GetReceptionistsFailure());
     }
   }
+  
+  
+  Future<void> changePassword({
+    required id,
+    required password,
+  }) async {
+    showLoading();
+    emit(ChangePasswordLoading());
+    try {
+      var response =
+          await MyDio.post(endPoint: "/user/change_password.php", data: {
+        "id": id,
+        "password": password,
+      });
+      print(response!.statusCode);
+      if (response.statusCode == 200) {
+        print(response.data);
+        var decodedData = json.decode(response.data);
+        var jsonResponse = ReceptionistModel.fromJson(decodedData);
+        if (jsonResponse.success!) {
+          showSuccess("تم تغيير كلمة المرور بنجاح");
+          emit(ChangePasswordSuccess());
+        } else {
+          showError("حدث خطأ ما");
+          print(response.data);
+          print(response.statusCode);
+          emit(ChangePasswordError());
+        }
+      } else {
+        showError("حدث خطأ ما");
+        print(response.data);
+        print(response.statusCode);
+        emit(ChangePasswordError());
+      }
+    } catch (e) {
+      showError("حدث خطأ ما");
+      print(e);
+      emit(ChangePasswordError());
+    }
+  }
 }

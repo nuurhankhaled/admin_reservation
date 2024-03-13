@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:reservationapp_admin/core/helpers/extensions.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/theming/colors.dart';
 import 'package:reservationapp_admin/core/widgets/custom_loading_indecator.dart';
+import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
 import 'package:reservationapp_admin/features/View-receptionist/business-logic/receptionist_cubit/receptionist_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ViewReceptionistScreen extends StatelessWidget {
-  const ViewReceptionistScreen({super.key});
+  ViewReceptionistScreen({super.key});
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController _changePasswordController =
+      TextEditingController();
   @override
   Widget build(BuildContext context) {
+    var cubit = ReceptionistCubit.get(context);
+
     return BlocConsumer<ReceptionistCubit, ReceptionistState>(
       listener: (context, state) {
-        // TODO: implement listener
+        if (state is ChangePasswordSuccess) {
+          cubit.getReceptionists();
+          _changePasswordController.clear();
+          context.pop();
+        }
       },
       builder: (context, state) {
-        var cubit = ReceptionistCubit.get(context);
         return Scaffold(
             appBar: AppBar(
                 title: const Text('عرض موظفي الاستتقبال'),
@@ -44,13 +53,13 @@ class ViewReceptionistScreen extends StatelessWidget {
                           padding: const EdgeInsets.all(10.0),
                           child: DataTable(
                             columns: const [
-                              DataColumn(label: Text("الكود")),
+                              // DataColumn(label: Text("الكود")),
                               DataColumn(label: Text("الاسم")),
                               DataColumn(label: Text('البريد الالكتروني')),
                               DataColumn(label: Text('كلمه السر')),
                               DataColumn(label: Text('رقم الهويه')),
                               DataColumn(label: Text('رقم الهاتف')),
-                              DataColumn(label: Text('الحاله')),
+                              DataColumn(label: Text('تغيير كلمه السر')),
                             ],
                             rows: cubit.receptionists.map((user) {
                               return DataRow(
@@ -74,15 +83,185 @@ class ViewReceptionistScreen extends StatelessWidget {
                                   },
                                 ),
                                 cells: [
-                                  DataCell(Text(user.id.toString())),
+                                  // DataCell(Text(user.id.toString())),
                                   DataCell(Text(user.name!)),
                                   DataCell(Text(user.email!)),
                                   DataCell(Text(user.password!)),
                                   DataCell(Text(user.nid!)),
                                   DataCell(Text(user.phone.toString())),
-                                  DataCell(Text((user.status == "1")
-                                      ? "تمت قبوله"
-                                      : "لم يتم قبولة بعد")),
+                                  DataCell(
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.edit,
+                                        color: Colors.green,
+                                      ),
+                                      onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return Dialog(
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  insetPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 680.w),
+                                                  child: Container(
+                                                    width: double.infinity,
+                                                    height: 320,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                        color: Colors.white),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            20),
+                                                    child: Form(
+                                                      canPop: false,
+                                                      key: formKey,
+                                                      child:
+                                                          SingleChildScrollView(
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween, // Adjust vertical alignment
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Center(
+                                                              child: Row(
+                                                                children: [
+                                                                  const SizedBox(
+                                                                      width:
+                                                                          80),
+                                                                  const Icon(
+                                                                      Icons
+                                                                          .lock),
+                                                                  SizedBox(
+                                                                    width: 10.w,
+                                                                  ),
+                                                                  const Text(
+                                                                      "تغيير كلمه السر",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              24),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 80.h,
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                const SizedBox(
+                                                                    width: 20),
+                                                                Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              70.w),
+                                                                      child: const Text(
+                                                                          "كلمه السر الجديده"),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsets.symmetric(
+                                                                          horizontal: 70
+                                                                              .w,
+                                                                          vertical:
+                                                                              20.h),
+                                                                      child:
+                                                                          SizedBox(
+                                                                        width:
+                                                                            220,
+                                                                        child:
+                                                                            CustomTextFormField(
+                                                                          validator:
+                                                                              (String? value) {
+                                                                            if (value == null ||
+                                                                                value.isEmpty) {
+                                                                              return "هذا الحقل مطلوب";
+                                                                            }
+                                                                            return null;
+                                                                          },
+                                                                          controller:
+                                                                              _changePasswordController,
+                                                                          padding: EdgeInsets.only(
+                                                                              bottom: 22.h,
+                                                                              left: 10.w,
+                                                                              right: 10.w),
+                                                                          height:
+                                                                              70.h,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 30,
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          70.w),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center, // Align Row to start
+                                                                children: [
+                                                                  ElevatedButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        if (formKey.currentState !=
+                                                                            null) {
+                                                                          if (formKey
+                                                                              .currentState!
+                                                                              .validate()) {
+                                                                            cubit.changePassword(
+                                                                                id: user.id,
+                                                                                password: _changePasswordController.text);
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      child: const Text(
+                                                                          "تغيير")),
+                                                                  SizedBox(
+                                                                    width: 50.w,
+                                                                  ),
+                                                                  ElevatedButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        context
+                                                                            .pop();
+                                                                      },
+                                                                      child: const Text(
+                                                                          "الغاء")),
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ));
+                                            });
+
+                                        // cubit.changePassword(
+                                        //     id: user.id.toString());
+                                      },
+                                    ),
+                                  ),
+
                                   //  DataCell(
                                   // Checkbox(
                                   //   value: user.status!.toString()!,

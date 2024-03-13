@@ -94,7 +94,7 @@ class ViewAvailableTime extends StatelessWidget {
                                     DataColumn(label: Text("الوحده")),
                                     DataColumn(label: Text("من")),
                                     DataColumn(label: Text('الي')),
-                                    DataColumn(label: Text('التاريخ')),
+                                    // DataColumn(label: Text('التاريخ')),
                                     DataColumn(label: Text('السعر')),
                                     DataColumn(label: Text('الحاله')),
                                     DataColumn(label: Text('تعديل')),
@@ -127,11 +127,11 @@ class ViewAvailableTime extends StatelessWidget {
                                             : user.item!.name!)),
                                         DataCell(Text(user.availableTimeFrom!)),
                                         DataCell(Text(user.availableTimeTo!)),
-                                        DataCell(Text(user.date!)),
+                                        //      DataCell(Text(user.date!)),
                                         DataCell(Text(user.price!)),
                                         DataCell(Text(user.status! == "1"
-                                            ? "متاح"
-                                            : "غير متاح")),
+                                            ? "محجوز"
+                                            : "غير محجوز")),
                                         DataCell(
                                           IconButton(
                                             icon: const Icon(

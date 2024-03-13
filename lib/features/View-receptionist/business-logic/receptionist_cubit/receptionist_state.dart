@@ -11,3 +11,9 @@ class GetReceptionistsSuccess extends ReceptionistState {}
 class GetReceptionistsFailure extends ReceptionistState {}
 
 class GetReceptionistsTimeOut extends ReceptionistState {}
+
+class ChangePasswordLoading extends ReceptionistState {}
+
+class ChangePasswordSuccess extends ReceptionistState {}
+
+class ChangePasswordError extends ReceptionistState {}
