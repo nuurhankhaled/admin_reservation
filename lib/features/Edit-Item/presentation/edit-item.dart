@@ -39,7 +39,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
 
   String? categoryName;
   int? statue;
-  String? priceDuaration;
+  // String? priceDuaration;
 
   final List<TextEditingController> _items = [];
   final List<TextEditingController> _quantity = [];
@@ -108,7 +108,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     //price.text = widget.item.price!; //set the initial value of text field
     offers.text = widget.item.offer!;
     statue = int.parse(widget.item.status!);
-    priceDuaration = widget.item.type!;
+    //priceDuaration = widget.item.type!;
   }
 
   String formatItemList() {
@@ -790,61 +790,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       ),
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 70.w),
-                        child: const Text(
-                          "السعر / الفتره",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 50.w, vertical: 20.h),
-                        child: Container(
-                          margin: EdgeInsetsDirectional.only(end: 2.w),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 15.w, vertical: 1.h),
-                          height: 80.h,
-                          width: 200,
-                          decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(10.sp)),
-                          child: Center(
-                            child: DropdownButtonFormField(
-                              menuMaxHeight: 700.h,
-                              decoration: const InputDecoration(
-                                  border: InputBorder.none),
-                              hint: const Text(
-                                "اختر الفترة",
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              value: (widget.item.type == "خلال اليوم") ? 0 : 1,
-                              items: List.generate(
-                                _priceState.length,
-                                (index) {
-                                  return DropdownMenuItem<int>(
-                                      value: index,
-                                      child: SizedBox(
-                                        width: 140.w,
-                                        child: Text(_priceState[index]),
-                                      ));
-                                },
-                              ),
-                              onChanged: (int? value) {
-                                setState(() {
-                                  priceDuaration = _priceState[value!];
-                                });
-                                print('priceDuaration : $priceDuaration');
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                   SizedBox(
                     width: 20.w,
                   ),
@@ -1002,7 +947,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         statues: statue.toString(),
                         address: address.text,
                         offers: offer,
-                        type: priceDuaration,
+                        type: "نتانا",
                         collectibles: jsonEncode(devicesList));
                   },
                   text: "تعديل عنصر",

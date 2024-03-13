@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
-import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/core/utilies/easy_loading.dart';
 import 'package:reservationapp_admin/core/widgets/custom_button.dart';
 import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
@@ -79,7 +78,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
     return BlocConsumer<ItemCubit, ItemState>(
       listener: (context, state) {
         if (state is AddItemSuccess) {
-          context.pushReplacementNamed(Routes.mainlayout);
+          context.pop();
+          //    context.pushReplacementNamed(Routes.mainlayout);
         }
       },
       builder: (context, state) {
@@ -831,7 +831,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                   address: address.text,
                                   offers: offer,
                                   //  date: formattedDate,
-                                  type: "",
+                                  type: "قفلقف",
                                   collectibles: jsonEncode(devicesList));
                             } else {
                               showError("من فضلك ادخل القيم الناقصه");

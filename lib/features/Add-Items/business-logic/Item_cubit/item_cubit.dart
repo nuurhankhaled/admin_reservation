@@ -116,6 +116,8 @@ class ItemCubit extends Cubit<ItemState> {
           emit(AddItemSuccess());
         } else {
           showError("حدث خطأ ما");
+          emit(AddItemFailure());
+
           print(response.data);
           print(response.statusCode);
         }
