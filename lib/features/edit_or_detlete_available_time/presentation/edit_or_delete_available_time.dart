@@ -153,7 +153,7 @@ class ViewAvailableTime extends StatelessWidget {
                                                             .availableTimeFrom!,
                                                         to: user
                                                             .availableTimeTo!,
-                                                        date: user.date!,
+                                                        // date: user.date!,
                                                         status: user.status!,
                                                       ));
                                                 },

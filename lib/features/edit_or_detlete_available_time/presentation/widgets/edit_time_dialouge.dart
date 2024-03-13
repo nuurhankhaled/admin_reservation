@@ -17,13 +17,13 @@ class EditTimeDialog extends StatefulWidget {
       required this.price,
       required this.from,
       required this.to,
-      required this.date,
+      // required this.date,
       required this.status});
   String id;
   String price;
   String from;
   String to;
-  String date;
+  // String date;
   String status;
 
   @override
@@ -54,7 +54,7 @@ class _EditTimeDialogState extends State<EditTimeDialog> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    formattedDate = widget.date;
+    // formattedDate = widget.date;
   }
 
   @override
