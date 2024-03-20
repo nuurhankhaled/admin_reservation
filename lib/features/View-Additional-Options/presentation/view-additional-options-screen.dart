@@ -31,7 +31,7 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
     return BlocConsumer<AdditionalOptionsCubit, AdditionalOptionsState>(
       listener: (context, state) {
         if (state is DeleteAdditionalOptionsSuccess) {
-          cubit.getAllAdditionalOptions();
+         
         }
       },
       builder: (context, state) {

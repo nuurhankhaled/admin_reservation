@@ -68,7 +68,7 @@ class _AddAdditionalOptionsDialogState
                               SizedBox(
                                 width: 10.w,
                               ),
-                              const Text("اضافه وقت للمنشأه",
+                              const Text("اضافه اضافات للوحده",
                                   style: TextStyle(fontSize: 24),
                                   textAlign: TextAlign.center),
                             ],
@@ -92,7 +92,7 @@ class _AddAdditionalOptionsDialogState
                                   decoration: const InputDecoration(
                                     border: InputBorder.none,
                                   ),
-                                  hint: const Text("المنشأه",
+                                  hint: const Text("الوحده",
                                       style: TextStyle(color: Colors.black)),
                                   items: List.generate(
                                     itemCubit.items.length,
@@ -121,7 +121,6 @@ class _AddAdditionalOptionsDialogState
                               ),
                             ),
                           ),
-                        
                           SizedBox(
                             height: 50.h,
                           ),
@@ -181,7 +180,6 @@ class _AddAdditionalOptionsDialogState
                               ),
                             ),
                           ),
-                        
                           SizedBox(
                             height: 50.h,
                           ),

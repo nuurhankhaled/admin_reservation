@@ -76,6 +76,7 @@ class AdditionalOptionsCubit extends Cubit<AdditionalOptionsState> {
     try {
       if (response!.statusCode == 200) {
         showSuccess("تم حذف المرفق بنجاح");
+        await getAllAdditionalOptions();
         emit(DeleteAdditionalOptionsSuccess());
       } else {
         showError("حدث خطأ ما");

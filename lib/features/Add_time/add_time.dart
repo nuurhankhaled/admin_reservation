@@ -363,8 +363,7 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                         children: [
                           ElevatedButton(
                               onPressed: () {
-                                if (_formKey.currentState!.validate() &&
-                                    (categoryId != null || categoryId != "")) {
+                                if (_formKey.currentState!.validate()) {
                                   itemCubit.addAvailableTime(
                                     //   date: formattedDate,
                                     //   date: formattedDate,
@@ -373,6 +372,10 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                                     item_id: categoryId,
                                     price: price.text,
                                   );
+                                } else {
+                                  if (categoryId == null) {
+                                    showError("اختر الوحده المطلوبه");
+                                  }
                                 }
                               },
                               child: const Text("اضافه")),

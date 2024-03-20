@@ -62,6 +62,7 @@ class EditOrDeleteAvailableCubit extends Cubit<EditOrDeleteStates> {
       var jsonResponse = AvailableTimeModel.fromJson(decodedData);
       if (jsonResponse.success == true) {
         showSuccess("تم مسح المستخدم بنجاح");
+        await getallAvailable();
         emit(DeleteALLAvailableSuccess());
       } else {
         showError("حدث خطأ ما");
