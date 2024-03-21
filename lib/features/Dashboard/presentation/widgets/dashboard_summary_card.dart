@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reservationapp_admin/core/helpers/extensions.dart';
-import 'package:reservationapp_admin/core/routing/routes.dart';
 
 class SummaryCard extends StatelessWidget {
   String? textName;

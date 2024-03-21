@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 class MainLayoutChart extends StatelessWidget {
