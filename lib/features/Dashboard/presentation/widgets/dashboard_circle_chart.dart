@@ -1,16 +1,21 @@
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/routing/routes.dart';
+import '../../../../Core/Api/endPoints.dart';
+import '../../../../core/Api/my_http.dart';
 import '../../../../core/theming/colors.dart';
+import '../../../View-Waiting-Reservations/data/models/reservations-model.dart';
 import 'charts_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class CircleChart extends StatelessWidget {
-  const CircleChart({Key? key}) : super(key: key);
-
   get chartData => null;
+  String head ;
+  double percent ;
+  CircleChart({required this.head, required this.percent});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,7 @@ class CircleChart extends StatelessWidget {
             SizedBox(
               height: 30.h,
             ),
-            Text('اسم '),
+            Text(head),
             SizedBox(
               height: 25.h,
             ),
@@ -34,7 +39,8 @@ class CircleChart extends StatelessWidget {
                 height: 2.3.sp,
                 decoration: BoxDecoration(
                     color: AppColors.greyColor,
-                    borderRadius: BorderRadius.circular(60.sp)),
+                    borderRadius: BorderRadius.circular(60.sp)
+                ),
               ),
             ),
             SizedBox(
@@ -43,8 +49,8 @@ class CircleChart extends StatelessWidget {
             CircularPercentIndicator(
               radius: 130.0.sp,
               lineWidth: 25.0.w,
-              percent: 0.5,
-              center: new Text("50%"),
+              percent: (percent) ,
+              center: new Text("${percent*100}%"),
               progressColor: AppColors.primaryColor,
               animateFromLastPercent: true,
               animation: true,
