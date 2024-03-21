@@ -13,7 +13,7 @@ import 'package:reservationapp_admin/features/Add-Items/business-logic/Item_cubi
 import 'package:reservationapp_admin/features/View-category-details/data/models/items-model.dart';
 
 class EditItemScreen extends StatefulWidget {
-  Data item;
+  CategoryItemsData item;
   EditItemScreen({super.key, required this.item});
 
   @override

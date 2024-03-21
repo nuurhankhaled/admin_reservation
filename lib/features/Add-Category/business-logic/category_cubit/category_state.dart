@@ -45,3 +45,9 @@ class DeleteCategoryLoading extends CategoryState {}
 class DeleteCategorySuccess extends CategoryState {}
 
 class DeleteCategoryFailure extends CategoryState {}
+
+class GetCategoryItemsLoading extends CategoryState {}
+
+class GetCategoryItemsSuccess extends CategoryState {}
+
+class GetCategoryItemsFailure extends CategoryState {}

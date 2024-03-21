@@ -1,13 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:dio/dio.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:reservationapp_admin/core/Api/my_http.dart';
-import 'package:reservationapp_admin/core/utilies/easy_loading.dart';
 import 'package:reservationapp_admin/features/View-category-details/data/models/items-model.dart';
+
 import '../../../../Core/Api/endPoints.dart'; // Import the library that defines 'getCategories'.
-import 'package:reservationapp_admin/core/helpers/extensions.dart';
+
 part 'category_items_state.dart';
 
 class CategoryItemsCubit extends Cubit<CategoryItemsState> {
@@ -16,7 +14,7 @@ class CategoryItemsCubit extends Cubit<CategoryItemsState> {
   static CategoryItemsCubit get(context) => BlocProvider.of(context);
   static const Duration timeoutDuration = Duration(seconds: 30);
 
-  List<Data> categoryItems = [];
+  List<CategoryItemsData> categoryItems = [];
 
   getCategoryItems({
     required String categoryName,
@@ -28,7 +26,7 @@ class CategoryItemsCubit extends Cubit<CategoryItemsState> {
         'category_name': categoryName,
       });
       print(response!.statusCode);
-      if (response!.statusCode == 200) {
+      if (response.statusCode == 200) {
         print(response.data);
         var decodedData = json.decode(response.data);
         var jsonResponse = ItemModel.fromJson(decodedData);

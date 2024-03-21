@@ -14,24 +14,36 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var searchController = TextEditingController();
-
+    var categoryController = TextEditingController();
     var cubit = AdditionalOptionsCubit.get(context);
     List<Data> filteredList = [];
-    if (searchController.text.isEmpty) {
+    if (searchController.text.isEmpty && categoryController.text.isEmpty) {
       filteredList = cubit.additionalOptions;
     } else {
       filteredList = cubit.additionalOptions
           .where((time) => (time.itemName != null)
-              ? time.itemName!
-                  .toLowerCase()
-                  .contains(searchController.text.toLowerCase())
+              ? (categoryController.text.trim() != "")
+                  ? (searchController.text.trim() != "")
+                      ? time.itemName!
+                              .toLowerCase()
+                              .contains(searchController.text.toLowerCase()) &&
+                          time.category!.name!
+                              .toLowerCase()
+                              .contains(categoryController.text)
+                      : time.category!.name!
+                          .toLowerCase()
+                          .contains(categoryController.text)
+                  : time.itemName!
+                      .toLowerCase()
+                      .contains(searchController.text.toLowerCase())
               : false)
           .toList();
     }
+
     return BlocConsumer<AdditionalOptionsCubit, AdditionalOptionsState>(
       listener: (context, state) {
         if (state is DeleteAdditionalOptionsSuccess) {
-         
+          AdditionalOptionsCubit.get(context).getAllAdditionalOptions();
         }
       },
       builder: (context, state) {
@@ -47,6 +59,23 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
                 ),
               ),
               actions: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 50, top: 10),
+                  child: SizedBox(
+                    width: 200,
+                    child: CustomTextFormField(
+                      controller: categoryController,
+                      onChanged: (value) {
+                        context
+                            .read<AdditionalOptionsCubit>()
+                            .getAllAdditionalOptions();
+                      },
+                      contentPadding: const EdgeInsets.only(bottom: 15),
+                      hintText: 'ابحث عن منشأه...',
+                      prefixIcon: const Icon(Icons.search),
+                    ),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(left: 50, top: 10),
                   child: SizedBox(
@@ -90,15 +119,14 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(10.0),
                               child: DataTable(
                                 columns: const [
-                                  DataColumn(label: Text("الكود")),
-                                  DataColumn(label: Text("كودالوحده")),
+                                  DataColumn(label: Text("المنشأه")),
                                   DataColumn(label: Text("اسم الوحده")),
                                   DataColumn(label: Text('الاسم')),
                                   DataColumn(label: Text('السعر')),
                                   DataColumn(label: Text('تعديل')),
                                   DataColumn(label: Text('مسح')),
                                 ],
-                                rows: cubit.additionalOptions.map((user) {
+                                rows: filteredList.map((user) {
                                   return DataRow(
                                     color: MaterialStateProperty.resolveWith<
                                         Color?>(
@@ -112,9 +140,7 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
                                               .withOpacity(0.08);
                                         }
                                         // Even rows will have a grey color.
-                                        if (cubit.additionalOptions
-                                                    .indexOf(user) %
-                                                2 ==
+                                        if (filteredList.indexOf(user) % 2 ==
                                             0) {
                                           return Colors.grey[100];
                                         }
@@ -122,9 +148,8 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
                                       },
                                     ),
                                     cells: [
-                                      DataCell(Text(user.id.toString())),
-                                      DataCell(Text((user.itemId != null)
-                                          ? user.itemId!
+                                      DataCell(Text((user.category != null)
+                                          ? user.category!.name!
                                           : "تم الحذف")),
                                       DataCell(Text((user.itemName != null)
                                           ? user.itemName!

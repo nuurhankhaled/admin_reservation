@@ -39,7 +39,7 @@ class _ViewCategoryDetailsState extends State<ViewCategoryDetails> {
           },
           builder: (context, state) {
             var itemCubit = ItemCubit.get(context);
-            List<Data> filteredItems = categoryCubit.categoryItems
+            List<CategoryItemsData> filteredItems = categoryCubit.categoryItems
                 .where((item) => item.name!
                     .toLowerCase()
                     .contains(searchController.text.toLowerCase()))

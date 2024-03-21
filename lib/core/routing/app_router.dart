@@ -105,7 +105,7 @@ class AppRouter {
           settings: settings,
           child: BlocProvider(
             create: (context) => ReservationsCubit()..getReservations(),
-            child: ViewWaitingReservationscreen(),
+            child: const ViewWaitingReservationscreen(),
           ),
         );
 
@@ -164,7 +164,7 @@ class AppRouter {
               child: const Home(),
             ));
       case Routes.editItemScreen:
-        final item = settings.arguments as Data;
+        final item = settings.arguments as CategoryItemsData;
         return PageTransition(
             type: PageTransitionType.fade,
             duration: const Duration(milliseconds: 200),

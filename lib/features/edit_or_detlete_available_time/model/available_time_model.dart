@@ -29,30 +29,31 @@ class Data {
   String? itemId;
   String? availableTimeFrom;
   String? availableTimeTo;
-  String? date;
   String? status;
   String? price;
   Item? item;
+  Category? category;
 
   Data(
       {this.id,
       this.itemId,
       this.availableTimeFrom,
       this.availableTimeTo,
-      this.date,
       this.status,
       this.price,
-      this.item});
+      this.item,
+      this.category});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     itemId = json['item_id'];
     availableTimeFrom = json['available_time_from'];
     availableTimeTo = json['available_time_to'];
-    date = json['date'];
     status = json['status'];
     price = json['price'];
     item = json['item'] != null ? Item.fromJson(json['item']) : null;
+    category =
+        json['category'] != null ? Category.fromJson(json['category']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -61,11 +62,13 @@ class Data {
     data['item_id'] = itemId;
     data['available_time_from'] = availableTimeFrom;
     data['available_time_to'] = availableTimeTo;
-    data['date'] = date;
     data['status'] = status;
     data['price'] = price;
     if (item != null) {
       data['item'] = item!.toJson();
+    }
+    if (category != null) {
+      data['category'] = category!.toJson();
     }
     return data;
   }
@@ -132,6 +135,28 @@ class Item {
     data['devices'] = devices;
     data['status'] = status;
     data['offer'] = offer;
+    return data;
+  }
+}
+
+class Category {
+  String? id;
+  String? name;
+  String? image;
+
+  Category({this.id, this.name, this.image});
+
+  Category.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['image'] = image;
     return data;
   }
 }

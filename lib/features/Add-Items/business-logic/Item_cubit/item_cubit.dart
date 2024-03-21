@@ -28,7 +28,7 @@ class ItemCubit extends Cubit<ItemState> {
     required price,
   }) async {
     emit(AddItemLoading());
-
+    print("yaaalllahwy");
     FormData formData = FormData.fromMap({
       "available_time_from": availableTimeFrom,
       "available_time_to": availableTimeTo,
@@ -37,11 +37,11 @@ class ItemCubit extends Cubit<ItemState> {
       "price": price,
       "status": 0,
     });
-
+    print("yalahwwwwy1");
     try {
       Response? response = await MyDio.post(
           endPoint: "/item/add_available_time.php", data: formData);
-
+      print("yallahwy122");
       print(response!.data);
       if (response.statusCode == 200) {
         var decodedData = json.decode(response.data);
@@ -200,7 +200,7 @@ class ItemCubit extends Cubit<ItemState> {
     }
   }
 
-  List<Data> items = [];
+  List<CategoryItemsData> items = [];
 
   getAllItems() async {
     emit(GetItemsLoading());
@@ -266,122 +266,6 @@ class ItemCubit extends Cubit<ItemState> {
       emit(DeleteItemFailure());
     }
   }
-
-  // editItem(
-  //     {required id,
-  //     required logo,
-  //     required image1,
-  //     required image2,
-  //     required image3,
-  //     required name,
-  //     required description,
-  //     required price,
-  //     required availableTimeFrom,
-  //     required availableTimeTo,
-  //     required categoryName,
-  //     required statues,
-  //     required address,
-  //     required offers,
-  //     required type,
-  //     required collectibles,
-  //     context}) async {
-  //   emit(EditItemLoading());
-  //   showLoading();
-  //   try {
-  //     print("object");
-  //     String fileNameLogo = (logo != "") ? logo.path.split('/').last : "";
-  //     String fileNameImage1 = (image1 != "") ? image1.path.split('/').last : "";
-  //     String fileNameImage2 = (image2 != "") ? image2.path.split('/').last : "";
-  //     String fileNameImage3 = (image3 != "") ? image3.path.split('/').last : "";
-  //     print(fileNameLogo);
-  //     FormData formData = FormData.fromMap({
-  //       "category_name": categoryName,
-  //       "name": name,
-  //       "id": id,
-  //       "logo": (logo != "")
-  //           ? await MultipartFile.fromFile(logo.path, filename: fileNameLogo)
-  //           : "",
-  //       "image1": (image1 != "")
-  //           ? await MultipartFile.fromFile(image1.path,
-  //               filename: fileNameImage1)
-  //           : "",
-  //       "image2": (image2 != "")
-  //           ? await MultipartFile.fromFile(image2.path,
-  //               filename: fileNameImage2)
-  //           : "",
-  //       "image3": (image3 != "")
-  //           ? await MultipartFile.fromFile(image3.path,
-  //               filename: fileNameImage3)
-  //           : "",
-  //       "type": type,
-  //       "description": description,
-  //       "address": address,
-  //       "available_time_from": availableTimeFrom,
-  //       "available_time_to": availableTimeTo,
-  //       "status": statues,
-  //       "offer": offers,
-  //       "price": price,
-  //       "devices": collectibles,
-  //     });
-
-  //     // if (logo != "") {
-  //     //   String fileNameImage1 = image1.path.split('/').last;
-  //     //   formData.files.add(MapEntry(
-  //     //     "logo",
-  //     //     MultipartFile.fromFileSync(image1.path, filename: fileNameImage1),
-  //     //   ));
-  //     // }
-
-  //     // if (image1 != "") {
-  //     //   String fileNameImage1 = image1.path.split('/').last;
-  //     //   formData.files.add(MapEntry(
-  //     //     "image1",
-  //     //     MultipartFile.fromFileSync(image1.path, filename: fileNameImage1),
-  //     //   ));
-  //     // }
-
-  //     // if (image2 != "") {
-  //     //   String fileNameImage2 = image2.path.split('/').last;
-  //     //   print(fileNameImage2);
-  //     //   formData.files.add(MapEntry(
-  //     //     "image2",
-  //     //     MultipartFile.fromFileSync(image2.path, filename: fileNameImage2),
-  //     //   ));
-  //     // }
-
-  //     // if (image3 != "") {
-  //     //   String fileNameImage3 = image3.path.split('/').last;
-  //     //   formData.files.add(MapEntry(
-  //     //     "image3",
-  //     //     MultipartFile.fromFileSync(image3.path, filename: fileNameImage3),
-  //     //   ));
-  //     // }
-  //     print("--------------");
-  //     print(formData.fields);
-  //     print("--------------");
-  //     var response =
-  //         await MyDio.post(endPoint: EndPoints.editItem, data: formData);
-  //     print(response!.data);
-  //     if (response.statusCode == 200) {
-  //       var decodedData = json.decode(response.data);
-  //       var jsonResponse = AcceptanceModel.fromJson(decodedData);
-  //       if (jsonResponse.success == true) {
-  //         hideLoading();
-  //         showSuccess("تم تعديل المرفق بنجاح");
-  //         emit(EditItemSuccess());
-  //         ;
-  //       } else {
-  //         showError("حدث خطأ ما");
-  //         print(response!.data);
-  //         print(response.statusCode);
-  //         emit(EditItemFailure());
-  //       }
-  //     }
-  //   } catch (e) {
-  //     showError("حدث خطأ ما");
-  //     emit(EditItemFailure());
-  //   }
-  // }
 
   editItem({
     required id,

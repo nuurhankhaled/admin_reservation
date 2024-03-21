@@ -16,6 +16,7 @@ class ViewAvailableTime extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var searchController = TextEditingController();
+    var categoryController = TextEditingController();
     return BlocProvider(
       create: (context) => EditOrDeleteAvailableCubit()..getallAvailable(),
       child: BlocConsumer<EditOrDeleteAvailableCubit, EditOrDeleteStates>(
@@ -23,18 +24,32 @@ class ViewAvailableTime extends StatelessWidget {
           if (state is EditAvailableSuccess) {
             EditOrDeleteAvailableCubit.get(context).getallAvailable();
           }
+          if (state is DeleteALLAvailableSuccess) {
+            EditOrDeleteAvailableCubit.get(context).getallAvailable();
+          }
         },
         builder: (context, state) {
           var cubit = EditOrDeleteAvailableCubit.get(context);
           List<Data> filteredList = [];
-          if (searchController.text.isEmpty) {
+          if (searchController.text.isEmpty &&
+              categoryController.text.isEmpty) {
             filteredList = cubit.allAvailableTimes;
           } else {
             filteredList = cubit.allAvailableTimes
                 .where((time) => (time.item != null)
-                    ? time.item!.name!
-                        .toLowerCase()
-                        .contains(searchController.text.toLowerCase())
+                    ? (categoryController.text.trim() != "")
+                        ? (searchController.text.trim() != "")
+                            ? time.item!.name!.toLowerCase().contains(
+                                    searchController.text.toLowerCase()) &&
+                                time.category!.name!
+                                    .toLowerCase()
+                                    .contains(categoryController.text)
+                            : time.category!.name!
+                                .toLowerCase()
+                                .contains(categoryController.text)
+                        : time.item!.name!
+                            .toLowerCase()
+                            .contains(searchController.text.toLowerCase())
                     : false)
                 .toList();
           }
@@ -55,6 +70,24 @@ class ViewAvailableTime extends StatelessWidget {
                       width: 200,
                       child: CustomTextFormField(
                         prefixIcon: const Icon(Icons.search),
+                        hintText: "ابحث عن منشأه...",
+                        contentPadding: const EdgeInsets.only(bottom: 15),
+                        controller: categoryController,
+                        onChanged: (value) {
+                          print(value);
+                          context
+                              .read<EditOrDeleteAvailableCubit>()
+                              .getallAvailable();
+                        },
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 50, top: 10),
+                    child: SizedBox(
+                      width: 200,
+                      child: CustomTextFormField(
+                        prefixIcon: const Icon(Icons.search),
                         hintText: "ابحث عن وحدة...",
                         contentPadding: const EdgeInsets.only(bottom: 15),
                         controller: searchController,
@@ -68,8 +101,8 @@ class ViewAvailableTime extends StatelessWidget {
                   ),
                 ],
               ),
-              body: (state is GetAcceptedUsersLoading ||
-                      state is GetPendingUsersLoading)
+              body: (state is GetALLAvailableLoading
+               )
                   ? const CustomLoadingIndicator()
                   : (filteredList.isEmpty)
                       ? const Center(
@@ -91,6 +124,7 @@ class ViewAvailableTime extends StatelessWidget {
                                 padding: const EdgeInsets.all(10.0),
                                 child: DataTable(
                                   columns: const [
+                                    DataColumn(label: Text("المنشاه")),
                                     DataColumn(label: Text("الوحده")),
                                     DataColumn(label: Text("من")),
                                     DataColumn(label: Text('الي')),
@@ -122,6 +156,9 @@ class ViewAvailableTime extends StatelessWidget {
                                         },
                                       ),
                                       cells: [
+                                        DataCell(Text((user.category == null)
+                                            ? "تم الحذف"
+                                            : user.category!.name!)),
                                         DataCell(Text((user.item == null)
                                             ? "تم الحذف"
                                             : user.item!.name!)),

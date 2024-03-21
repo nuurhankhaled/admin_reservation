@@ -30,8 +30,15 @@ class Data {
   String? name;
   String? price;
   String? itemName;
+  Category? category;
 
-  Data({this.id, this.itemId, this.name, this.price, this.itemName});
+  Data(
+      {this.id,
+      this.itemId,
+      this.name,
+      this.price,
+      this.itemName,
+      this.category});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -39,6 +46,8 @@ class Data {
     name = json['name'];
     price = json['price'];
     itemName = json['item_name'];
+    category =
+        json['category'] != null ? Category.fromJson(json['category']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +57,31 @@ class Data {
     data['name'] = name;
     data['price'] = price;
     data['item_name'] = itemName;
+    if (category != null) {
+      data['category'] = category!.toJson();
+    }
+    return data;
+  }
+}
+
+class Category {
+  String? id;
+  String? name;
+  String? image;
+
+  Category({this.id, this.name, this.image});
+
+  Category.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['image'] = image;
     return data;
   }
 }
