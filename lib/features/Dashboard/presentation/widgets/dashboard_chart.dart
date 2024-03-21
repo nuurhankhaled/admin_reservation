@@ -3,38 +3,32 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
-class MainLayoutChart extends StatefulWidget {
-  const MainLayoutChart({Key? key}) : super(key: key);
+class MainLayoutChart extends StatelessWidget {
+  Map<dynamic,dynamic> map ;
+  MainLayoutChart({required this.map});
 
-  @override
-  State<MainLayoutChart> createState() => _MainLayoutChartState();
-}
-
-class _MainLayoutChartState extends State<MainLayoutChart> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      child: SfCartesianChart(
+        primaryXAxis: CategoryAxis(),
+        series: <ChartSeries>[
+          LineSeries<ChartData, String>(
+              dataSource: [
+                for(int i = 0 ; i < map.keys.toList().length && !map.keys.toList().isEmpty ; i++)...[
+                  ChartData(map.keys.toList()[i].toString() , map.values.toList()[i]*1.0),
+                ]
+              ],
+              xValueMapper: (ChartData data, _) => data.x,
+              yValueMapper: (ChartData data, _) => data.y
+          ),
 
-        child: SfCartesianChart(
-          primaryXAxis: CategoryAxis(),
-          series: <ChartSeries>[
-            
-            LineSeries<ChartData, String>(
-                dataSource: [
-                  ChartData('محاسب1', 30),
-                  ChartData('محاسب2', 50),
-                  ChartData('محاسب3', 40),
-                  ChartData('محاسب4', 10),
-                ],
-                xValueMapper: (ChartData data, _) => data.x,
-                yValueMapper: (ChartData data, _) => data.y
-            ),
-
-          ],
-        ),
+        ],
+      ),
     );
   }
 }
+
 class ChartData {
   ChartData(this.x, this.y);
   final String x;
