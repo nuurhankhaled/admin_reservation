@@ -16,29 +16,6 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
     var searchController = TextEditingController();
     var categoryController = TextEditingController();
     var cubit = AdditionalOptionsCubit.get(context);
-    List<Data> filteredList = [];
-    if (searchController.text.isEmpty && categoryController.text.isEmpty) {
-      filteredList = cubit.additionalOptions;
-    } else {
-      filteredList = cubit.additionalOptions
-          .where((time) => (time.itemName != null)
-              ? (categoryController.text.trim() != "")
-                  ? (searchController.text.trim() != "")
-                      ? time.itemName!
-                              .toLowerCase()
-                              .contains(searchController.text.toLowerCase()) &&
-                          time.category!.name!
-                              .toLowerCase()
-                              .contains(categoryController.text)
-                      : time.category!.name!
-                          .toLowerCase()
-                          .contains(categoryController.text)
-                  : time.itemName!
-                      .toLowerCase()
-                      .contains(searchController.text.toLowerCase())
-              : false)
-          .toList();
-    }
 
     return BlocConsumer<AdditionalOptionsCubit, AdditionalOptionsState>(
       listener: (context, state) {
@@ -47,6 +24,29 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        List<Data> filteredList = [];
+        if (searchController.text.isEmpty && categoryController.text.isEmpty) {
+          filteredList = cubit.additionalOptions;
+        } else {
+          filteredList = cubit.additionalOptions
+              .where((time) => (time.itemName != null)
+                  ? (categoryController.text.trim() != "")
+                      ? (searchController.text.trim() != "")
+                          ? time.itemName!.toLowerCase().contains(
+                                  searchController.text.toLowerCase()) &&
+                              time.category!.name!
+                                  .toLowerCase()
+                                  .contains(categoryController.text)
+                          : time.category!.name!
+                              .toLowerCase()
+                              .contains(categoryController.text)
+                      : time.itemName!
+                          .toLowerCase()
+                          .contains(searchController.text.toLowerCase())
+                  : false)
+              .toList();
+        }
+
         return Scaffold(
             appBar: AppBar(
               title: const Text('عرض الاضافات ',
@@ -139,12 +139,12 @@ class ViewAdditionalOptionsScreen extends StatelessWidget {
                                               .primary
                                               .withOpacity(0.08);
                                         }
-                                        // Even rows will have a grey color.
+
                                         if (filteredList.indexOf(user) % 2 ==
                                             0) {
                                           return Colors.grey[100];
                                         }
-                                        return null; // Use default value for other states and odd rows.
+                                        return null;
                                       },
                                     ),
                                     cells: [
