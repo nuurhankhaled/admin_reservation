@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/features/Dashboard/presentation/widgets/charts_widget.dart';
@@ -6,10 +7,34 @@ import 'package:reservationapp_admin/features/Dashboard/presentation/widgets/das
 import 'package:reservationapp_admin/features/Dashboard/presentation/widgets/dashboard_summary_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../Core/Api/endPoints.dart';
+import '../../../core/Api/my_http.dart';
 import '../../../core/theming/colors.dart';
+import '../../View-Waiting-Reservations/data/models/reservations-model.dart';
 
-class DashBoardScreen extends StatelessWidget {
+class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});
+
+  @override
+  State<DashBoardScreen> createState() => _DashBoardScreenState();
+}
+
+class _DashBoardScreenState extends State<DashBoardScreen> {
+
+  Map<dynamic,dynamic> values = {"accept" : 0 , "wait" : 0 , "percent" : 0} ;
+  Map<dynamic,dynamic> reservationStatistics = {} ;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getReservations().then((value) {
+      values = value[0] ;
+      reservationStatistics = value[1] ;
+      setState(() {
+
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,17 +88,54 @@ class DashBoardScreen extends StatelessWidget {
             child: Row(
               children: [
                 ChartsConatiner(
-                  chartWidget: MainLayoutChart(),
+                  chartWidget: MainLayoutChart(
+                      map: reservationStatistics
+                  ),
                 ),
                 SizedBox(
                   width: 120.w,
                 ),
-                CircleChart(),
+                CircleChart(
+                  head: 'نسبة الحجوزات المقبولة الي الغير مقبولة',
+                  percent: double.parse("${values["percent"]!}") ,
+                ),
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  Future<List<Map<dynamic,dynamic>>> getReservations() async {
+    Map<dynamic,dynamic> reservationStatistics = {};
+    Map<dynamic,dynamic> values = {"accept" : 0 , "wait" : 0 , "percent" : 0} ;
+    var response = await MyDio.get(endPoint: EndPoints.getReservations);
+    print(response!.statusCode);
+    if (response.statusCode == 200) {
+      print(">->-): "+response.data);
+      var decodedData = json.decode(response.data);
+      var jsonResponse = ReservationsModel.fromJson(decodedData);
+      if (jsonResponse.success!) {
+        for (var reservation in jsonResponse.data!) {
+          if(reservationStatistics[reservation.item] == null)
+            reservationStatistics.addAll({reservation.item : 1});
+          else
+            reservationStatistics[reservation.item]++;
+
+          if (reservation.status == "0") {
+            values["wait"] = double.parse("${values["wait"]}") + 1;
+            print("): ${values["wait"]}");
+          } else {
+            values["accept"] = double.parse("${values["accept"]}") + 1;
+            print("): ${values["accept"]}");
+          }
+        }
+      }
+    }
+
+    values["percent"] = (double.parse(values["accept"].toString()) / (double.parse(values["wait"].toString()) + double.parse(values["accept"].toString()))) ;
+
+    return [values , reservationStatistics] ;
   }
 }
