@@ -19,6 +19,8 @@ class ReservationsCubit extends Cubit<ReservationsState> {
   List<ReservationData> acceptedReservations = [];
 
   Future<void> getReservations() async {
+    waintingReservations = [];
+    acceptedReservations = [];
     emit(GetReservationsLoading());
     try {
       var response = await MyDio.get(endPoint: EndPoints.getReservations);

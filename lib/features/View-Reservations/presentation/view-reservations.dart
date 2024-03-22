@@ -6,13 +6,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/theming/colors.dart';
 import 'package:reservationapp_admin/core/widgets/custom_loading_indecator.dart';
+import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
 import 'package:reservationapp_admin/features/View-Waiting-Reservations/business-logic/reservations_cubit/reservations_cubit.dart';
+import 'package:reservationapp_admin/features/View-Waiting-Reservations/data/models/reservations-model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ViewReservationscreen extends StatelessWidget {
   const ViewReservationscreen({super.key});
   @override
   Widget build(BuildContext context) {
+    var searchController = TextEditingController();
+    var categoryController = TextEditingController();
     return BlocConsumer<ReservationsCubit, ReservationsState>(
       listener: (context, state) {
         if (state is DeclineReservationSuccess) {
@@ -22,19 +26,78 @@ class ViewReservationscreen extends StatelessWidget {
       },
       builder: (context, state) {
         var cubit = ReservationsCubit.get(context);
+        List<ReservationData> filteredList = [];
+        if (searchController.text.isEmpty && categoryController.text.isEmpty) {
+          filteredList = cubit.acceptedReservations;
+        } else {
+          filteredList = cubit.acceptedReservations
+              .where((time) => (time.id != null)
+                  ? (categoryController.text.trim() != "")
+                      ? (searchController.text.trim() != "")
+                          ? time.item!.name!.toLowerCase().contains(
+                                  searchController.text.toLowerCase()) &&
+                              time.category!.name!
+                                  .toLowerCase()
+                                  .contains(categoryController.text)
+                          : time.category!.name!
+                              .toLowerCase()
+                              .contains(categoryController.text)
+                      : time.item!.name!
+                          .toLowerCase()
+                          .contains(searchController.text.toLowerCase())
+                  : false)
+              .toList();
+        }
         return Scaffold(
             appBar: AppBar(
-                title: const Text('عرض الحجوزات '),
-                leading: Padding(
-                  padding: EdgeInsets.only(right: 50.w),
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios),
-                    onPressed: () => context.pop(),
+              title: const Text('عرض الحجوزات '),
+              leading: Padding(
+                padding: EdgeInsets.only(right: 50.w),
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios),
+                  onPressed: () => context.pop(),
+                ),
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 50, top: 10),
+                  child: SizedBox(
+                    width: 200,
+                    child: CustomTextFormField(
+                      prefixIcon: const Icon(Icons.search),
+                      hintText: "ابحث عن منشأه...",
+                      contentPadding: const EdgeInsets.only(bottom: 15),
+                      controller: categoryController,
+                      onChanged: (value) {
+                        print(value);
+                        filteredList = [];
+                        context.read<ReservationsCubit>().getReservations();
+                      },
+                    ),
                   ),
-                )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 50, top: 10),
+                  child: SizedBox(
+                    width: 200,
+                    child: CustomTextFormField(
+                      prefixIcon: const Icon(Icons.search),
+                      hintText: "ابحث عن وحدة...",
+                      contentPadding: const EdgeInsets.only(bottom: 15),
+                      controller: searchController,
+                      onChanged: (value) {
+                        filteredList = [];
+
+                        context.read<ReservationsCubit>().getReservations();
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
             body: (state is GetReservationsLoading)
                 ? const CustomLoadingIndicator()
-                : (cubit.acceptedReservations.isEmpty)
+                : (filteredList.isEmpty)
                     ? const Center(
                         child: Text("لا يوجد حجوزات"),
                       )
@@ -132,7 +195,7 @@ class ViewReservationscreen extends StatelessWidget {
                                               overflow:
                                                   TextOverflow.ellipsis))),
                                 ],
-                                rows: cubit.acceptedReservations.map((user) {
+                                rows: filteredList.map((user) {
                                   return DataRow(
                                     color: MaterialStateProperty.resolveWith<
                                         Color?>(
@@ -146,9 +209,7 @@ class ViewReservationscreen extends StatelessWidget {
                                               .withOpacity(0.08);
                                         }
                                         // Even rows will have a grey color.
-                                        if (cubit.acceptedReservations
-                                                    .indexOf(user) %
-                                                2 ==
+                                        if (filteredList.indexOf(user) % 2 ==
                                             0) {
                                           return Colors.grey[100];
                                         }

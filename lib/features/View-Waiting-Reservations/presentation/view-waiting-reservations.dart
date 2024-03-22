@@ -7,13 +7,17 @@ import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/routing/routes.dart';
 import 'package:reservationapp_admin/core/theming/colors.dart';
 import 'package:reservationapp_admin/core/widgets/custom_loading_indecator.dart';
+import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
 import 'package:reservationapp_admin/features/View-Waiting-Reservations/business-logic/reservations_cubit/reservations_cubit.dart';
+import 'package:reservationapp_admin/features/View-Waiting-Reservations/data/models/reservations-model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ViewWaitingReservationscreen extends StatelessWidget {
   const ViewWaitingReservationscreen({super.key});
   @override
   Widget build(BuildContext context) {
+    var searchController = TextEditingController();
+    var categoryController = TextEditingController();
     return BlocConsumer<ReservationsCubit, ReservationsState>(
       listener: (context, state) {
         if (state is DeclineReservationSuccess) {
@@ -27,19 +31,79 @@ class ViewWaitingReservationscreen extends StatelessWidget {
       },
       builder: (context, state) {
         var cubit = ReservationsCubit.get(context);
+        List<ReservationData> filteredList = [];
+        if (searchController.text.isEmpty && categoryController.text.isEmpty) {
+          filteredList = cubit.waintingReservations;
+        } else {
+          filteredList = cubit.waintingReservations
+              .where((time) => (time.id != null)
+                  ? (categoryController.text.trim() != "")
+                      ? (searchController.text.trim() != "")
+                          ? time.item!.name!.toLowerCase().contains(
+                                  searchController.text.toLowerCase()) &&
+                              time.category!.name!
+                                  .toLowerCase()
+                                  .contains(categoryController.text)
+                          : time.category!.name!
+                              .toLowerCase()
+                              .contains(categoryController.text)
+                      : time.item!.name!
+                          .toLowerCase()
+                          .contains(searchController.text.toLowerCase())
+                  : false)
+              .toList();
+        }
         return Scaffold(
             appBar: AppBar(
-                title: const Text('عرض الحجوزات '),
-                leading: Padding(
-                  padding: EdgeInsets.only(right: 50.w),
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios),
-                    onPressed: () => context.pop(),
+              title: const Text('عرض الحجوزات '),
+              leading: Padding(
+                padding: EdgeInsets.only(right: 50.w),
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios),
+                  onPressed: () => context.pop(),
+                ),
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 50, top: 10),
+                  child: SizedBox(
+                    width: 200,
+                    child: CustomTextFormField(
+                      prefixIcon: const Icon(Icons.search),
+                      hintText: "ابحث عن منشأه...",
+                      contentPadding: const EdgeInsets.only(bottom: 15),
+                      controller: categoryController,
+                      onChanged: (value) {
+                        print(value);
+                        filteredList = [];
+
+                        context.read<ReservationsCubit>().getReservations();
+                      },
+                    ),
                   ),
-                )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 50, top: 10),
+                  child: SizedBox(
+                    width: 200,
+                    child: CustomTextFormField(
+                      prefixIcon: const Icon(Icons.search),
+                      hintText: "ابحث عن وحدة...",
+                      contentPadding: const EdgeInsets.only(bottom: 15),
+                      controller: searchController,
+                      onChanged: (value) {
+                        filteredList = [];
+
+                        context.read<ReservationsCubit>().getReservations();
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
             body: (state is GetReservationsLoading)
                 ? const CustomLoadingIndicator()
-                : (cubit.waintingReservations.isEmpty)
+                : (filteredList.isEmpty)
                     ? const Center(
                         child: Text("لا يوجد حجوزات"),
                       )
@@ -115,13 +179,13 @@ class ViewWaitingReservationscreen extends StatelessWidget {
                                               fontWeight: FontWeight.w800,
                                               overflow:
                                                   TextOverflow.ellipsis))),
-                                  DataColumn(
-                                      label: Text('تعليقات',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w800,
-                                              overflow:
-                                                  TextOverflow.ellipsis))),
+                                  // DataColumn(
+                                  //     label: Text('تعليقات',
+                                  //         style: TextStyle(
+                                  //             fontSize: 15,
+                                  //             fontWeight: FontWeight.w800,
+                                  //             overflow:
+                                  //                 TextOverflow.ellipsis))),
                                   DataColumn(
                                       label: Text('تأكيد ',
                                           style: TextStyle(
@@ -137,7 +201,7 @@ class ViewWaitingReservationscreen extends StatelessWidget {
                                               overflow:
                                                   TextOverflow.ellipsis))),
                                 ],
-                                rows: cubit.waintingReservations.map((user) {
+                                rows: filteredList.map((user) {
                                   return DataRow(
                                     color: MaterialStateProperty.resolveWith<
                                         Color?>(
@@ -151,9 +215,7 @@ class ViewWaitingReservationscreen extends StatelessWidget {
                                               .withOpacity(0.08);
                                         }
                                         // Even rows will have a grey color.
-                                        if (cubit.waintingReservations
-                                                    .indexOf(user) %
-                                                2 ==
+                                        if (filteredList.indexOf(user) % 2 ==
                                             0) {
                                           return Colors.grey[100];
                                         }
@@ -216,14 +278,14 @@ class ViewWaitingReservationscreen extends StatelessWidget {
                                           (user.paid == "" || user.paid == null)
                                               ? "لا يوجد  "
                                               : user.paid!)),
-                                      DataCell(Text(
-                                        (user.comment == null ||
-                                                user.comment == "")
-                                            ? "لا يوجد "
-                                            : user.comment.toString(),
-                                        style: const TextStyle(
-                                            overflow: TextOverflow.ellipsis),
-                                      )),
+                                      // DataCell(Text(
+                                      //   (user.comment == null ||
+                                      //           user.comment == "")
+                                      //       ? "لا يوجد "
+                                      //       : user.comment.toString(),
+                                      //   style: const TextStyle(
+                                      //       overflow: TextOverflow.ellipsis),
+                                      // )),
                                       DataCell(
                                         IconButton(
                                           icon: const Icon(
@@ -296,7 +358,7 @@ Widget buildAdditionalOptions(String? additionalOptions) {
     } catch (e) {
       // Handle decoding error
       print('Error decoding additional options: $e');
-      return const Text("Error decoding options");
+      return const Text("لا يوجد");
     }
   } else {
     return const Text("لا يوجد ");
