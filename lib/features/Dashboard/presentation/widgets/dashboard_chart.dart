@@ -13,13 +13,13 @@ class MainLayoutChart extends StatelessWidget {
         primaryXAxis: CategoryAxis(),
         series: <ChartSeries>[
           LineSeries<ChartData, String>(
-              dataSource: [
-                for(int i = 0 ; i < map.keys.toList().length && !map.keys.toList().isEmpty ; i++)...[
-                  ChartData(map.keys.toList()[i].toString() , map.values.toList()[i]*1.0),
-                ]
-              ],
-              xValueMapper: (ChartData data, _) => data.x,
-              yValueMapper: (ChartData data, _) => data.y
+            dataSource: [
+              for(int i = 0 ; i < map.keys.toList().length && !map.keys.toList().isEmpty ; i++)...[
+                ChartData(map.keys.toList()[i].toString() , map.values.toList()[i]*1.0),
+              ]
+            ],
+            xValueMapper: (ChartData data, _) => data.x ,
+            yValueMapper: (ChartData data, _) => data.y
           ),
 
         ],
