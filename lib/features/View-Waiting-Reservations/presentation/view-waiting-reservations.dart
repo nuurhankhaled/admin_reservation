@@ -39,7 +39,7 @@ class ViewWaitingReservationscreen extends StatelessWidget {
                 )),
             body: (state is GetReservationsLoading)
                 ? const CustomLoadingIndicator()
-                : (cubit.acceptedReservations.isEmpty)
+                : (cubit.waintingReservations.isEmpty)
                     ? const Center(
                         child: Text("لا يوجد حجوزات"),
                       )

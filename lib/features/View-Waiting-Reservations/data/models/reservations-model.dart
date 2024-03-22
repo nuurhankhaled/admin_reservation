@@ -1,15 +1,15 @@
 class ReservationsModel {
   bool? success;
-  List<Data>? data;
+  List<ReservationData>? data;
 
   ReservationsModel({this.success, this.data});
 
   ReservationsModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <ReservationData>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
+        data!.add(ReservationData.fromJson(v));
       });
     }
   }
@@ -24,7 +24,7 @@ class ReservationsModel {
   }
 }
 
-class Data {
+class ReservationData {
   String? id;
   String? userId;
   String? categoryName;
@@ -43,7 +43,7 @@ class Data {
   Item? item;
   User? user;
 
-  Data(
+  ReservationData(
       {this.id,
       this.userId,
       this.categoryName,
@@ -62,7 +62,7 @@ class Data {
       this.item,
       this.user});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  ReservationData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     categoryName = json['category_name'];

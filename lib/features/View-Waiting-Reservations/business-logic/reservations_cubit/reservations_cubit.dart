@@ -15,8 +15,8 @@ class ReservationsCubit extends Cubit<ReservationsState> {
   static ReservationsCubit get(context) => BlocProvider.of(context);
   static const Duration timeoutDuration = Duration(seconds: 30);
 
-  List<Data> waintingReservations = [];
-  List<Data> acceptedReservations = [];
+  List<ReservationData> waintingReservations = [];
+  List<ReservationData> acceptedReservations = [];
 
   Future<void> getReservations() async {
     emit(GetReservationsLoading());
@@ -30,15 +30,16 @@ class ReservationsCubit extends Cubit<ReservationsState> {
         if (jsonResponse.success!) {
           print("categories");
           for (var reservation in jsonResponse.data!) {
+            print(reservation.status);
             if (reservation.status == "0") {
               waintingReservations.add(reservation);
             } else {
               acceptedReservations.add(reservation);
             }
           }
-          print(waintingReservations);
+          print(waintingReservations.length);
           print("annnnnnnnnaaaaaaaaaa zhhhhhhhh222222222t");
-          print(acceptedReservations);
+          print(acceptedReservations.length);
           emit(GetReservationsSuccess());
         } else {
           print(response.data);
