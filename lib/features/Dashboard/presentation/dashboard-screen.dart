@@ -89,7 +89,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               children: [
                 ChartsConatiner(
                   chartWidget: MainLayoutChart(
-                      map: reservationStatistics
+                    map: reservationStatistics
                   ),
                 ),
                 SizedBox(
@@ -118,10 +118,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       var jsonResponse = ReservationsModel.fromJson(decodedData);
       if (jsonResponse.success!) {
         for (var reservation in jsonResponse.data!) {
-          if(reservationStatistics[reservation.item] == null)
-            reservationStatistics.addAll({reservation.item : 1});
+          if(reservationStatistics[reservation.item?.name] == null)
+            reservationStatistics.addAll({reservation.item?.name : 1});
           else
-            reservationStatistics[reservation.item]++;
+            reservationStatistics[reservation.item?.name]++;
 
           if (reservation.status == "0") {
             values["wait"] = double.parse("${values["wait"]}") + 1;

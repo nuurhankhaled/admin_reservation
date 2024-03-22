@@ -44,7 +44,7 @@ class CircleChart extends StatelessWidget {
               radius: 130.0.sp,
               lineWidth: 25.0.w,
               percent: (percent) ,
-              center: new Text("${percent*100}%"),
+              center: new Text(percent.toString() == "%NaN"? "0" : "${percent*100}%"),
               progressColor: AppColors.primaryColor,
               animateFromLastPercent: true,
               animation: true,
