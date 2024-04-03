@@ -68,6 +68,11 @@ class _HomeState extends State<Home> {
                 title: "اضافه اضافات للوحده",
                 route: '/addExtras',
               ),
+              const AdminMenuItem(
+                icon: Icons.receipt,
+                title: 'عرض الاضافات الوحدات',
+                route: "/viewExtras",
+              ),
               AdminMenuItem(
                 icon: Icons.calculate_rounded,
                 title: 'addCashier'.tr(),
@@ -87,11 +92,6 @@ class _HomeState extends State<Home> {
                 icon: Icons.receipt_long_rounded,
                 title: ' عرض الحجوزات المقبولة و المنتهيه',
                 route: "/viewReservations",
-              ),
-              const AdminMenuItem(
-                icon: Icons.receipt,
-                title: 'عرض الاضافات الوحدات',
-                route: "/viewExtras",
               ),
             ],
             selectedRoute: "/dashboard",
