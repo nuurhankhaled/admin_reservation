@@ -244,7 +244,7 @@ class _AddAdditionalOptionsDialogState
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 70.w),
-                              child: const Text("الاسم"),
+                              child: const Text("اسم الاضافة"),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(
