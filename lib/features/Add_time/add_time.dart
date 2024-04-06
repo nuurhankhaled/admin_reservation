@@ -499,7 +499,7 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 10),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -568,11 +568,12 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                                           if (_formKey.currentState!
                                                   .validate() &&
                                               categoryId != null &&
-                                              itemId != null) {
+                                              itemId != null &&
+                                              day != null) {
                                             print("2");
                                             cubit.addAvailableTime(
                                               //   date: formattedDate,
-                                              //   date: formattedDate,
+                                              day: day!,
                                               availableTimeFrom:
                                                   timeinputFrom.text,
                                               availableTimeTo: timeinputTo.text,
@@ -580,6 +581,9 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                                               price: price.text,
                                             );
                                           } else {
+                                            if (day == null) {
+                                              showError("اختر اليوم المطلوب");
+                                            }
                                             if (categoryId == null ||
                                                 itemId == null) {
                                               if (itemCubit

@@ -22,7 +22,7 @@ class ItemCubit extends Cubit<ItemState> {
 
   Future<void> addAvailableTime({
     required availableTimeFrom,
-    // required date,
+    required day,
     required availableTimeTo,
     required item_id,
     required price,
@@ -32,7 +32,7 @@ class ItemCubit extends Cubit<ItemState> {
     FormData formData = FormData.fromMap({
       "available_time_from": availableTimeFrom,
       "available_time_to": availableTimeTo,
-      // "date": date,
+      "day": day,
       "item_id": item_id,
       "price": price,
       "status": 0,
