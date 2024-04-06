@@ -5,7 +5,6 @@ import 'package:reservationapp_admin/core/helpers/extensions.dart';
 import 'package:reservationapp_admin/core/theming/colors.dart';
 import 'package:reservationapp_admin/core/widgets/custom_loading_indecator.dart';
 import 'package:reservationapp_admin/core/widgets/custom_text_form_field.dart';
-import 'package:reservationapp_admin/features/View-users/business-logic/users_cubit/users_cubit.dart';
 import 'package:reservationapp_admin/features/edit_or_detlete_available_time/bloc/edit_or_delete_cubit.dart';
 import 'package:reservationapp_admin/features/edit_or_detlete_available_time/model/available_time_model.dart';
 import 'package:reservationapp_admin/features/edit_or_detlete_available_time/presentation/widgets/edit_time_dialouge.dart';
@@ -101,8 +100,7 @@ class ViewAvailableTime extends StatelessWidget {
                   ),
                 ],
               ),
-              body: (state is GetALLAvailableLoading
-               )
+              body: (state is GetALLAvailableLoading)
                   ? const CustomLoadingIndicator()
                   : (filteredList.isEmpty)
                       ? const Center(
@@ -128,7 +126,7 @@ class ViewAvailableTime extends StatelessWidget {
                                     DataColumn(label: Text("الوحده")),
                                     DataColumn(label: Text("من")),
                                     DataColumn(label: Text('الي')),
-                                    // DataColumn(label: Text('التاريخ')),
+                                    DataColumn(label: Text('اليوم')),
                                     DataColumn(label: Text('السعر')),
                                     DataColumn(label: Text('الحاله')),
                                     DataColumn(label: Text('تعديل')),
@@ -164,7 +162,7 @@ class ViewAvailableTime extends StatelessWidget {
                                             : user.item!.name!)),
                                         DataCell(Text(user.availableTimeFrom!)),
                                         DataCell(Text(user.availableTimeTo!)),
-                                        //      DataCell(Text(user.date!)),
+                                        DataCell(Text(user.day!)),
                                         DataCell(Text(user.price!)),
                                         DataCell(Text(user.status! == "1"
                                             ? "محجوز"

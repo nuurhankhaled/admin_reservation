@@ -23,9 +23,18 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
   //String? formattedDate;
   final _formKey = GlobalKey<FormState>();
   // final CalendarFormat _calendarFormat = CalendarFormat.month;
-
+  String? day;
   String? categoryId;
   String? itemId;
+  List<String> days = [
+    "السبت",
+    "الاحد",
+    "الاثنين",
+    "الثلاثاء",
+    "الاربعاء",
+    "الخميس",
+    "الجمعه"
+  ];
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -59,7 +68,7 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                             : 500.w),
                     child: Container(
                       width: double.infinity,
-                      height: 590,
+                      height: 650,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           color: Colors.white),
@@ -89,6 +98,53 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                               width: 220,
                               child: Column(
                                 children: [
+                                  Container(
+                                    margin:
+                                        EdgeInsetsDirectional.only(start: 2.w),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 13.w),
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        borderRadius:
+                                            BorderRadius.circular(10.sp)),
+                                    child: Center(
+                                      child: DropdownButtonFormField(
+                                        isExpanded: false,
+                                        menuMaxHeight: 250,
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                        ),
+                                        hint: const Text("اليوم",
+                                            style:
+                                                TextStyle(color: Colors.black)),
+                                        items: List.generate(
+                                          days.length,
+                                          (index) => DropdownMenuItem<int>(
+                                            value: index,
+                                            child: Container(
+                                              width: 160,
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: 10.w,
+                                                // vertical: 10.h,
+                                              ),
+                                              child: Text(
+                                                days[index],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        onChanged: (int? value) {
+                                          day = days[value!];
+                                          setState(() {
+                                            day = days[value];
+                                            print(" day : $day");
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
                                   Container(
                                     margin:
                                         EdgeInsetsDirectional.only(start: 2.w),
@@ -510,7 +566,9 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                                         onPressed: () {
                                           print("1");
                                           if (_formKey.currentState!
-                                              .validate()) {
+                                                  .validate() &&
+                                              categoryId != null &&
+                                              itemId != null) {
                                             print("2");
                                             cubit.addAvailableTime(
                                               //   date: formattedDate,
@@ -524,7 +582,14 @@ class _AddTimeDialogState extends State<AddTimeDialog> {
                                           } else {
                                             if (categoryId == null ||
                                                 itemId == null) {
-                                              showError("اختر الوحده المطلوبه");
+                                              if (itemCubit
+                                                  .categoryItems.isEmpty) {
+                                                showError(
+                                                    "لا يوجد وحدات لهذه المنشأه");
+                                              } else {
+                                                showError(
+                                                    "اختر الوحده المطلوبه");
+                                              }
                                             }
                                           }
                                         },

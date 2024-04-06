@@ -45,6 +45,7 @@ class ReservationData {
   Item? item;
   User? user;
   Category? category;
+  AvailableTime? availableTime;
 
   ReservationData(
       {this.id,
@@ -66,7 +67,8 @@ class ReservationData {
       this.offer,
       this.item,
       this.user,
-      this.category});
+      this.category,
+      this.availableTime});
 
   ReservationData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -90,6 +92,9 @@ class ReservationData {
     user = json['user'] != null ? User.fromJson(json['user']) : null;
     category =
         json['category'] != null ? Category.fromJson(json['category']) : null;
+    availableTime = json['available_time'] != null
+        ? AvailableTime.fromJson(json['available_time'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -119,6 +124,9 @@ class ReservationData {
     }
     if (category != null) {
       data['category'] = category!.toJson();
+    }
+    if (availableTime != null) {
+      data['available_time'] = availableTime!.toJson();
     }
     return data;
   }
@@ -256,6 +264,47 @@ class Category {
     data['id'] = id;
     data['name'] = name;
     data['image'] = image;
+    return data;
+  }
+}
+
+class AvailableTime {
+  String? id;
+  String? itemId;
+  String? availableTimeFrom;
+  String? availableTimeTo;
+  String? day;
+  String? status;
+  String? price;
+
+  AvailableTime(
+      {this.id,
+      this.itemId,
+      this.availableTimeFrom,
+      this.availableTimeTo,
+      this.day,
+      this.status,
+      this.price});
+
+  AvailableTime.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    itemId = json['item_id'];
+    availableTimeFrom = json['available_time_from'];
+    availableTimeTo = json['available_time_to'];
+    day = json['day'];
+    status = json['status'];
+    price = json['price'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['item_id'] = itemId;
+    data['available_time_from'] = availableTimeFrom;
+    data['available_time_to'] = availableTimeTo;
+    data['day'] = day;
+    data['status'] = status;
+    data['price'] = price;
     return data;
   }
 }

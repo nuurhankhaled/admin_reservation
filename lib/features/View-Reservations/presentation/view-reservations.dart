@@ -103,7 +103,7 @@ class ViewReservationscreen extends StatelessWidget {
                       )
                     : SingleChildScrollView(
                         child: Padding(
-                          padding: const EdgeInsets.all(30.0),
+                          padding: const EdgeInsets.all(20.0),
                           child: Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
@@ -139,19 +139,41 @@ class ViewReservationscreen extends StatelessWidget {
                                               overflow:
                                                   TextOverflow.ellipsis))),
                                   DataColumn(
-                                      label: Text('كود التوقيت',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w800,
-                                              overflow:
-                                                  TextOverflow.ellipsis))),
+                                      label: SizedBox(
+                                    width: 30,
+                                    child: Text('من',
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w800,
+                                            overflow: TextOverflow.ellipsis)),
+                                  )),
                                   DataColumn(
-                                      label: Text('القسيمه',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w800,
-                                              overflow:
-                                                  TextOverflow.ellipsis))),
+                                      label: SizedBox(
+                                    width: 10,
+                                    child: Text('الي',
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w800,
+                                            overflow: TextOverflow.ellipsis)),
+                                  )),
+                                  DataColumn(
+                                      label: SizedBox(
+                                    width: 35,
+                                    child: Text(' اليوم',
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w800,
+                                            overflow: TextOverflow.ellipsis)),
+                                  )),
+                                  DataColumn(
+                                      label: SizedBox(
+                                    //width: 35,
+                                    child: Text('القسيمه',
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w800,
+                                            overflow: TextOverflow.ellipsis)),
+                                  )),
                                   DataColumn(
                                       label: Text('اثبات الدفع',
                                           style: TextStyle(
@@ -167,12 +189,14 @@ class ViewReservationscreen extends StatelessWidget {
                                               overflow:
                                                   TextOverflow.ellipsis))),
                                   DataColumn(
-                                      label: Text('المدفوع',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w800,
-                                              overflow:
-                                                  TextOverflow.ellipsis))),
+                                      label: SizedBox(
+                                    // width: 45,
+                                    child: Text('المدفوع',
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w800,
+                                            overflow: TextOverflow.ellipsis)),
+                                  )),
                                   DataColumn(
                                       label: Text('الاجمالي',
                                           style: TextStyle(
@@ -181,19 +205,14 @@ class ViewReservationscreen extends StatelessWidget {
                                               overflow:
                                                   TextOverflow.ellipsis))),
                                   DataColumn(
-                                      label: Text('حاله الحجز',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w800,
-                                              overflow:
-                                                  TextOverflow.ellipsis))),
-                                  DataColumn(
-                                      label: Text('الغاء الحجز',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w800,
-                                              overflow:
-                                                  TextOverflow.ellipsis))),
+                                      label: SizedBox(
+                                    width: 35,
+                                    child: Text('الغاء ',
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w800,
+                                            overflow: TextOverflow.ellipsis)),
+                                  )),
                                 ],
                                 rows: filteredList.map((user) {
                                   return DataRow(
@@ -224,12 +243,15 @@ class ViewReservationscreen extends StatelessWidget {
                                         style: const TextStyle(
                                             overflow: TextOverflow.ellipsis),
                                       )),
-                                      DataCell(Text(
-                                        (user.categoryName != null)
-                                            ? user.categoryName!
-                                            : "تم الحذف",
-                                        style: const TextStyle(
-                                            overflow: TextOverflow.ellipsis),
+                                      DataCell(SizedBox(
+                                        // width: 50,
+                                        child: Text(
+                                          (user.categoryName != null)
+                                              ? user.categoryName!
+                                              : "تم الحذف",
+                                          style: const TextStyle(
+                                              overflow: TextOverflow.ellipsis),
+                                        ),
                                       )),
                                       DataCell(Text(
                                         (user.item != null)
@@ -238,9 +260,31 @@ class ViewReservationscreen extends StatelessWidget {
                                         style: const TextStyle(
                                             overflow: TextOverflow.ellipsis),
                                       )),
+                                      DataCell(SizedBox(
+                                        width: 43,
+                                        child: Text(
+                                          (user.availableTime != null)
+                                              ? _formatTime(user.availableTime!
+                                                  .availableTimeFrom!)
+                                              : "تم الحذف",
+                                          style: const TextStyle(
+                                              overflow: TextOverflow.ellipsis),
+                                        ),
+                                      )),
+                                      DataCell(SizedBox(
+                                        width: 43,
+                                        child: Text(
+                                          (user.availableTime != null)
+                                              ? _formatTime(user.availableTime!
+                                                  .availableTimeTo!)
+                                              : "تم الحذف",
+                                          style: const TextStyle(
+                                              overflow: TextOverflow.ellipsis),
+                                        ),
+                                      )),
                                       DataCell(Text(
-                                        (user.packageId != null)
-                                            ? user.packageId.toString()
+                                        (user.availableTime != null)
+                                            ? user.availableTime!.day!
                                             : "تم الحذف",
                                         style: const TextStyle(
                                             overflow: TextOverflow.ellipsis),
@@ -283,19 +327,24 @@ class ViewReservationscreen extends StatelessWidget {
                                               ? "لا يوجد  "
                                               : user.paid!)),
                                       DataCell(Text(user.price!)),
-                                      DataCell(Text((user.status != "2")
-                                          ? "تم الحجز"
-                                          : "تم الانتهاء  ")),
+                                      // DataCell(Text((user.status != "2")
+                                      //     ? "تم الحجز"
+                                      //     : "تم الانتهاء  ")),
                                       DataCell((user.status != "2")
-                                          ? IconButton(
-                                              icon: const Icon(
-                                                Icons.cancel,
-                                                color: Colors.red,
-                                              ),
-                                              onPressed: () {
-                                                cubit.declineReservation(
-                                                    id: user.id!);
-                                              })
+                                          ? Container(
+                                              alignment: Alignment.centerLeft,
+                                              //color: AppColors.answerFontColor,
+                                              width: 20,
+                                              child: IconButton(
+                                                  icon: const Icon(
+                                                    Icons.cancel,
+                                                    color: Colors.red,
+                                                  ),
+                                                  onPressed: () {
+                                                    cubit.declineReservation(
+                                                        id: user.id!);
+                                                  }),
+                                            )
                                           : const Text("تم الانتهاء  ")),
                                     ],
                                   );
@@ -339,9 +388,24 @@ Widget buildAdditionalOptions(String? additionalOptions) {
     } catch (e) {
       // Handle decoding error
       print('Error decoding additional options: $e');
-      return const Text("Error decoding options");
+      return const Text("لا يوجد");
     }
   } else {
     return const Text("لا يوجد ");
   }
+}
+
+String _formatTime(String timeString) {
+  // Split the time string by ':' to extract hours and minutes
+  List<String> parts = timeString.split(':');
+
+  // Extract hours and minutes
+  int hours = int.parse(parts[0]);
+  int minutes = int.parse(parts[1]);
+  print(hours);
+  print(minutes);
+  print('');
+  String result = '$minutes : $hours';
+  // Format the time as HH:MM
+  return result;
 }

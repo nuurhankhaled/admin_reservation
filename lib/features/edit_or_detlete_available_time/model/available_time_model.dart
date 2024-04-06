@@ -29,6 +29,7 @@ class Data {
   String? itemId;
   String? availableTimeFrom;
   String? availableTimeTo;
+  String? day;
   String? status;
   String? price;
   Item? item;
@@ -39,6 +40,7 @@ class Data {
       this.itemId,
       this.availableTimeFrom,
       this.availableTimeTo,
+      this.day,
       this.status,
       this.price,
       this.item,
@@ -49,6 +51,7 @@ class Data {
     itemId = json['item_id'];
     availableTimeFrom = json['available_time_from'];
     availableTimeTo = json['available_time_to'];
+    day = json['day'];
     status = json['status'];
     price = json['price'];
     item = json['item'] != null ? Item.fromJson(json['item']) : null;
@@ -62,6 +65,7 @@ class Data {
     data['item_id'] = itemId;
     data['available_time_from'] = availableTimeFrom;
     data['available_time_to'] = availableTimeTo;
+    data['day'] = day;
     data['status'] = status;
     data['price'] = price;
     if (item != null) {

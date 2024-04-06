@@ -55,7 +55,7 @@ class ViewWaitingReservationscreen extends StatelessWidget {
         }
         return Scaffold(
             appBar: AppBar(
-              title: const Text('عرض الحجوزات '),
+              title: const Text(' عرض الحجوزات المنتظره'),
               leading: Padding(
                 padding: EdgeInsets.only(right: 50.w),
                 child: IconButton(
@@ -109,7 +109,7 @@ class ViewWaitingReservationscreen extends StatelessWidget {
                       )
                     : SingleChildScrollView(
                         child: Padding(
-                          padding: const EdgeInsets.all(30.0),
+                          padding: const EdgeInsets.all(20.0),
                           child: Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
@@ -120,8 +120,9 @@ class ViewWaitingReservationscreen extends StatelessWidget {
                               ),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(10.0),
+                              padding: const EdgeInsets.all(5.0),
                               child: DataTable(
+                                headingRowHeight: 50,
                                 columns: const [
                                   DataColumn(
                                       label: Text("اسم المستخدم",
@@ -145,7 +146,21 @@ class ViewWaitingReservationscreen extends StatelessWidget {
                                               overflow:
                                                   TextOverflow.ellipsis))),
                                   DataColumn(
-                                      label: Text('كود التوقيت',
+                                      label: Text(' التوقيت من',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w800,
+                                              overflow:
+                                                  TextOverflow.ellipsis))),
+                                  DataColumn(
+                                      label: Text(' التوقيت الي',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w800,
+                                              overflow:
+                                                  TextOverflow.ellipsis))),
+                                  DataColumn(
+                                      label: Text(' اليوم ',
                                           style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.w800,
@@ -187,19 +202,15 @@ class ViewWaitingReservationscreen extends StatelessWidget {
                                   //             overflow:
                                   //                 TextOverflow.ellipsis))),
                                   DataColumn(
-                                      label: Text('تأكيد ',
+                                      label: Row(
+                                    children: [
+                                      Text('تاكيد او رفض',
                                           style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.w800,
-                                              overflow:
-                                                  TextOverflow.ellipsis))),
-                                  DataColumn(
-                                      label: Text('رفض ',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w800,
-                                              overflow:
-                                                  TextOverflow.ellipsis))),
+                                              overflow: TextOverflow.ellipsis)),
+                                    ],
+                                  )),
                                 ],
                                 rows: filteredList.map((user) {
                                   return DataRow(
@@ -235,9 +246,25 @@ class ViewWaitingReservationscreen extends StatelessWidget {
                                             overflow: TextOverflow.ellipsis),
                                       )),
                                       DataCell(Text(
-                                        (user.packageId == null)
+                                        (user.availableTime == null)
                                             ? "تم الحذف"
-                                            : user.packageId.toString(),
+                                            : user.availableTime!
+                                                .availableTimeFrom!,
+                                        style: const TextStyle(
+                                            overflow: TextOverflow.ellipsis),
+                                      )),
+                                      DataCell(Text(
+                                        (user.availableTime == null)
+                                            ? "تم الحذف"
+                                            : user.availableTime!
+                                                .availableTimeTo!,
+                                        style: const TextStyle(
+                                            overflow: TextOverflow.ellipsis),
+                                      )),
+                                      DataCell(Text(
+                                        (user.availableTime == null)
+                                            ? "تم الحذف"
+                                            : user.availableTime!.day!,
                                         style: const TextStyle(
                                             overflow: TextOverflow.ellipsis),
                                       )),
@@ -287,33 +314,34 @@ class ViewWaitingReservationscreen extends StatelessWidget {
                                       //       overflow: TextOverflow.ellipsis),
                                       // )),
                                       DataCell(
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.check,
-                                            color: Colors.green,
-                                          ),
-                                          onPressed: () {
-                                            cubit.acceptReservation(
-                                                id: user.id!, context: context);
-                                            context.pop();
-                                            context.pushNamed(Routes
-                                                .viewWatiningReservationsScreen);
-                                          },
-                                        ),
-                                      ),
-                                      DataCell(
-                                        Container(
-                                          child: IconButton(
-                                            icon: const Icon(
-                                              Icons.close,
-                                              color: Colors.red,
+                                        Row(
+                                          children: [
+                                            IconButton(
+                                              icon: const Icon(
+                                                Icons.check,
+                                                color: Colors.green,
+                                              ),
+                                              onPressed: () {
+                                                cubit.acceptReservation(
+                                                    id: user.id!,
+                                                    context: context);
+                                                context.pop();
+                                                context.pushNamed(Routes
+                                                    .viewWatiningReservationsScreen);
+                                              },
                                             ),
-                                            onPressed: () {
-                                              cubit.declineReservation(
-                                                  id: user.id!,
-                                                  context: context);
-                                            },
-                                          ),
+                                            IconButton(
+                                              icon: const Icon(
+                                                Icons.close,
+                                                color: Colors.red,
+                                              ),
+                                              onPressed: () {
+                                                cubit.declineReservation(
+                                                    id: user.id!,
+                                                    context: context);
+                                              },
+                                            )
+                                          ],
                                         ),
                                       ),
                                     ],
