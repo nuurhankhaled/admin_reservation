@@ -97,7 +97,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 ),
                 CircleChart(
                   head: 'نسبة الحجوزات المقبولة الي الغير مقبولة',
-                  percent: double.parse("${values["percent"]!}") ,
+                  percent: double.parse("${values["percent"]!.toStringAsFixed(1)}") ,
                 ),
               ],
             ),
