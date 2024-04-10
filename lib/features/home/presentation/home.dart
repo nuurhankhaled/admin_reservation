@@ -220,18 +220,19 @@ class _HomeState extends State<Home> {
             ),
           ),
           body: SingleChildScrollView(
-              child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 20.h,
-                ),
-                const DashBoardScreen(),
-              ],
-            ),
-          )),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  const DashBoardScreen(),
+                ],
+              ),
+            )
+          ),
         );
       },
     );

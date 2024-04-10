@@ -33,7 +33,7 @@ Future<void> main() async {
     center: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
-    // fullScreen: true,
+    title: "احجز-الادمن",
     windowButtonVisibility: true,
     maximumSize: Size(1400, 780),
     minimumSize: Size(1350, 740),
@@ -46,7 +46,9 @@ Future<void> main() async {
     await windowManager.isMovable();
     await windowManager.center();
   });
-  runApp(EasyLocalization(
+
+  runApp(
+    EasyLocalization(
       path: "assets/languages",
       supportedLocales: const [
         Locale("en", "UK"),
@@ -55,7 +57,9 @@ Future<void> main() async {
       fallbackLocale: const Locale("ar", "EG"),
       child: MyApp(
         appRouter: AppRouter(),
-      )));
+      )
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
